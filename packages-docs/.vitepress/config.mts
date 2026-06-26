@@ -82,19 +82,22 @@ const config = async (): Promise<UserConfig<DefaultTheme.Config>> => {
         }
       ],
       [
-        "meta", {
+        "meta",
+        {
           name: "theme-color",
           content: "#5f67ee"
         }
       ],
       [
-        "meta", {
+        "meta",
+        {
           property: "og:type",
           content: "website"
         }
       ],
       [
-        "meta", {
+        "meta",
+        {
           property: "og:site_name",
           content: "Micro Tools"
         }
