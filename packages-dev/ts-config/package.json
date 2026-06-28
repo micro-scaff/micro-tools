@@ -8,7 +8,7 @@
     "config"
   ],
   "homepage": "https://not-have.github.io/micro-tools/",
-  "bugs": "https://github.com/Not-have/micro-tools/issues",
+  "bugs": "https://github.com/micro-scaff/micro-tools/issues",
   "repository": {
     "type": "git",
     "url": "https://github.com/micro-scaff/micro-tools/tree/main/packages-dev/ts-config",
