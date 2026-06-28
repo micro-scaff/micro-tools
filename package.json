@@ -21,7 +21,7 @@
   ],
   "homepage": "https://not-have.github.io/micro-tools/",
   "bugs": "https://github.com/Not-have/micro-tools/issues",
-  "repository": "git@github.com:Not-have/micro-tools.git",
+  "repository": "https://github.com/micro-scaff/micro-tools",
   "license": "MIT",
   "author": {
     "email": "2236472089@qq.com",

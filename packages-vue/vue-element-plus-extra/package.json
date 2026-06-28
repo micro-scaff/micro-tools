@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Not-have/micro-tools/tree/main/packages-vue/vue-element-plus-extra"
+    "url": "https://github.com/micro-scaff/micro-tools/tree/main/packages-vue/vue-element-plus-extra"
   },
   "license": "ISC",
   "author": "LiYong",

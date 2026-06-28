@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Not-have/micro-tools/tree/main/packages-vue/vue-hooks"
+    "url": "https://github.com/micro-scaff/micro-tools/tree/main/packages-vue/vue-hooks"
   },
   "license": "ISC",
   "author": "LiYong",

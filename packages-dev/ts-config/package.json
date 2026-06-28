@@ -11,7 +11,7 @@
   "bugs": "https://github.com/Not-have/micro-tools/issues",
   "repository": {
     "type": "git",
-    "url": "git@github.com:Not-have/micro-tools.git",
+    "url": "https://github.com/micro-scaff/micro-tools/tree/main/packages-dev/ts-config",
     "directory": "packages-dev/ts-config"
   },
   "license": "ISC",

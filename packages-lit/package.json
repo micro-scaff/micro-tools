@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Not-have/micro-tools"
+    "url": "https://github.com/micro-scaff/micro-tools/tree/main/packages-lit"
   },
   "license": "ISC",
   "author": "Li Yong",

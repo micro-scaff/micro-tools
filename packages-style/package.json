@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Not-have/micro-tools/tree/main/packages-style"
+    "url": "https://github.com/micro-scaff/micro-tools/tree/main/packages-style"
   },
   "license": "ISC",
   "author": "LiYong",
