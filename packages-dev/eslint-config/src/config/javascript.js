@@ -309,7 +309,9 @@ export default {
       {
         allow: [
           "warn",
-          "error"
+          "error",
+          "info",
+          "table"
         ]
       }
     ], // 禁止使用console（可根据配置允许warn、error等情况），使用了则报错

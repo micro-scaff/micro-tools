@@ -42,7 +42,110 @@
 | `mt-react-packages` | `packages-agent/skills/mt-react-packages` | 为内部或外部 React 项目接入、使用和排查 MT React 包 |
 | `mt-request-axios` | `packages-agent/skills/mt-request-axios` | 为内部或外部项目接入、定制和排查 `@mt-kit/request-axios` |
 
-外部项目使用时，可以将需要的 skill 目录复制到目标环境的 skills 目录，或在任务中显式引用该 skill 路径。
+## 外部项目怎么使用
+
+外部项目指“不在当前 `micro-tools` 仓库里的项目”，例如另一个业务系统、组件库、后台管理项目或临时排查目录。使用这些 skill 有三种方式。
+
+### 方式一：复制到外部项目
+
+适合团队共享。把需要的 skill 复制到外部项目的 skill 目录，并提交到外部项目仓库。
+
+Codex 项目级目录：
+
+```bash
+mkdir -p .agents/skills
+cp -R /path/to/micro-tools/packages-agent/skills/mt-eslint-config .agents/skills/
+```
+
+Claude Code 项目级目录：
+
+```bash
+mkdir -p .claude/skills
+cp -R /path/to/micro-tools/packages-agent/skills/mt-eslint-config .claude/skills/
+```
+
+复制后，外部项目里应该能看到这样的结构：
+
+```text
+.agents/skills/mt-eslint-config/
+├── SKILL.md
+├── agents/
+│   └── openai.yaml
+└── references/
+    ├── external-usage.md
+    ├── integration-recipes.md
+    └── troubleshooting.md
+```
+
+### 方式二：复制到个人目录
+
+适合个人在多个项目里复用，不需要每个项目都提交一份。
+
+Codex 用户级目录：
+
+```bash
+mkdir -p ~/.agents/skills
+cp -R /path/to/micro-tools/packages-agent/skills/mt-eslint-config ~/.agents/skills/
+```
+
+Claude Code 用户级目录：
+
+```bash
+mkdir -p ~/.claude/skills
+cp -R /path/to/micro-tools/packages-agent/skills/mt-eslint-config ~/.claude/skills/
+```
+
+这种方式只对当前机器和当前用户生效。团队其他成员如果也要用，需要各自复制，或改用项目级目录。
+
+### 方式三：不复制，直接引用路径
+
+适合临时使用或快速验证。直接在任务里告诉 Agent 读取某个 skill 的路径：
+
+```text
+请阅读 /path/to/micro-tools/packages-agent/skills/mt-eslint-config/SKILL.md，
+并按这个 skill 帮我检查当前项目的 ESLint 配置。
+```
+
+这种方式通常不会出现在 `/skills` 列表里，更像“一次性把这份操作手册交给 Agent”。如果要长期使用，推荐复制到项目级或用户级目录。
+
+### 外部项目使用规则
+
+每个业务 skill 都应能独立复制使用。复制时要复制整个 skill 目录，不要只复制 `SKILL.md`，因为 `references/` 里有更详细的接入、排错和外部项目约定。
+
+外部项目接入时，Agent 应先读对应 skill 的 `references/external-usage.md`。这个文件会提醒 Agent：
+
+- 先看外部项目自己的 `package.json`、锁文件、配置文件和源码入口。
+- 不假设外部项目使用 pnpm、workspace、catalog 或本仓库脚本。
+- 从 npm 包名导入 MT 包，不引用 `micro-tools` 仓库里的源码路径。
+- 优先使用外部项目已有的 `lint`、`typecheck`、`build`、`storybook` 或测试脚本验证。
+
+### 使用前检查
+
+复制或引用后，可以让 Agent 用下面的方式开始：
+
+```text
+使用 $mt-eslint-config 检查当前项目的 ESLint 接入。
+```
+
+或者：
+
+```text
+/mt-eslint-config 检查当前项目的 ESLint 接入。
+```
+
+如果没有自动触发，先确认：
+
+- skill 目录名和 `SKILL.md` 里的 `name` 一致。
+- 目录下有完整的 `SKILL.md`、`agents/openai.yaml` 和 `references/`。
+- Codex 或 Claude Code 是否需要重启或重新加载插件。
+
+维护这些 skill 时，可以在仓库根目录运行：
+
+```bash
+node packages-agent/skills/scripts/validate-skills.mjs
+```
+
+这个脚本会检查 `SKILL.md` 元数据、`agents/openai.yaml`、reference 链接、自包含性和 Markdown 代码围栏。
 
 ## 书写规范
 
@@ -158,6 +261,7 @@ dependencies:
 - `SKILL.md` 写核心流程，长细节放到 `references/`。
 - 需要稳定执行的逻辑放到 `scripts/`，不要每次让 Agent 临时重写。
 - 所有 reference 都要能从 `SKILL.md` 找到入口。
+- 单个 skill 要自包含；不要从 `SKILL.md` 引用兄弟 skill 或上级目录里的共享文件。
 - 文件名使用小写英文和连字符，例如 `integration-recipes.md`。
 - 不在 skill 目录里放未引用的 README、CHANGELOG、QUICK_REFERENCE。
 
@@ -280,6 +384,8 @@ Claude Code 也可以使用项目级、用户级或 plugin 级 skill。
 
 ## Skill 在 Codex 和 Claude Code 中怎么使用
 
+下面以本仓库的 `mt-eslint-config` 为例。其他 skill 只需要把目录名换成对应名称，例如 `mt-dev-configs`、`mt-vue-packages`、`mt-react-packages`、`mt-request-axios`。
+
 ### Codex
 
 常见用法：
@@ -289,6 +395,54 @@ Claude Code 也可以使用项目级、用户级或 plugin 级 skill。
 - 自动触发：任务与 `description` 匹配时，Codex 可以自动加载 skill。
 
 Codex 会先看到 skill 的 `name` 和 `description`。只有决定使用这个 skill 时，才读取完整 `SKILL.md`，再按说明读取 `references/` 或运行 `scripts/`。
+
+#### Codex 项目级使用
+
+适合把 skill 跟随某个项目一起提交，让团队成员在这个项目里都能使用。
+
+```bash
+mkdir -p .agents/skills
+cp -R packages-agent/skills/mt-eslint-config .agents/skills/
+```
+
+使用示例：
+
+```text
+使用 $mt-eslint-config 帮我检查当前项目的 ESLint 接入是否正确。
+```
+
+也可以不显式写 `$mt-eslint-config`，直接描述任务：
+
+```text
+帮我把当前 Vue 项目接入 @mt-kit/eslint-config，并修复 lint 配置问题。
+```
+
+如果任务与 `description` 匹配，Codex 可以自动加载这个 skill。
+
+#### Codex 用户级使用
+
+适合个人在多个项目里长期使用。
+
+```bash
+mkdir -p ~/.agents/skills
+cp -R packages-agent/skills/mt-eslint-config ~/.agents/skills/
+```
+
+后续在任意项目里都可以这样调用：
+
+```text
+使用 $mt-eslint-config 排查这个项目里 import 排序和 React lint 规则的问题。
+```
+
+#### Codex 组合使用
+
+当任务跨多个包域，可以同时点名多个 skill：
+
+```text
+使用 $mt-dev-configs 和 $mt-request-axios，帮我检查这个项目的开发配置和请求客户端接入。
+```
+
+如果是外部项目，Agent 应先读取对应 skill 的 `references/external-usage.md`，再按目标项目自己的包管理器和脚本执行。
 
 如果更新后没有出现，检查两件事：
 
@@ -304,6 +458,56 @@ Codex 会先看到 skill 的 `name` 和 `description`。只有决定使用这个
 - 自动触发：任务与 `description` 匹配时，Claude Code 可以自动加载 skill。
 
 Claude Code 支持更多专属 frontmatter，例如 `disable-model-invocation`、`user-invocable`、`allowed-tools`、`context: fork`、`agent`、`paths` 等。为了跨工具兼容，本仓库默认只使用通用字段；只有明确面向 Claude Code 的 skill 才添加 Claude 专属字段。
+
+#### Claude Code 项目级使用
+
+适合把 skill 跟随项目提交。
+
+```bash
+mkdir -p .claude/skills
+cp -R packages-agent/skills/mt-eslint-config .claude/skills/
+```
+
+使用示例：
+
+```text
+/mt-eslint-config 检查当前项目的 ESLint 配置，并给出需要修改的文件。
+```
+
+也可以直接描述任务，让 Claude Code 根据 `description` 自动判断是否使用：
+
+```text
+帮我把当前 React 项目接入 @mt-kit/eslint-config。
+```
+
+#### Claude Code 用户级使用
+
+适合个人在多个项目中复用。
+
+```bash
+mkdir -p ~/.claude/skills
+cp -R packages-agent/skills/mt-eslint-config ~/.claude/skills/
+```
+
+然后在任意项目中调用：
+
+```text
+/mt-eslint-config 排查这个项目里的 ESLint peer dependency 和 flat config 问题。
+```
+
+#### Claude Code Plugin 使用
+
+如果 skill 被放进 plugin，调用方式通常带 plugin 前缀：
+
+```text
+/plugin-name:mt-eslint-config 帮我接入 @mt-kit/eslint-config。
+```
+
+修改 plugin 中的 skill 后，在 Claude Code 中运行：
+
+```text
+/reload-plugins
+```
 
 ## Skill 怎么配合其他 Agent 和 MCP 使用
 

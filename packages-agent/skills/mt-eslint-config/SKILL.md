@@ -74,12 +74,13 @@ export default [
 
 ## 工作流程
 
-1. 检查 `package.json`、已有 `eslint.config.*`、框架文件和包管理器信息。
-2. 确认运行 lint 的 workspace 或 package 中安装了 `eslint` 和 `@mt-kit/eslint-config`，外部项目使用 registry 版本，不依赖本仓库源码路径。
-3. 根据项目模块类型选择 `eslint.config.js` 或 `eslint.config.mjs`；不要在 CommonJS 项目里写无法执行的 ESM 配置。
-4. 根据项目类型选择正确 preset，并把本地 overrides 追加到 preset 数组后面。
-5. 运行项目 lint 命令，通常是已有的 `lint` script，或按包管理器执行 `eslint .`。
-6. 如果 lint 失败，先归类问题再改规则：依赖解析、parser 设置、框架 preset 不匹配、import 排序、stylistic 格式，或真实源码问题。
+1. 外部项目先读取 `references/external-usage.md`，确认包管理器、运行目录和依赖安装位置。
+2. 检查 `package.json`、已有 `eslint.config.*`、框架文件和包管理器信息。
+3. 确认运行 lint 的 workspace 或 package 中安装了 `eslint` 和 `@mt-kit/eslint-config`，外部项目使用 registry 版本，不依赖本仓库源码路径。
+4. 根据项目模块类型选择 `eslint.config.js` 或 `eslint.config.mjs`；不要在 CommonJS 项目里写无法执行的 ESM 配置。
+5. 根据项目类型选择正确 preset，并把本地 overrides 追加到 preset 数组后面。
+6. 运行项目 lint 命令，通常是已有的 `lint` script，或按包管理器执行 `eslint .`。
+7. 如果 lint 失败，先归类问题再改规则：依赖解析、parser 设置、框架 preset 不匹配、import 排序、stylistic 格式，或真实源码问题。
 
 ## 参考资料
 
@@ -88,3 +89,4 @@ export default [
 - `references/config-map.md`：源码模块映射、导出结构和包内关键行为。
 - `references/integration-recipes.md`：外部项目和常见项目类型的接入模板。
 - `references/troubleshooting.md`：常见失败场景和排查方法。
+- `references/external-usage.md`：外部项目使用本 skill 时的通用约定。

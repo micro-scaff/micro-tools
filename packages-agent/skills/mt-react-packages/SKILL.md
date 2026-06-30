@@ -17,12 +17,13 @@ description: 当需要在内部或外部 React 项目中接入、使用、迁移
 
 ## 工作流程
 
-1. 检查目标项目 React 版本、路由版本、Ant Design 版本和构建方式。
-2. 按需安装单个包和 peer dependency。
-3. 对照 package map 确认导出 API。
-4. 外部项目只从 npm 包名导入，不引用本仓库源码路径。
-5. 若涉及 UI 行为，优先查 README、stories 和 `src/index.ts`。
-6. 排错时先看 peer dependency、React 版本、router 上下文、样式依赖和类型导出。
+1. 外部项目先读取 `references/external-usage.md`，确认包管理器、运行目录和依赖安装位置。
+2. 检查目标项目 React 版本、路由版本、Ant Design 版本和构建方式。
+3. 按需安装单个包和 peer dependency。
+4. 对照 package map 确认导出 API。
+5. 外部项目只从 npm 包名导入，不引用本仓库源码路径。
+6. 若涉及 UI 行为，优先查 README、stories 和 `src/index.ts`。
+7. 排错时先看 peer dependency、React 版本、router 上下文、样式依赖和类型导出。
 
 ## 参考资料
 
@@ -30,3 +31,4 @@ description: 当需要在内部或外部 React 项目中接入、使用、迁移
 - `references/integration-recipes.md`：外部项目安装和使用模板。
 - `references/component-patterns.md`：hooks、dialog、RC 组件使用模式。
 - `references/troubleshooting.md`：常见接入和构建问题。
+- `references/external-usage.md`：外部项目使用本 skill 时的通用约定。

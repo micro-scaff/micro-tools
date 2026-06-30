@@ -19,18 +19,20 @@ description: 当需要为内部或外部项目接入、迁移、定制或排查 
 
 ## 工作流程
 
-1. 检查目标项目的 `package.json`、配置文件、框架类型和包管理器。
-2. 确认依赖安装在实际运行 lint、format 或 typecheck 的 workspace/package 中。
-3. 按工具选择最小配置，不把所有配置包一次性塞进项目。
-4. 保留项目已有 overrides，新增配置放在可回退的位置。
-5. 执行项目已有命令验证，例如 `lint`、`format`、`typecheck`。
-6. 如果失败，先判断是依赖版本、模块类型、配置路径、规则冲突，还是源码真实问题。
+1. 外部项目先读取 `references/external-usage.md`，确认包管理器、运行目录和依赖安装位置。
+2. 检查目标项目的 `package.json`、配置文件、框架类型和包管理器。
+3. 确认依赖安装在实际运行 lint、format 或 typecheck 的 workspace/package 中。
+4. 按工具选择最小配置，不把所有配置包一次性塞进项目。
+5. 保留项目已有 overrides，新增配置放在可回退的位置。
+6. 执行项目已有命令验证，例如 `lint`、`format`、`typecheck`。
+7. 如果失败，先判断是依赖版本、模块类型、配置路径、规则冲突，还是源码真实问题。
 
 ## 参考资料
 
 只读取当前任务需要的 reference：
 
 - `references/package-map.md`：4 个配置包的包名、入口、导出和用途。
+- `references/external-usage.md`：外部项目使用本 skill 时的通用约定。
 - `references/eslint-config.md`：ESLint 配置包的安装、导出名、接入模板和注意事项。
 - `references/prettier-config.md`：Prettier 配置接入和与 ESLint 的边界。
 - `references/stylelint-config.md`：Stylelint 默认、Vue、React 配置接入。
