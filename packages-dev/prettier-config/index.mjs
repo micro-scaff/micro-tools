@@ -1,89 +1,67 @@
 /**
- * Prettier 配置 - 已关闭格式化
+ * Prettier 只用于补充 ESLint 预设未覆盖的格式化场景。
+ * 保持 eslint-plugin-prettier 关闭，避免 ESLint 和 Prettier
+ * 在同一个命令里争夺同一批文件的格式化控制权。
  *
- * 本配置不启用任何 Prettier 格式化规则，仅保留针对特定文件类型（如 .json5）的 overrides。
- * 代码格式化由 ESLint @stylistic 负责，请在编辑器中关闭「保存时运行 Prettier」或设置 "prettier.enable": false。
- *
- * @see https://prettier.nodejs.cn/docs/en/configuration.html
+ * @type {import("prettier").Config}
  */
-
 export default {
 
-  // 以下规则均已关闭，避免与 ESLint @stylistic 冲突
+  // 单参数箭头函数不加括号，对齐 ESLint 的 arrow-parens: "as-needed" 风格
+  arrowParens: "avoid",
 
-  // 设置代码的最大行宽度
+  // 多行 HTML / JSX / Vue 标签的闭合尖括号不贴在最后一个属性同行
+  bracketSameLine: false,
 
-  // printWidth: 80, // 与 ESLint 的 array-bracket-newline 冲突
+  // 对象字面量花括号内保留空格，对齐 ESLint 的 object-curly-spacing 规则
+  bracketSpacing: true,
 
-  // 禁止自动换行，代码始终保持一行
+  // 统一输出 LF 换行，避免跨平台换行差异
+  endOfLine: "lf",
 
-  // proseWrap: "never", // 与 ESLint 的 object-curly-newline 冲突
+  // 与 ESLint max-len 的 200 字符限制保持一致
+  printWidth: 200,
 
-  // 是否在语句末尾添加分号
+  // Markdown 文本不主动重排，减少文档内容被 Prettier 大幅改写
+  proseWrap: "preserve",
 
-  // semi: true, // 与 ESLint 的 @stylistic/ts/semi 冲突
+  // 仅在必要时给对象属性名加引号，保持代码简洁
+  quoteProps: "as-needed",
 
-  // 使用双引号
+  // 语句末尾保留分号，对齐 ESLint / @stylistic 的 semi 规则
+  semi: true,
 
-  // singleQuote: false, // 与 ESLint 的 @stylistic/js/quotes 冲突
+  // 多属性 HTML / Vue / JSX 标签每行只放一个属性，对齐 Vue / JSX 属性换行规则
+  singleAttributePerLine: true,
 
-  // 对象和数组的尾部不添加逗号
+  // 使用双引号，对齐当前 ESLint quotes 和 vue/html-quotes 风格
+  singleQuote: false,
 
-  // trailingComma: "none", // 与 ESLint 的 @stylistic/comma-dangle 冲突
+  // 使用 2 空格缩进，对齐 ESLint 与 Vue template 缩进规则
+  tabWidth: 2,
 
-  // 在箭头函数只有一个参数时，不保留圆括号
+  // 禁止尾随逗号，对齐 ESLint comma-dangle: "never"
+  trailingComma: "none",
 
-  // arrowParens: "avoid", // 与 ESLint 的 @stylistic/arrow-parens 冲突
+  // 使用空格缩进，不使用 tab
+  useTabs: false,
 
-  // 在 HTML、Vue 和 JSX 中，将属性放在单独的行上
+  // Vue <script> 和 <style> 内容不额外缩进，避免和脚本区 ESLint 缩进规则冲突
+  vueIndentScriptAndStyle: false,
 
-  // singleAttributePerLine: false, // 与 ESLint 的 react/jsx-max-props-per-line 冲突
-
-  // 大括号内的首尾需要空格
-
-  // bracketSpacing: true, // 与 ESLint 的 @stylistic/object-curly-spacing 冲突
-
-  // 使用 2 个空格缩进
-
-  // tabWidth: 2, // 与 ESLint 的 @stylistic/indent 冲突
-
-  // 不使用缩进符，而使用空格
-
-  // useTabs: false, // 与 ESLint 的 @stylistic/indent 冲突
-
-  // 换行符使用 lf
-
-  // endOfLine: "lf", // 与 ESLint 的 @stylistic/linebreak-style 冲突
-
-  // 格式化嵌入的内容
-
-  // embeddedLanguageFormatting: "auto", // 与 ESLint 的格式化规则冲突
-
-  // vue 文件中的 script 和 style 内不用缩进
-
-  // vueIndentScriptAndStyle: false, // 与 ESLint 的 vue/html-indent 冲突
-
-  // 针对特定文件类型的重写配置
+  // 对 JSX/TSX 单独覆盖闭合尖括号位置，对齐 @stylistic/jsx-closing-bracket-location: "after-props"
   overrides: [
     {
 
-      // 匹配所有 `.json5` 扩展名的文件
-
+      // prettier-ignore
       files: [
-        "*.json5"
+        "*.jsx",
+        "*.mjsx",
+        "*.tsx",
+        "*.mtsx"
       ],
-
-      // 为 `.json5` 文件配置的格式化选项
-
       options: {
-
-        // 保留属性名称的引号样式 (保留原始样式，不进行更改)
-
-        quoteProps: "preserve",
-
-        // 使用双引号 (单引号被禁用)
-
-        singleQuote: false
+        bracketSameLine: true
       }
     }
   ]
