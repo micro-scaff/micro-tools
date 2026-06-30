@@ -1,7 +1,6 @@
 {
   "extends": "@mt-kit/ts-config/vue.json",
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     }
