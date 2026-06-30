@@ -12,7 +12,6 @@
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
   "ignore": [
-    "packages-docs",
     "mock",
     "demo-vue"
   ]
