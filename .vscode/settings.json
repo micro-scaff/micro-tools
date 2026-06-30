@@ -8,7 +8,13 @@
     "source.organizeImports": "never"
   },
   "workbench.sideBar.location": "left",
-  "workbench.activityBar.orientation": "vertical",
+  "[markdown]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
+    "editor.codeActionsOnSave": {
+        "source.fixAll.markdownlint": "explicit"
+    }
+  },
   "editor.tabSize": 2,
   "editor.renderWhitespace": "all",
   "explorer.fileNesting.enabled": true,
@@ -18,9 +24,6 @@
   "stylelint.validate": ["css", "less", "postcss", "scss", "vue", "html", "js", "jsx", "ts", "tsx"],
   "stylelint.customSyntax": "postcss-html",
   "stylelint.snippet": ["css", "less", "postcss", "scss", "vue", "html", "js", "jsx", "ts", "tsx"],
-  "typescript.inlayHints.enumMemberValues.enabled": true,
-  "typescript.preferences.preferTypeOnlyAutoImports": true,
-  "typescript.preferences.includePackageJsonAutoImports": "on",
   "explorer.fileNesting.patterns": {
     "tsconfig.json": "tsconfig.*.json, env.d.ts",
     "vite.config.*": "jsconfig*, vitest.config.*, cypress.config.*, playwright.config.*",
