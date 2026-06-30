@@ -1,5 +1,5 @@
 {
-  "name": "@mt-kit/envs",
+  "name": "@mt-kit/env",
   "version": "1.0.0",
   "description": "Environments package.",
   "keywords": [
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/micro-scaff/micro-tools/tree/main/envs"
+    "url": "https://github.com/micro-scaff/micro-tools/tree/main/env"
   },
   "license": "ISC",
   "author": "Li Yong",

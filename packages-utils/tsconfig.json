@@ -5,6 +5,8 @@
 
     "moduleResolution": "bundler",
     "module": "ES6",               // ES6 ECMAScript 模块 / CommonJS CommonJS 模块
+    "rootDir": "./src",
+    "outDir": "dist",
     "paths": {
       "#/*": ["./src/*"]
     },

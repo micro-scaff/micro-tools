@@ -17,7 +17,14 @@ export default function imageBase64ToBlob(base64Buf: string): Blob {
     ""
   ];
 
-  const u8arr = Uint8Array.fromBase64(arr[1]);
+  // eslint-disable-next-line unicorn/prefer-uint8array-base64
+  const binary = atob(arr[1] || "");
+
+  const u8arr = new Uint8Array(binary.length);
+
+  for (let i = 0; i < binary.length; i++) {
+    u8arr[i] = binary.codePointAt(i) || 0;
+  }
 
   return new Blob([
     u8arr
