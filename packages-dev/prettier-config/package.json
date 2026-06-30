@@ -40,7 +40,7 @@
     "prettier": ">=3.5.0"
   },
   "dependencies": {
-    "prettier": ">=3.5.0",
-    "prettier-plugin-tailwindcss": "^0.8.0"
+    "prettier": "catalog:",
+    "prettier-plugin-tailwindcss": "catalog:"
   }
 }
