@@ -169,6 +169,9 @@ export default [
       // 关闭路径解析校验，避免别名、TS paths、包导出字段导致误报
       "import-x/no-unresolved": "off",
 
+      // vite-plugin-dts 等 CJS / ESM / types 混合包容易被默认导出检查误判
+      "import-x/default": "off",
+
       // 禁止 webpack loader 写法，例如 `style-loader!css-loader!file`
       "import-x/no-webpack-loader-syntax": "error",
 

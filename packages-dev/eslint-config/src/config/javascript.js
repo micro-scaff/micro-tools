@@ -195,11 +195,6 @@ export default {
       "bar",
       "baz",
       "qux",
-      "tmp",
-      "temp",
-      "data",
-      "num",
-      "bool",
       "retval"
     ], // 禁止使用指定的标识符，避免无意义的占位命名
     "id-length": "off", // 禁止在标识符中使用悬空下划线

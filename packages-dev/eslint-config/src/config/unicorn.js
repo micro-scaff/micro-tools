@@ -74,6 +74,12 @@ export default {
     // 允许直接写 node 内置模块名，不强制 node: 前缀
     "unicorn/prefer-node-protocol": "off",
 
-    "unicorn/prefer-iterator-to-array": "off"
+    "unicorn/prefer-iterator-to-array": "off",
+
+    // 当前组件库存在 payload、dialog、clear、usePropsX 等上下文命名，不强制布尔前缀
+    "unicorn/consistent-boolean-name": "off",
+
+    // Promise 链在当前仓库中大量存在，保留 .then/.catch/.finally 写法
+    "unicorn/prefer-await": "off"
   }
 };

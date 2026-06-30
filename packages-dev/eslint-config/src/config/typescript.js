@@ -106,8 +106,8 @@ export default {
     // 统一 TypeScript 命名风格
     "@typescript-eslint/naming-convention": [
 
-      // 命名不符合时按错误处理
-      "error",
+      // 命名不符合时先给出警告，避免阻塞当前仓库已有缩写和外部字段命名
+      "warn",
 
       // 函数名使用 camelCase 或 PascalCase
       {
