@@ -1,49 +1,50 @@
 import {
+  javascript,
   command,
   comments,
-  javascript,
-  stylistic,
-  jsonc,
-  jsdoc,
   ignores,
-  prettier,
-  regexp,
-  perfectionist,
-  unicorn,
-  mtExport,
-  typescript,
+  importX,
+  jsdoc,
+  jsx,
+  jsonc,
   react,
-  vue
+  regexp,
+  stylistic,
+  typescript,
+  unicorn,
+  vue,
+  prettier
 } from "./config/index.js";
 
 const DEFAULT = [
+  javascript,
   command,
   comments,
-  unicorn,
-  javascript,
-  mtExport,
-  ...jsonc,
-  jsdoc,
   ignores,
-  prettier,
+  importX,
+  jsdoc,
+  jsonc,
   regexp,
-  perfectionist,
-  stylistic
-];
+  stylistic,
+  typescript,
+  unicorn,
+  prettier
+].flat();
+
+const VUE = [
+  DEFAULT,
+  vue
+].flat();
+
+const REACT = [
+  DEFAULT,
+  jsx,
+  react
+].flat();
 
 export default DEFAULT;
 
 export {
-  ignores,
-  javascript,
-  jsdoc,
-  jsonc,
-  perfectionist,
-  prettier,
-  react,
-  regexp,
-  stylistic,
-  typescript,
-  unicorn,
-  vue
+  REACT,
+  VUE
 };

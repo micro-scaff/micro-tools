@@ -1,7 +1,6 @@
 import EsLint, {
-  vue,
-  react,
-  typescript
+  VUE,
+  REACT
 } from "@mt-kit/eslint-config";
 import {
   defineConfig
@@ -19,8 +18,7 @@ export default defineConfig([
       "**/*.mjs"
     ],
     extends: [
-      EsLint,
-      typescript
+      EsLint
     ]
   },
   {
@@ -30,7 +28,7 @@ export default defineConfig([
       "./packages-demo/demo-vue/**/*.vue"
     ],
     extends: [
-      vue
+      VUE
     ]
   },
   {
@@ -41,7 +39,7 @@ export default defineConfig([
       "./packages-react/**/*.jsx"
     ],
     extends: [
-      react
+      REACT
     ]
   }
 ]);
