@@ -41,11 +41,10 @@ export default EsLint;
 ### TypeScript 项目
 
 ```js
-import EsLint, { typescript } from "@mt-kit/eslint-config";
+import EsLint from "@mt-kit/eslint-config";
 
 export default [
   ...EsLint,
-  typescript,
   {
     ignores: [
       ".vite",
@@ -62,44 +61,20 @@ export default [
 ### Vue 项目
 
 ```js
-import EsLint, { vue } from "@mt-kit/eslint-config";
+import { VUE } from "@mt-kit/eslint-config";
 
 export default [
-  ...EsLint,
-  ...vue
+  ...VUE
 ];
 ```
 
 ### React 项目 + TypeScript
 
 ```js
-import EsLint, { react, typescript } from "@mt-kit/eslint-config";
+import { REACT } from "@mt-kit/eslint-config";
 
 export default [
-  ...EsLint,
-  typescript,
-  ...react
-];
-```
-
-### 混合项目（Vue + TypeScript）
-
-```js
-import EsLint, { typescript, vue } from "@mt-kit/eslint-config";
-
-export default [
-  ...EsLint,
-  typescript,
-  ...vue,
-  {
-    ignores: [
-      "node_modules",
-      "dist",
-      "build",
-      "public",
-      "env.d.ts"
-    ]
-  }
+  ...REACT
 ];
 ```
 
@@ -169,11 +144,10 @@ export default [
 ### 自定义规则
 
 ```js
-import EsLint, { typescript } from "@mt-kit/eslint-config";
+import EsLint from "@mt-kit/eslint-config";
 
 export default [
   ...EsLint,
-  typescript,
   {
     rules: {
       // 自定义规则
@@ -495,27 +469,6 @@ export default [
 ```bash
 # 增加 Node.js 内存限制
 node --max-old-space-size=4096 ./node_modules/.bin/eslint .
-```
-
-### 规则冲突
-
-#### 1. TypeScript 规则冲突
-
-**问题**: TypeScript 规则与项目配置冲突
-
-**解决方案**:
-
-```js
-export default [
-  ...EsLint,
-  typescript,
-  {
-    rules: {
-      // 覆盖特定规则
-      "@typescript-eslint/no-explicit-any": "warn"
-    }
-  }
-];
 ```
 
 ## 🔧 故障排除
