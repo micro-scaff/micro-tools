@@ -7,7 +7,9 @@ const ROUTER = [
     path: ERouter.ROOT,
     name: "demo-root",
     title: "案例-根路径",
-    component: () => import("@/pages/demo-root/index.vue")
+    component: () => {
+      return import("@/pages/demo-root/index.vue");
+    }
   },
   {
     path: ERouter.DEMO_FETCH,
@@ -16,13 +18,17 @@ const ROUTER = [
     meta: {
       disabled: true
     },
-    component: () => import("@/pages/demo-fetch/index.vue")
+    component: () => {
+      return import("@/pages/demo-fetch/index.vue");
+    }
   },
   {
     path: ERouter.DEMO_QUEUE,
     name: "demo-queue",
     title: "案例-队列",
-    component: () => import("@/pages/demo-queue/index.vue")
+    component: () => {
+      return import("@/pages/demo-queue/index.vue");
+    }
   }
 ];
 

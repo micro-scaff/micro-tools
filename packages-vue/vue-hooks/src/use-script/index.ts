@@ -76,7 +76,7 @@ export default function useScript(opts: IOptions): {
       });
 
       script.src = opts.src;
-      const head: HTMLHeadElement = document.head || document.querySelectorAll("head")[0];
+      const head: HTMLHeadElement = document.head || document.querySelector("head");
 
       head.append(script);
     });
@@ -92,6 +92,8 @@ export default function useScript(opts: IOptions): {
     isLoading,
     error,
     success,
-    promise: () => promise
+    promise: () => {
+      return promise;
+    }
   };
 }

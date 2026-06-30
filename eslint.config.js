@@ -1,7 +1,6 @@
 import EsLint, {
-  vue,
-  react,
-  typescript
+  VUE,
+  REACT
 } from "@mt-kit/eslint-config";
 import {
   defineConfig
@@ -18,9 +17,14 @@ export default defineConfig([
       "**/*.js",
       "**/*.mjs"
     ],
+    ignores: [
+      "./packages-vue/**/*.vue",
+      "./packages-cli/cli-storybook-vue/**/*.vue",
+      "./packages-demo/demo-vue/**/*.vue",
+      "./packages-react/**/*.{ts,tsx,js,jsx}"
+    ],
     extends: [
-      EsLint,
-      typescript
+      EsLint
     ]
   },
   {
@@ -30,7 +34,7 @@ export default defineConfig([
       "./packages-demo/demo-vue/**/*.vue"
     ],
     extends: [
-      vue
+      VUE
     ]
   },
   {
@@ -41,7 +45,7 @@ export default defineConfig([
       "./packages-react/**/*.jsx"
     ],
     extends: [
-      react
+      REACT
     ]
   }
 ]);

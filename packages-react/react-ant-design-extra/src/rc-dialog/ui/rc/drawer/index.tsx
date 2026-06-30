@@ -1,5 +1,4 @@
 import React from "react";
-
 import {
   Drawer as AntDrawer,
   DrawerProps
@@ -48,21 +47,23 @@ export default function Drawer(): React.ReactElement {
 
   const dataLoading = useStateDataLoading();
 
-  return <AntDrawer
-    {...options as DrawerProps}
-    closable={closable}
-    destroyOnHidden
-    footer={<Footer />}
-    keyboard={esc}
-    loading={dataLoading}
-    mask={backdrop}
-    maskClosable={backdropClosable}
-    onClose={handleOnClose}
-    open={open}
-    rootClassName={classNameOnBody}
-    title={<Header />}
-    width={transformWidthSize(size)}
-    zIndex={zIndex}>
-    {content}
-  </AntDrawer>;
+  return (
+    <AntDrawer
+      {...options as DrawerProps}
+      closable={closable}
+      destroyOnHidden
+      footer={<Footer />}
+      keyboard={esc}
+      loading={dataLoading}
+      mask={backdrop}
+      maskClosable={backdropClosable}
+      onClose={handleOnClose}
+      open={open}
+      rootClassName={classNameOnBody}
+      title={<Header />}
+      width={transformWidthSize(size)}
+      zIndex={zIndex}>
+      {content}
+    </AntDrawer>
+  );
 }

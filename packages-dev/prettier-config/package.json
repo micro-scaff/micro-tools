@@ -1,15 +1,15 @@
 {
   "name": "@mt-kit/prettier-config",
-  "version": "1.2.2",
+  "version": "2.0.0",
   "description": "Prettier 规则.",
   "keywords": [
     "prettier",
     "mt-prettier-config",
     "prettier-config"
   ],
-  "homepage": "https://not-have.github.io/micro-tools/",
-  "bugs": "https://github.com/Not-have/micro-tools/issues",
-  "repository": "git@github.com:Not-have/micro-tools.git",
+  "homepage": "https://micro-scaff.github.io/",
+  "bugs": "https://github.com/micro-scaff/micro-tools/issues",
+  "repository": "https://github.com/micro-scaff/micro-tools/tree/main/packages-dev/prettier-config",
   "license": "ISC",
   "author": "LiYong",
   "scripts": {

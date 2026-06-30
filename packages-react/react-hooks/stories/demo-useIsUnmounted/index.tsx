@@ -38,20 +38,23 @@ export default function DemoUseIsUnmounted(): React.ReactElement {
     isUnmounted
   ]);
 
-  return <div>
-    <p>useIsUnmounted 的使用</p>
+  return (
+    <div>
+      <p>useIsUnmounted 的使用</p>
 
-    <p>
+      <p>
       useIsUnmounted：
-      {JSON.stringify(isUnmounted())}
-    </p>
+        {JSON.stringify(isUnmounted())}
+      </p>
 
-    {data ?
-      <pre>
-        {JSON.stringify(data, null, 2)}
-      </pre>
-      :
-      <p>Loading...</p>
-    }
-  </div>;
+      {data ? (
+        <pre>
+          {JSON.stringify(data, null, 2)}
+        </pre>
+      )
+        :
+        <p>Loading...</p>
+      }
+    </div>
+  );
 }

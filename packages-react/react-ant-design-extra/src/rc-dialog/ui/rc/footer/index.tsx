@@ -2,7 +2,6 @@ import React, {
   useMemo,
   MouseEvent
 } from "react";
-
 import {
   Button,
   Space
@@ -32,52 +31,63 @@ export default function Footer(): React.ReactElement {
 
   const isSubmit = usePropsIsSubmit();
 
-  const okButtonProps = useMemo(() => (typeof ok === "object" ? {
-    ...ok,
-    onClick: (event: MouseEvent<HTMLElement>) => {
-      ok?.onClick?.(event);
-      handleOnSubmit();
-    }
-  } : {
-    label: ok
-  }), [
+  const okButtonProps = useMemo(() => {
+    return (typeof ok === "object" ? {
+      ...ok,
+      onClick: (event: MouseEvent<HTMLElement>) => {
+        ok?.onClick?.(event);
+        handleOnSubmit();
+      }
+    } : {
+      label: ok
+    });
+  }, [
     ok,
     handleOnSubmit
   ]);
 
   const cancel = usePropsCancel();
 
-  const cancelButtonProps = useMemo(() => (typeof cancel === "object" ? {
-    ...cancel,
-    onClick: (event: MouseEvent<HTMLElement>) => {
-      cancel?.onClick?.(event);
-      handleOnClose();
-    }
-  } : {
-    label: cancel
-  }), [
+  const cancelButtonProps = useMemo(() => {
+    return (typeof cancel === "object" ? {
+      ...cancel,
+      onClick: (event: MouseEvent<HTMLElement>) => {
+        cancel?.onClick?.(event);
+        handleOnClose();
+      }
+    } : {
+      label: cancel
+    });
+  }, [
     cancel,
     handleOnClose
   ]);
 
-  return <Space>
-    {footerExtra.map(button => (
-      <React.Fragment key={button.key || Math.random()}>
-        {button}
-      </React.Fragment>
-    ))}
+  return (
+    <Space>
+      {footerExtra.map(button => {
+        return (
+          <React.Fragment key={button.key || Math.random()}>
+            {button}
+          </React.Fragment>
+        );
+      })}
 
-    <Button onClick={handleOnClose}
-      {...okButtonProps}>
-      {typeof cancel === "string" ? cancel : cancel?.label || "关闭"}
-    </Button>
+      <Button
+        onClick={handleOnClose}
+        {...okButtonProps}>
+        {typeof cancel === "string" ? cancel : cancel?.label || "关闭"}
+      </Button>
 
-    {isSubmit && <Button
-      {...cancelButtonProps}
-      loading={locked === ModelLockState.LOADING}
-      onClick={handleOnSubmit}
-      type="primary">
-      {typeof ok === "string" ? ok : ok?.label || "提交"}
-    </Button>}
-  </Space>;
+      {isSubmit && (
+        <Button
+          {...cancelButtonProps}
+          loading={locked === ModelLockState.LOADING}
+          onClick={handleOnSubmit}
+          type="primary">
+          {typeof ok === "string" ? ok : ok?.label || "提交"}
+        </Button>
+      )}
+    </Space>
+  );
 }

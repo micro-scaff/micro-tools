@@ -7,7 +7,7 @@
  * injectIconFont(Font class 处生成的链接);
  */
 export default function injectIconfont(fontFamily: string): void {
-  const head: HTMLHeadElement = document.head || document.querySelectorAll("head")[0];
+  const head: HTMLHeadElement = document.head || document.querySelector("head");
 
   const link: HTMLLinkElement = document.createElement("link");
 

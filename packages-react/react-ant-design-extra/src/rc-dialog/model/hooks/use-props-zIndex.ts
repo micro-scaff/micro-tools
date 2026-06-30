@@ -8,7 +8,9 @@ import useModelProps from "./_use-model-props";
 export default function usePropsZIndex(): number | undefined {
   const props = useModelProps();
 
-  return useMemo(() => props.zIndex, [
+  return useMemo(() => {
+    return props.zIndex;
+  }, [
     props
   ]);
 }

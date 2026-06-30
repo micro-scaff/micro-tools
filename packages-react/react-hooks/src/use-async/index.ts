@@ -1,13 +1,13 @@
 import {
-  debounce as _debounce,
-  DebouncedFunc
-} from "lodash-es";
-
-import {
   useCallback,
   useMemo,
   useState
 } from "react";
+
+import {
+  debounce as _debounce,
+  DebouncedFunc
+} from "lodash-es";
 
 import useIsUnmounted from "../use-is-unmounted";
 
@@ -64,10 +64,12 @@ export default function useAsync<Args extends unknown[], R>(
   });
 
   const run = useCallback((...args: Args): Promise<R> => {
-    setStateResult(state => ({
-      ...state,
-      loading: true
-    }));
+    setStateResult(state => {
+      return {
+        ...state,
+        loading: true
+      };
+    });
 
     return asyncFunction(...args).
         then(response => {
@@ -82,10 +84,12 @@ export default function useAsync<Args extends unknown[], R>(
         }).
         catch((error: Error) => {
           if (!isUnmounted()) {
-            setStateResult(state => ({
-              ...state,
-              loading: false
-            }));
+            setStateResult(state => {
+              return {
+                ...state,
+                loading: false
+              };
+            });
           }
 
           if (!config.ignoreAlert) {

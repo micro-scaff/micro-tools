@@ -7,7 +7,6 @@
 import type {
   AxiosRequestConfig
 } from "axios";
-
 import {
   beforeEach,
   describe,

@@ -1,11 +1,11 @@
 import {
+  isValidElement
+} from "react";
+
+import {
   isNil as _isNil,
   map as _map
 } from "lodash-es";
-
-import {
-  isValidElement
-} from "react";
 
 import {
   IItemResolved,
@@ -17,10 +17,12 @@ export default function convertItems(o: TItems, ignoreEmpty?: boolean): IItemRes
     return [];
   }
 
-  const arr: (IItemResolved | null)[] = Array.isArray(o) ? o : _map(o, (v, k) => ({
-    k,
-    v
-  })).map(kv => {
+  const arr: (IItemResolved | null)[] = Array.isArray(o) ? o : _map(o, (v, k) => {
+    return {
+      k,
+      v
+    };
+  }).map(kv => {
     if (!kv || typeof kv.v === "function") {
       return null;
     }

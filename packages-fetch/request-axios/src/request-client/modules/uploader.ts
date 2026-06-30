@@ -2,7 +2,7 @@ import {
   RequestClientConfig,
   UploadData
 } from "../../types";
-import RequestClient from "../request-client";
+import type RequestClient from "../request-client";
 
 interface IUploadRequestConfig extends RequestClientConfig {
 
@@ -72,18 +72,21 @@ class FileUploader {
     // POST 方法使用 FormData
     const formData = new FormData();
 
-    Object.entries(data).forEach(([
+    for (const [
       key,
       value
-    ]) => {
+    ] of Object.entries(data)) {
       if (Array.isArray(value)) {
-        value.forEach((item, index) => {
+        for (const [
+          index,
+          item
+        ] of value.entries()) {
           formData.append(`${key}[${index}]`, item);
-        });
+        }
       } else {
         formData.append(key, value);
       }
-    });
+    }
 
     const finalConfig: RequestClientConfig = {
       ...config,

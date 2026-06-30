@@ -24,7 +24,9 @@ const handleReductionClick = (): void => {
   setState();
 };
 
-watch(() => state.age, (newValue, oldValue) => {
+watch(() => {
+  return state.age;
+}, (newValue, oldValue) => {
   // eslint-disable-next-line no-console
   console.log(newValue, oldValue);
 
@@ -36,7 +38,9 @@ const [
 ] = useState(1);
 
 const handleAddNumClick = (): void => {
-  setStateNum(stateNum => stateNum + 1);
+  setStateNum(stateNum => {
+    return stateNum + 1;
+  });
 };
 
 </script>

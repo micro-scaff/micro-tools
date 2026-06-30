@@ -7,7 +7,11 @@
 export default function flattenAndSort(obj: Record<string, unknown>, prefix = ""): Record<string, string> {
   const out: Record<string, string> = {};
 
-  for (const k of Object.keys(obj).sort()) {
+  const sortedKeys = Object.keys(obj).toSorted((a, b) => {
+    return a.localeCompare(b);
+  });
+
+  for (const k of sortedKeys) {
     const val = obj[k];
 
     const key = prefix ? `${prefix}.${k}` : k;

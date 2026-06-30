@@ -17,7 +17,11 @@ export default function useRequest<T>(func: () => Promise<T>): [T | null, boolea
   useEffect(() => {
     setLoading(true);
     func().
-        then((res: T) => setData(res)).finally(() => setLoading(false));
+        then((res: T) => {
+          return setData(res);
+        }).finally(() => {
+          return setLoading(false);
+        });
   }, [
     func
   ]);

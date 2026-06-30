@@ -1,15 +1,15 @@
 {
   "name": "@mt-kit/eslint-config",
-  "version": "2.6.0",
+  "version": "3.0.0",
   "description": "",
   "keywords": [
     "eslint",
     "eslint-config",
     "mt-eslint-config"
   ],
-  "homepage": "https://not-have.github.io/micro-tools/",
-  "bugs": "https://github.com/Not-have/micro-tools/issues",
-  "repository": "git@github.com:Not-have/micro-tools.git",
+  "homepage": "https://micro-scaff.github.io/",
+  "bugs": "https://github.com/micro-scaff/micro-tools/issues",
+  "repository": "https://github.com/micro-scaff/micro-tools/tree/main/packages-dev/eslint-config",
   "license": "ISC",
   "author": "LiYong",
   "type": "module",
@@ -36,25 +36,20 @@
     "registry": "https://registry.npmjs.org"
   },
   "peerDependencies": {
-    "eslint": ">=9.0.0"
+    "eslint": ">=10"
   },
   "dependencies": {
+    "@eslint-react/eslint-plugin": "catalog:",
     "@eslint/js": "catalog:",
     "@stylistic/eslint-plugin": "catalog:",
     "@typescript-eslint/eslint-plugin": "catalog:",
     "@typescript-eslint/parser": "catalog:",
-    "eslint-import-resolver-typescript": "catalog:",
     "eslint-plugin-command": "catalog:",
     "eslint-plugin-eslint-comments": "catalog:",
     "eslint-plugin-import-x": "catalog:",
     "eslint-plugin-jsdoc": "catalog:",
     "eslint-plugin-jsonc": "catalog:",
-    "eslint-plugin-jsx-a11y": "catalog:",
-    "eslint-plugin-perfectionist": "catalog:",
-    "eslint-plugin-prettier": "catalog:",
-    "eslint-plugin-react": "catalog:",
     "eslint-plugin-react-compiler": "catalog:",
-    "eslint-plugin-react-hooks": "catalog:",
     "eslint-plugin-regexp": "catalog:",
     "eslint-plugin-unicorn": "catalog:",
     "eslint-plugin-unused-imports": "catalog:",

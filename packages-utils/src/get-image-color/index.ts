@@ -1,16 +1,20 @@
-const MAX_DRAW_DIMENSION = 240;
-
-const BUCKET_SIZE = 24;
-
 import type {
   IImageColor
 } from "./types";
 
-const rgbToHex = (r: number, g: number, b: number): string => `#${[
-  r,
-  g,
-  b
-].map(channel => channel.toString(16).padStart(2, "0")).join("")}`;
+const MAX_DRAW_DIMENSION = 240;
+
+const BUCKET_SIZE = 24;
+
+const rgbToHex = (r: number, g: number, b: number): string => {
+  return `#${[
+    r,
+    g,
+    b
+  ].map(channel => {
+    return channel.toString(16).padStart(2, "0");
+  }).join("")}`;
+};
 
 const rgbToHsb = (r: number, g: number, b: number) => {
   const rn = r / 255;
@@ -54,7 +58,9 @@ const rgbToHsb = (r: number, g: number, b: number) => {
   };
 };
 
-const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
+const clamp = (value: number, min: number, max: number) => {
+  return Math.max(min, Math.min(max, value));
+};
 
 const getPixelScore = (r: number, g: number, b: number) => {
   const {
@@ -163,7 +169,9 @@ const getImageDataSafe = (ctx: CanvasRenderingContext2D, width: number, height: 
     return ctx.getImageData(0, 0, width, height);
   } catch (error: unknown) {
     if (error instanceof Error && error.name === "SecurityError") {
-      throw new Error("跨域限制：目标图片未正确设置 CORS");
+      throw new Error("跨域限制：目标图片未正确设置 CORS", {
+        cause: error
+      });
     }
 
     throw error;
@@ -261,9 +269,7 @@ export default async function getImageColor(image: string): Promise<IImageColor>
     }
   };
 
-  if (img.complete && img.naturalWidth) {
-    color = await updateThemeColor(img);
-  }
+  color = img.complete && img.naturalWidth ? await updateThemeColor(img) : color;
 
   img.addEventListener("load", async () => {
     color = await updateThemeColor(img);

@@ -13,49 +13,19 @@ export type {
   IScreen as DeviceScreen
 } from "./types";
 
-export {
-  default as deviceOperatingSystem
-} from "./operating-system";
-export {
-  default as deviceBrowser
-} from "./browser";
-export {
-  default as deviceLanguage
-} from "./language";
-export {
-  default as deviceOnLine
-} from "./onLine";
-export {
-  default as deviceScreen
-} from "./screen";
-export {
-  default as deviceLocation
-} from "./location";
-export {
-  default as devicePublicIp
-} from "./public-ip";
-export {
-  default as deviceCpuCores
-} from "./cpu-cores";
-export {
-  default as deviceMemory
-} from "./memory";
-export {
-  default as deviceHardwareConcurrency
-} from "./hardware-concurrency";
-export {
-  default as deviceFeatures
-} from "./features";
-export {
-  default as deviceSensor
-} from "./sensor";
-export {
-  default as deviceI18n
-} from "./i18n";
-export {
-  default as deviceUa
-} from "./ua";
+export { default as deviceOperatingSystem } from "./operating-system";
+export { default as deviceBrowser } from "./browser";
+export { default as deviceLanguage } from "./language";
+export { default as deviceOnLine } from "./onLine";
+export { default as deviceScreen } from "./screen";
+export { default as deviceLocation } from "./location";
+export { default as devicePublicIp } from "./public-ip";
+export { default as deviceCpuCores } from "./cpu-cores";
+export { default as deviceMemory } from "./memory";
+export { default as deviceHardwareConcurrency } from "./hardware-concurrency";
+export { default as deviceFeatures } from "./features";
+export { default as deviceSensor } from "./sensor";
+export { default as deviceI18n } from "./i18n";
+export { default as deviceUa } from "./ua";
 
-export {
-  default as deviceAll
-} from "./all";
+export { default as deviceAll } from "./all";

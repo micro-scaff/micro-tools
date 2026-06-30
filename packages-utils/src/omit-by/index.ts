@@ -20,12 +20,14 @@ export default function omitBy<T>(obj: IDictionary<T> | null | undefined, condit
   }
 
   for (const key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key)) {
-      const value = obj[key];
+    if (!Object.prototype.hasOwnProperty.call(obj, key)) {
+      continue;
+    }
 
-      if (!condition(value, key)) {
-        result[key] = value;
-      }
+    const value = obj[key];
+
+    if (!condition(value, key)) {
+      result[key] = value;
     }
   }
 

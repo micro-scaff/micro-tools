@@ -4,7 +4,7 @@ interface IIpServiceResponse {
   ipAddress?: string;
   origin?: string;                    // httpbin.org 使用 origin 字段
   country?: string;
-  country_name?: string;
+  countryName?: string;
   region?: string;
   city?: string;
 }
@@ -37,7 +37,9 @@ export default async function devicePublicIp(): Promise<string> {
   const fetchService = async (service: string): Promise<IIpServiceResponse> => {
     const controller = new AbortController();
 
-    const timeoutId = setTimeout(() => controller.abort(), 5000);
+    const timeoutId = setTimeout(() => {
+      return controller.abort();
+    }, 5000);
 
     try {
       const response = await fetch(service, {
@@ -49,6 +51,11 @@ export default async function devicePublicIp(): Promise<string> {
 
       if (response.ok) {
         const data = await response.json();
+
+        if ("country_name" in data) {
+          data.countryName = data.country_name;
+          delete data.country_name;
+        }
 
         return data;
       }
@@ -120,8 +127,8 @@ export default async function devicePublicIp(): Promise<string> {
       if (ipData.city) {
         location += `, ${ipData.city}`;
       }
-    } else if (ipData.country_name) {
-      location = ipData.country_name;
+    } else if (ipData.countryName) {
+      location = ipData.countryName;
 
       if (ipData.region) {
         location += `, ${ipData.region}`;
@@ -138,7 +145,7 @@ export default async function devicePublicIp(): Promise<string> {
 
     throw new Error("无法解析IP地址");
 
-  } else {
-    throw lastError || new Error("所有IP查询服务都失败了");
   }
+
+  throw lastError || new Error("所有IP查询服务都失败了");
 }

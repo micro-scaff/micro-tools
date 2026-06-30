@@ -1,8 +1,6 @@
 const a: string = "11";
 
-export {
-  a
-};
+export { a };
 
 export {
   arr,

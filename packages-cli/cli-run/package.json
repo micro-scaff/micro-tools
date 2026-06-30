@@ -6,13 +6,13 @@
     "run",
     "mt-cli-run"
   ],
-  "homepage": "https://not-have.github.io/micro-tools/",
+  "homepage": "https://micro-scaff.github.io/",
   "bugs": {
-    "url": "https://github.com/Not-have/micro-tools/issues"
+    "url": "https://github.com/micro-scaff/micro-tools/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:Not-have/micro-tools.git"
+    "url": "https://github.com/micro-scaff/micro-tools/tree/main/packages-cli/cli-run"
   },
   "license": "MIT",
   "author": "Li Yong",

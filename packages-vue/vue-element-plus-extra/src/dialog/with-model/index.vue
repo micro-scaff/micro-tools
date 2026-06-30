@@ -6,14 +6,13 @@ import {
 import Model, {
   DialogProps
 } from "../model";
+import Ui from "../ui/index.vue";
 
 const {
   props
 } = defineProps<{
   props: DialogProps;
 }>();
-
-import Ui from "../ui/index.vue";
 
 </script>
 

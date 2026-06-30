@@ -1,14 +1,17 @@
 import {
-  ElMessage,
-  type MessageOptions,
-  type MessageHandler
+  ElMessage
+
 } from "element-plus";
+
+type TMessageHandler = ReturnType<typeof ElMessage>;
+
+type TMessageOptions = Exclude<Parameters<typeof ElMessage>[0], string>;
 
 /**
  * ElMessage 单例类
  * 确保全局每次只能弹出一个消息
  */
-interface IEnhancedMessageOptions extends MessageOptions {
+interface IEnhancedMessageOptions extends TMessageOptions {
 
   /**
    * 是否用新消息替换当前正在显示的消息，默认 false（与原逻辑保持一致）
@@ -17,7 +20,7 @@ interface IEnhancedMessageOptions extends MessageOptions {
 }
 
 class Messages {
-  private currentMessage: MessageHandler | null = null;
+  private currentMessage: TMessageHandler | null = null;
 
   private isClosing = false;
 
@@ -43,9 +46,9 @@ class Messages {
   /**
    * 显示消息
    * @param options 消息配置选项
-   * @returns MessageHandler
+   * @returns TMessageHandler
    */
-  show(options: string | IEnhancedMessageOptions): MessageHandler {
+  show(options: string | IEnhancedMessageOptions): TMessageHandler {
     const normalized: IEnhancedMessageOptions =
       typeof options === "string"
         ? {
@@ -128,8 +131,8 @@ class Messages {
    */
   success(
       message: string,
-      options?: Omit<MessageOptions, "message" | "type"> & IEnhancedMessageOptions
-  ): MessageHandler {
+      options?: Omit<TMessageOptions, "message" | "type"> & IEnhancedMessageOptions
+  ): TMessageHandler {
     return this.show({
       message,
       type: "success",
@@ -144,8 +147,8 @@ class Messages {
    */
   warning(
       message: string,
-      options?: Omit<MessageOptions, "message" | "type"> & IEnhancedMessageOptions
-  ): MessageHandler {
+      options?: Omit<TMessageOptions, "message" | "type"> & IEnhancedMessageOptions
+  ): TMessageHandler {
     return this.show({
       message,
       type: "warning",
@@ -160,8 +163,8 @@ class Messages {
    */
   error(
       message: string,
-      options?: Omit<MessageOptions, "message" | "type"> & IEnhancedMessageOptions
-  ): MessageHandler {
+      options?: Omit<TMessageOptions, "message" | "type"> & IEnhancedMessageOptions
+  ): TMessageHandler {
     return this.show({
       message,
       type: "error",
@@ -176,8 +179,8 @@ class Messages {
    */
   info(
       message: string,
-      options?: Omit<MessageOptions, "message" | "type"> & IEnhancedMessageOptions
-  ): MessageHandler {
+      options?: Omit<TMessageOptions, "message" | "type"> & IEnhancedMessageOptions
+  ): TMessageHandler {
     return this.show({
       message,
       type: "info",
@@ -207,6 +210,4 @@ const messages = new Messages();
 export default messages;
 
 // 也可以导出类，以便在需要时创建多个实例
-export {
-  Messages
-};
+export { Messages };

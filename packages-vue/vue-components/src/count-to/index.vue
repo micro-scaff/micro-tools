@@ -116,7 +116,9 @@ const props = defineProps({
    * 滚动数字的样式
    */
   style: {
-    default: () => ({}),
+    default: () => {
+      return {};
+    },
     type: Object as PropType<CSSProperties>
   },
 
@@ -143,7 +145,9 @@ const formatNumber = (val: number): string => {
 
   if (props.separator && !isNumber(props.separator)) {
     while (rgx.test(x1)) {
-      x1 = x1.replace(rgx, `$1${ props.separator }$2`);
+      x1 = x1.replace(rgx, (_match, prefix, suffix) => {
+        return `${prefix}${props.separator}${suffix}`;
+      });
     }
   }
 
@@ -162,6 +166,7 @@ const state = reactive<{
   rAF: null | number;
   remaining: number;
   start: number;
+  timer: null | ReturnType<typeof setTimeout>;
 }>({
   autoplay: props.autoplay, // 是否自动播放
   delay: props.delay,
@@ -172,17 +177,19 @@ const state = reactive<{
   printVal: props.startVal,
   rAF: null,
   remaining: 0,
-  start: props.startVal
+  start: props.startVal,
+  timer: null
 });
 
-// 初始化定时器
-let timer: null | ReturnType<typeof setTimeout> = null;
-
 // 初始化展示在页面上的值
-const displayValue = computed(() => formatNumber(state.printVal));
+const displayValue = computed(() => {
+  return formatNumber(state.printVal);
+});
 
 // 定义一个计算属性，当开始数字大于结束数字时返回true
-const stopCount = computed(() => props.startVal > props.endVal);
+const stopCount = computed(() => {
+  return props.startVal > props.endVal;
+});
 
 // 数字增加的过程函数
 const step = (timestamp: number): void => {
@@ -201,9 +208,9 @@ const step = (timestamp: number): void => {
 
   if (progress < state.duration) {
     state.rAF = window.requestAnimationFrame(step);
-  } else if (timer) {
-    clearTimeout(timer);
-    timer = null;
+  } else if (state.timer) {
+    clearTimeout(state.timer);
+    state.timer = null;
   }
 };
 
@@ -216,12 +223,12 @@ const delayStart = (): void => {
   }
 
   // 如果有定时器,先清除
-  if (timer) {
-    clearTimeout(timer);
+  if (state.timer) {
+    clearTimeout(state.timer);
   }
 
   // 如果没有定时器,生成一个定时器
-  timer = setTimeout(() => {
+  state.timer = setTimeout(() => {
     state.rAF = window.requestAnimationFrame(step);
   }, state.delay);
 };
@@ -270,7 +277,9 @@ const pauseResume = (): void => {
 };
 
 // 如果是autoplay为true时,自动执行
-watch(() => state.autoplay, autoplay => {
+watch(() => {
+  return state.autoplay;
+}, autoplay => {
   autoplay && start();
 }, {
   immediate: true

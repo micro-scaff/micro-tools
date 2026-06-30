@@ -7,5 +7,7 @@ export default async function submit(data: unknown, defaultData: unknown): Promi
   // eslint-disable-next-line no-console
   console.log("data", data, defaultData);
 
-  return apiTest02().then(() => true);
+  return apiTest02().then(() => {
+    return true;
+  });
 }

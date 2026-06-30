@@ -18,7 +18,7 @@ export function apiTest02(): Promise<{
   code: number;
   message: string;
 }> {
-  return new Promise((_, reject) => {
+  return new Promise((_resolve, reject) => {
     setTimeout(() => {
       // eslint-disable-next-line prefer-promise-reject-errors
       reject({

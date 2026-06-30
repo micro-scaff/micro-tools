@@ -3,7 +3,6 @@ import type {
   AxiosRequestConfig,
   AxiosResponse
 } from "axios";
-
 import {
   beforeEach,
   describe,

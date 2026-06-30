@@ -1,4 +1,5 @@
-export default defineEventHandler(() => `
+export default defineEventHandler(() => {
+  return `
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -27,4 +28,5 @@ export default defineEventHandler(() => `
     </ul>
 </body>
 </html>
-`);
+`;
+});

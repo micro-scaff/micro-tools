@@ -7,7 +7,9 @@ export interface IResponse {
 
 export function testFetch(): Promise<IResponse | null> {
   return fetch("https://mock.mengxuegu.com/mock/60434bccf340b05bceda3906/practise-nuxtjs/test").
-      then(res => res.json()).
+      then(res => {
+        return res.json();
+      }).
       then(res => {
         if (res.code === 200) {
           return res.data;

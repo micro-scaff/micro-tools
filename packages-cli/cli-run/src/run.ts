@@ -6,6 +6,7 @@ import {
 import {
   execaCommand
 } from "execa";
+
 import {
   exit
 } from "process";
@@ -39,9 +40,15 @@ export default async function run(options: ICommand): Promise<void> {
   const commands = parseCommands(command);
 
   const selectPkgs = packages.
-      filter(pkg => commands.some((cmd => (pkg?.packageJson as unknown as Record<string, never>)?.scripts?.[cmd]))).
+      filter(pkg => {
+        return commands.some((cmd => {
+          return (pkg?.packageJson as unknown as Record<string, never>)?.scripts?.[cmd];
+        }));
+      }).
       map(pkg => {
-        const matchedCommand = commands.find(cmd => (pkg?.packageJson as unknown as Record<string, never>)?.scripts?.[cmd]);
+        const matchedCommand = commands.find(cmd => {
+          return (pkg?.packageJson as unknown as Record<string, never>)?.scripts?.[cmd];
+        });
 
         return {
           ...pkg,
@@ -54,10 +61,12 @@ export default async function run(options: ICommand): Promise<void> {
   if (selectPkgs.length > 1) {
     selectPkg = await select<string>({
       message: "请选择需要执行的包:（⬇️ 向下选择，⬆️ 向上选择，⏎ 确认）",
-      options: selectPkgs.map(item => ({
-        label: `${item?.packageJson.name} (${(item?.packageJson as unknown as Record<string, never>)?.description ?? ""}) [${item?.packageJson?.version}]`,
-        value: item?.packageJson.name
-      }))
+      options: selectPkgs.map(item => {
+        return {
+          label: `${item?.packageJson.name} (${(item?.packageJson as unknown as Record<string, never>)?.description ?? ""}) [${item?.packageJson?.version}]`,
+          value: item?.packageJson.name
+        };
+      })
     });
 
     if (isCancel(selectPkg) || !selectPkg) {
@@ -74,7 +83,9 @@ export default async function run(options: ICommand): Promise<void> {
   }
 
   // 找到选中的包并获取其类型
-  const selectedPkg = selectPkgs.find(pkg => pkg?.packageJson?.name === selectPkg);
+  const selectedPkg = selectPkgs.find(pkg => {
+    return pkg?.packageJson?.name === selectPkg;
+  });
 
   const scriptType = selectedPkg?.type || commands[0];
 

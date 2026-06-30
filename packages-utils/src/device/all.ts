@@ -3,7 +3,6 @@ import type {
   IDeviceAll,
   IDeviceAllOptions
 } from "./types";
-
 import deviceBrowser from "./browser";
 import deviceCpuCores from "./cpu-cores";
 import deviceFeatures from "./features";
@@ -105,7 +104,10 @@ export default async function deviceAll(options: IDeviceAllOptions = {}): Promis
 
   let publicIp = "127.0.0.1";
 
-  asyncResults.forEach((result, index) => {
+  for (const [
+    index,
+    result
+  ] of asyncResults.entries()) {
     const key = asyncKeys[index];
 
     if (key === "location") {
@@ -116,7 +118,7 @@ export default async function deviceAll(options: IDeviceAllOptions = {}): Promis
     } else if (key === "publicIp") {
       publicIp = result.status === "fulfilled" ? result.value as string : "127.0.0.1";
     }
-  });
+  }
 
   const result = {
 
@@ -142,13 +144,13 @@ export default async function deviceAll(options: IDeviceAllOptions = {}): Promis
   // 根据 opts 过滤结果
   const filteredResult: Partial<IDeviceAll> = {};
 
-  Object.keys(opts).forEach(key => {
+  for (const key of Object.keys(opts)) {
     const optionKey = key as keyof IDeviceAllOptions;
 
-    if (opts[optionKey]) {
+    if (Object.hasOwn(opts, optionKey) && opts[optionKey] === true) {
       (filteredResult as Record<string, unknown>)[key] = result[key as keyof IDeviceAll];
     }
-  });
+  }
 
   return filteredResult as IDeviceAll;
 }

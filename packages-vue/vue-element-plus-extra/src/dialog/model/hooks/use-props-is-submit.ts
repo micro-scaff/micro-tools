@@ -11,5 +11,7 @@ import useModelProps from "./_use-model-props";
 export default function usePropsIsSubmit(): ComputedRef<boolean> {
   const props = useModelProps();
 
-  return computed(() => props.value.isSubmit ?? true);
+  return computed(() => {
+    return props.value.isSubmit ?? true;
+  });
 }

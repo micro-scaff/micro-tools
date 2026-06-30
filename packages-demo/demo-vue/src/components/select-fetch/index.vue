@@ -2,18 +2,19 @@
 import {
   ref
 } from "vue";
+import {
+  ElSelect,
+  ElOption
+} from "element-plus";
+
+import {
+  createDedupedRequest
+} from "@mt-kit/utils";
 
 import {
   dataList,
   dataObj
 } from "@/api";
-import {
-  createDedupedRequest
-} from "@mt-kit/utils";
-import {
-  ElSelect,
-  ElOption
-} from "element-plus";
 
 const value = ref("");
 

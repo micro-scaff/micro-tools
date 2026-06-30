@@ -8,5 +8,7 @@ import useModelState from "./_use-model-state";
 export default function useStateDataLoading(): ComputedRef<boolean> {
   const state = useModelState();
 
-  return computed(() => state.value.dataLoading);
+  return computed(() => {
+    return state.value.dataLoading;
+  });
 }

@@ -1,12 +1,12 @@
 import {
-  isObject
-} from "lodash-es";
-
-import {
   Location,
   useLocation,
   useNavigate
 } from "react-router-dom";
+
+import {
+  isObject
+} from "lodash-es";
 
 interface INavigateOptions {
   hash?: string;
@@ -38,7 +38,7 @@ export default function useHistory(): IHistoryHook {
       return;
     }
 
-    navigate(`${compoundUrl(url as string, options)}`);
+    navigate(compoundUrl(url as string, options));
   };
 
   const replace = (url: string | INavigateOptions, options?: INavigateOptions): void => {

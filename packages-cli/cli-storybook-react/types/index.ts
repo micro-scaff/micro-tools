@@ -4,6 +4,4 @@ export type {
   StoryObj
 } from "@storybook/react";
 
-export type {
-  StorybookConfig
-} from "@storybook/react-vite";
+export type { StorybookConfig } from "@storybook/react-vite";

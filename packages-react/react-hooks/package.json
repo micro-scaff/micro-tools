@@ -8,13 +8,13 @@
     "micro-react",
     "micro-react-hooks"
   ],
-  "homepage": "https://not-have.github.io/micro-tools/",
+  "homepage": "https://micro-scaff.github.io/",
   "bugs": {
-    "url": "https://github.com/Not-have/micro-tools/issues"
+    "url": "https://github.com/micro-scaff/micro-tools/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Not-have/micro-tools/tree/main/packages-react/react-hooks"
+    "url": "https://github.com/micro-scaff/micro-tools/tree/main/packages-react/react-hooks"
   },
   "license": "ISC",
   "author": "Li Yong",

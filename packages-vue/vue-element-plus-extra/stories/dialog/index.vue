@@ -1,11 +1,10 @@
 <script lang="tsx" setup>
 
-import Content from "./content/index.vue";
-
 import {
   ElButton
 } from "element-plus";
 
+import Content from "./content/index.vue";
 import {
   open,
   DialogSize

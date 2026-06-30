@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2019",               // 输出 ES6 模块
-    "lib": ["es2021", "dom"],
-    "baseUrl": "./",
+    "lib": ["es2021", "es2022.error", "dom"],
     "rootDir": "./src",            // TypeScript 源代码目录
 
     "module": "ES6",               // ES6 ECMAScript 模块 / CommonJS CommonJS 模块

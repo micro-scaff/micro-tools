@@ -16,7 +16,9 @@ export default function Index(): React.ReactElement {
   // eslint-disable-next-line no-console
   console.log(data, loading);
 
-  return <div>
-    <p>useService</p>
-  </div>;
+  return (
+    <div>
+      <p>useService</p>
+    </div>
+  );
 }

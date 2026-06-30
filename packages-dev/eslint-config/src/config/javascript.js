@@ -90,7 +90,10 @@ export default {
     /**
      * 箭头函数
      */
-    "arrow-body-style": "error", // 要求箭头函数体使用大括号
+    "arrow-body-style": [
+      "error",
+      "always"
+    ], // 要求箭头函数体使用大括号
 
     "arrow-parens": [
       "error",
@@ -186,9 +189,24 @@ export default {
     ], // Getter必须有返回值，并且禁止返回值为undefined, 比如 return
     "grouped-accessor-pairs": "error", // 强制 getter 和 setter 在对象中成对出现
     "guard-for-in": "error", // 要求 for-in 循环中有一个 if 语句
-    "id-denylist": "error", // 禁止使用指定的标识符
+    "id-denylist": [
+      "error",
+      "foo",
+      "bar",
+      "baz",
+      "qux",
+      "retval"
+    ], // 禁止使用指定的标识符，避免无意义的占位命名
     "id-length": "off", // 禁止在标识符中使用悬空下划线
-    "id-match": "error", // 强制标识符的命名约定
+    "id-match": [
+      "error",
+      "^_?([a-z][a-zA-Z0-9]*|[A-Z][a-zA-Z0-9]*|[A-Z][A-Z0-9]*(?:_[A-Z0-9]+)*)$",
+      {
+        classFields: true,
+        onlyDeclarations: false,
+        properties: false
+      }
+    ], // 强制标识符使用 camelCase、PascalCase 或 UPPER_SNAKE_CASE
     "implicit-arrow-linebreak": [
       "error",
       "beside"
@@ -226,7 +244,8 @@ export default {
       {
         beforeBlockComment: true,
         beforeLineComment: true,
-        allowBlockEnd: true
+        allowBlockEnd: true,
+        ignorePattern: "prettier-ignore"
       }
     ], // 要求在注释周围有空行
     "lines-between-class-members": [
@@ -258,7 +277,7 @@ export default {
         ignoreTrailingComments: true,
         ignoreUrls: true
       }
-    ], // 单行最多允许160个字符, 对包含url的行不进行此限制
+    ], // 单行最多允许200个字符, 对包含url的行不进行此限制
     "multiline-comment-style": "off", // 强制对多行注释使用特定风格
     "new-cap": [
       "error",
@@ -406,7 +425,7 @@ export default {
      */
     "no-param-reassign": 1, // 禁止对 function 的参数进行重新赋值
     "no-proto": "error", // 禁止使用对象的 __proto__ 属性，若使用则报错
-    "no-prototype-builtins": "warn", // 禁止使用如 hasOwnProperty、isPrototypeOf 等基于原型的内置方法，使用则报错
+    "no-prototype-builtins": "warn", // 禁止使用如 hasOwnProperty、isPrototypeOf 等基于原型的内置方法，使用则警告
     "no-redeclare": [
       "error",
       {
@@ -761,7 +780,7 @@ export default {
       "never"
     ],
 
-    // TODO 因为 webpack，从而禁止的
+    // 因为 webpack 相关兼容，暂时关闭该规则
     // 允许 require 的使用
     "unicorn/prefer-module": "off",
 

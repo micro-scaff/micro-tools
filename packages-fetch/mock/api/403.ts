@@ -1,1 +1,3 @@
-export default eventHandler(() => useResponse403());
+export default eventHandler(() => {
+  return useResponse403();
+});

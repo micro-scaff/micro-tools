@@ -6,13 +6,13 @@
     "envs",
     "micro-envs"
   ],
-  "homepage": "https://not-have.github.io/micro-tools/",
+  "homepage": "https://micro-scaff.github.io/",
   "bugs": {
-    "url": "https://github.com/Not-have/micro-tools/issues"
+    "url": "https://github.com/micro-scaff/micro-tools/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Not-have/micro-tools/tree/main/envs"
+    "url": "https://github.com/micro-scaff/micro-tools/tree/main/envs"
   },
   "license": "ISC",
   "author": "Li Yong",

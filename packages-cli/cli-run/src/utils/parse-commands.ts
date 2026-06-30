@@ -17,13 +17,16 @@ export default function parseCommands(command: string | string[]): string[] {
       } catch {
 
         // 如果解析失败，按逗号分割
-        return command.split(",").map(cmd => cmd.trim());
+        return command.split(",").map(cmd => {
+          return cmd.trim();
+        });
       }
-    } else {
-
-      // 按逗号分割字符串
-      return command.split(",").map(cmd => cmd.trim());
     }
+
+    // 按逗号分割字符串
+    return command.split(",").map(cmd => {
+      return cmd.trim();
+    });
   }
 
   return [

@@ -71,13 +71,14 @@ export const createContextMenu = function(options: ICreateContextOptions): Promi
     menuManager.domList.push(container);
 
     const remove = function(): void {
-      menuManager.domList.forEach((dom: Element) => {
+      for (const dom of menuManager.domList) {
         try {
           dom && dom.remove();
         } catch {
           console.error("remove error");
         }
-      });
+      }
+
       body.removeEventListener("click", handleClick);
       body.removeEventListener("scroll", handleClick);
     };
@@ -95,8 +96,10 @@ export const createContextMenu = function(options: ICreateContextOptions): Promi
 };
 
 export const destroyContextMenu = function(): void {
-  if (menuManager) {
-    menuManager.resolve("");
-    menuManager.domList = [];
+  if (!menuManager) {
+    return;
   }
+
+  menuManager.resolve("");
+  menuManager.domList = [];
 };

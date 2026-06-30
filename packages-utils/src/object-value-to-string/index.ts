@@ -5,8 +5,10 @@ export default function objectValueToString<T extends Record<string, unknown>>(q
   return Object.fromEntries(Object.entries(query).map(([
     key,
     value
-  ]) => [
-    key,
-    String(value)
-  ])) as { [K in keyof T]: string };
+  ]) => {
+    return [
+      key,
+      String(value)
+    ];
+  })) as { [K in keyof T]: string };
 }

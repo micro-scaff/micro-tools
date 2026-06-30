@@ -1,6 +1,6 @@
 {
   "name": "micro-tools",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Micro tools.",
   "private": true,
   "keywords": [
@@ -19,9 +19,9 @@
     "eslint-conf",
     "stylelint-conf"
   ],
-  "homepage": "https://not-have.github.io/micro-tools/",
-  "bugs": "https://github.com/Not-have/micro-tools/issues",
-  "repository": "git@github.com:Not-have/micro-tools.git",
+  "homepage": "https://micro-scaff.github.io/",
+  "bugs": "https://github.com/micro-scaff/micro-tools/issues",
+  "repository": "https://github.com/micro-scaff/micro-tools",
   "license": "MIT",
   "author": {
     "email": "2236472089@qq.com",
@@ -40,7 +40,7 @@
     "lint:PkgJson": "npmPkgJsonLint \"./packages-**/**/package.json\"",
     "lint:depcheck": "depcheck",
     "lint:css": "stylelint \"./packages-**/**/*.{tsx,css,vue,jsx}\" --fix",
-    "lint:eslint": "eslint \"./packages-**/**/*.{js,ts,vue,tsx,jsx}\" --fix",
+    "lint:eslint": "node --max-old-space-size=8192 ./node_modules/eslint/bin/eslint.js \"./packages-**/**/*.{js,ts,vue,tsx,jsx}\" --fix --cache --cache-location node_modules/.cache/eslint/",
     "lint:prettier": "prettier \"./packages-**/**/*.json5\" --write || true",
     "preinstall": "npx only-allow pnpm",
     "postinstall": "pnpm run clear:lock",

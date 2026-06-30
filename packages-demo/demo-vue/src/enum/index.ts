@@ -1,3 +1,1 @@
-export {
-  default as ERouter
-} from "./router";
+export { default as ERouter } from "./router";

@@ -13,7 +13,18 @@ class IframeMessage {
   constructor() {
 
     // 页面卸载时自动移除 iframe
-    window.addEventListener("beforeunload", () => this.destroy());
+    window.addEventListener("beforeunload", () => {
+      return this.destroy();
+    });
+  }
+
+  private destroy(): void {
+    if (!this.iframe) {
+      return;
+    }
+
+    this.iframe?.remove();
+    this.iframe = null;
   }
 
   createIframe(url: string): HTMLIFrameElement {
@@ -61,13 +72,6 @@ class IframeMessage {
 
   removeMessageListener(callback: (e: MessageEvent | IMessage | never) => void): void {
     window.removeEventListener("message", callback);
-  }
-
-  private destroy(): void {
-    if (this.iframe) {
-      this.iframe?.remove();
-      this.iframe = null;
-    }
   }
 }
 

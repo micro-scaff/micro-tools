@@ -11,5 +11,7 @@ import useModelState from "./_use-model-state";
 export default function useStateForm(): ComputedRef<TFormInstance> {
   const state = useModelState();
 
-  return computed(() => state.value.form);
+  return computed(() => {
+    return state.value.form;
+  });
 }

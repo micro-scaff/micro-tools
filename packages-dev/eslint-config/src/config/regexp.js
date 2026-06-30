@@ -1,10 +1,12 @@
-import pluginRegexp from "eslint-plugin-regexp";
+import pluginRegexp, {
+  configs as regexpConfigs
+} from "eslint-plugin-regexp";
 
 export default {
   plugins: {
     regexp: pluginRegexp
   },
   rules: {
-    ...pluginRegexp.configs.recommended.rules
+    ...regexpConfigs.recommended.rules
   }
 };

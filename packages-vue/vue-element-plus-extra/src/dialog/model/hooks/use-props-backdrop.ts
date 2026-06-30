@@ -8,5 +8,7 @@ import useModelProps from "./_use-model-props";
 export default function usePropsBackdrop(): ComputedRef<boolean> {
   const props = useModelProps();
 
-  return computed(() => props.value.backdrop ?? true);
+  return computed(() => {
+    return props.value.backdrop ?? true;
+  });
 }

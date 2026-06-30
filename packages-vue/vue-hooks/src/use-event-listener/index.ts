@@ -1,7 +1,3 @@
-import type {
-  EventName
-} from "@mt-kit/types";
-
 import {
   Ref,
   ref,
@@ -9,6 +5,9 @@ import {
   unref
 } from "vue";
 
+import type {
+  EventName
+} from "@mt-kit/types";
 import {
   throttle,
   debounce
@@ -66,17 +65,21 @@ export default function useEventListener({
       e.removeEventListener(name, realHandler, options);
     };
 
-    const addEventListener = (e: Element): void => e.addEventListener(name, realHandler, options);
+    const addEventListener = (e: Element): void => {
+      return e.addEventListener(name, realHandler, options);
+    };
 
     const removeWatch = watch(
         element,
         (v, _ov, cleanUp) => {
-          if (v) {
-            !unref(isAddRef) && addEventListener(v);
-            cleanUp(() => {
-              autoRemove && removeEventListener(v);
-            });
+          if (!v) {
+            return;
           }
+
+          !unref(isAddRef) && addEventListener(v);
+          cleanUp(() => {
+            autoRemove && removeEventListener(v);
+          });
         },
         {
           immediate: true

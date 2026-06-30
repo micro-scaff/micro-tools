@@ -1,5 +1,11 @@
 # @mt-kit/eslint-config
 
+## 3.0.0
+
+### Major Changes
+
+- 更新规则，并重新构建
+
 ## 2.6.0
 
 ### Minor Changes

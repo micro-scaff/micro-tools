@@ -36,24 +36,32 @@ function getParamsSerializer(paramsSerializer: RequestClientOptions["paramsSeria
   if (typeof paramsSerializer === "string") {
     switch (paramsSerializer) {
       case "brackets": {
-        return (params: any) => qs.stringify(params, {
-          arrayFormat: "brackets"
-        });
+        return (params: any) => {
+          return qs.stringify(params, {
+            arrayFormat: "brackets"
+          });
+        };
       }
       case "comma": {
-        return (params: any) => qs.stringify(params, {
-          arrayFormat: "comma"
-        });
+        return (params: any) => {
+          return qs.stringify(params, {
+            arrayFormat: "comma"
+          });
+        };
       }
       case "indices": {
-        return (params: any) => qs.stringify(params, {
-          arrayFormat: "indices"
-        });
+        return (params: any) => {
+          return qs.stringify(params, {
+            arrayFormat: "indices"
+          });
+        };
       }
       case "repeat": {
-        return (params: any) => qs.stringify(params, {
-          arrayFormat: "repeat"
-        });
+        return (params: any) => {
+          return qs.stringify(params, {
+            arrayFormat: "repeat"
+          });
+        };
       }
       default: {
         return paramsSerializer;
@@ -65,6 +73,8 @@ function getParamsSerializer(paramsSerializer: RequestClientOptions["paramsSeria
 }
 
 class RequestClient {
+  private readonly instance: AxiosInstance;
+
   public addRequestInterceptor: InterceptorManager["addRequestInterceptor"];
 
   public addResponseInterceptor: InterceptorManager["addResponseInterceptor"];
@@ -80,8 +90,6 @@ class RequestClient {
   public errorQueue: (() => void)[] = [];
 
   public upload: FileUploader["upload"];
-
-  private readonly instance: AxiosInstance;
 
   /**
    * 构造函数，用于创建Axios实例
@@ -196,11 +204,9 @@ class RequestClient {
       const response: AxiosResponse<T> = await this.instance({
         url,
         ...config,
-        ...(config.paramsSerializer
-          ? {
-            paramsSerializer: getParamsSerializer(config.paramsSerializer)
-          }
-          : {})
+        ...(config.paramsSerializer && {
+          paramsSerializer: getParamsSerializer(config.paramsSerializer)
+        })
       });
 
       return response as T;

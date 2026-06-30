@@ -31,7 +31,9 @@ export default function useService<Q, D>(fetch: (query?: Q) => Promise<D>, query
       }).catch(error => {
         setData(null);
         reject(error);
-      }).finally(() => setLoading(false));
+      }).finally(() => {
+        return setLoading(false);
+      });
     });
   }, [
     fetch

@@ -39,7 +39,7 @@ export default function directiveConversionTime(app: App): void {
 
       // 同意格式
       if (JSON.stringify(timer).length === 10) {
-        timer = timer * 1000;
+        timer *= 1000;
       }
 
       // 处理一个时间格式错误

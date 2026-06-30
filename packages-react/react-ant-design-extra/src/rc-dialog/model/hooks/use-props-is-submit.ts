@@ -10,7 +10,9 @@ import useModelProps from "./_use-model-props";
 export default function usePropsIsSubmit(): boolean {
   const props = useModelProps();
 
-  return useMemo(() => !props.isSubmit, [
+  return useMemo(() => {
+    return !props.isSubmit;
+  }, [
     props
   ]);
 }

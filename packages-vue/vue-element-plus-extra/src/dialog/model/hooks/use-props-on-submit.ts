@@ -11,5 +11,7 @@ import useModelProps from "./_use-model-props";
 export default function usePropsOnSubmit(): ComputedRef<IDialogProps["onSubmit"]> {
   const props = useModelProps();
 
-  return computed(() => props.value.onSubmit);
+  return computed(() => {
+    return props.value.onSubmit;
+  });
 }

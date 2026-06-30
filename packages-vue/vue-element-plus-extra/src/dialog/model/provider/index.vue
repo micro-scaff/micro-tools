@@ -1,22 +1,17 @@
 <script lang="ts" setup>
-import Context from "../context/index.vue";
-import Lifecycle from "../lifecycle/index.vue";
 import {
   defineProps,
   ref,
   unref
 } from "vue";
 
-// import {
-//   EAction
-// } from "../enum";
+import Context from "../context/index.vue";
+import Lifecycle from "../lifecycle/index.vue";
 import reducer from "../reducer";
 import {
   IDialogProps,
   IModelState,
   TModelAction
-
-  // TFormInstance
 } from "../types";
 import {
   getDefaultContextState

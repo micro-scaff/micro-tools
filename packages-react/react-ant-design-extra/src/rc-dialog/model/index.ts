@@ -12,9 +12,7 @@ export type {
   TDialogPropsOptions as DialogPropsOptions
 } from "./types";
 
-export {
-  default
-} from "./provider";
+export { default } from "./provider";
 
 export * from "./hooks";
 

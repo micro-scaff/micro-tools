@@ -1,10 +1,11 @@
 import {
-  resolve
-} from "path";
-import {
   Plugin,
   UserConfig
 } from "vite";
+
+import {
+  resolve
+} from "path";
 
 /**
  * 插件选项接口
@@ -61,7 +62,9 @@ export default function libPlugin(options: ILibPluginOptions): Plugin {
             // 解析入口文件的绝对路径
             entry: resolve(cwd, entry),
             name,
-            fileName: format => `${fileName}.${format}.js`,
+            fileName: format => {
+              return `${fileName}.${format}.js`;
+            },
             formats: [
               "es",
               "umd"

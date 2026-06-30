@@ -15,13 +15,15 @@ const [
 ] = useContextMenu();
 
 // 定义菜单组件
-const MenuComponent = (): VNode => (
-  <div style="padding: 8px 16px;">
-    <div style="cursor: pointer; padding: 4px 0;">复制</div>
-    <div style="cursor: pointer; padding: 4px 0;">粘贴</div>
-    <div style="cursor: pointer; padding: 4px 0;">剪切</div>
-  </div>
-);
+const MenuComponent = (): VNode => {
+  return (
+    <div style="padding: 8px 16px;">
+      <div style="cursor: pointer; padding: 4px 0;">复制</div>
+      <div style="cursor: pointer; padding: 4px 0;">粘贴</div>
+      <div style="cursor: pointer; padding: 4px 0;">剪切</div>
+    </div>
+  );
+};
 
 // 处理右键点击事件
 const handleRightClick = (e: MouseEvent): void => {

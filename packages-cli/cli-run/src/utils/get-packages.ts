@@ -1,10 +1,11 @@
 import {
+  glob
+} from "glob";
+
+import {
   readFileSync,
   statSync
 } from "fs";
-import {
-  glob
-} from "glob";
 import {
   join
 } from "path";
@@ -24,18 +25,18 @@ function parseWorkspaceConfig(root: string): string[] {
 
     const packages: string[] = [];
 
-    let inPackagesSection = false;
+    let isInPackagesSection = false;
 
     for (const line of lines) {
       const trimmedLine = line.trim();
 
       if (trimmedLine === "packages:") {
-        inPackagesSection = true;
+        isInPackagesSection = true;
 
         continue;
       }
 
-      if (inPackagesSection) {
+      if (isInPackagesSection) {
         if (trimmedLine.startsWith("- ")) {
           const pattern = trimmedLine.slice(2).trim();
 
@@ -117,7 +118,9 @@ export default async function getPackages(): Promise<string[]> {
 
   const allPackages: string[] = [];
 
-  const packagePromises = patterns.map(async pattern => getPackagesByPattern(root, pattern));
+  const packagePromises = patterns.map(async pattern => {
+    return getPackagesByPattern(root, pattern);
+  });
 
   const packageResults = await Promise.all(packagePromises);
 
@@ -128,5 +131,7 @@ export default async function getPackages(): Promise<string[]> {
   // 去重并排序
   return [
     ...new Set(allPackages)
-  ].sort();
+  ].toSorted((a, b) => {
+    return a.localeCompare(b);
+  });
 }

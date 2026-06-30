@@ -121,8 +121,12 @@ export default function createDedupedRequest<T extends unknown[], R>(
     cacheState.lastRequestTime = now;
 
     // 创建请求 Promise，并处理成功和失败情况
-    cacheState.pendingPromise = Promise.resolve().then(() => fn(...args)).then(
-        res => res,
+    cacheState.pendingPromise = Promise.try(() => {
+      return fn(...args);
+    }).then(
+        res => {
+          return res;
+        },
         error => {
 
           // 请求失败时，确保错误能够正确传播

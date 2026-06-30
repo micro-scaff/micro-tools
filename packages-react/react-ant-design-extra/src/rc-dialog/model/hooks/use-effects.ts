@@ -1,10 +1,10 @@
 import {
-  isFunction
-}from "lodash-es";
-
-import {
   useEffect
 } from "react";
+
+import {
+  isFunction
+}from "lodash-es";
 
 import useDispatchData from "./use-dispatch-data";
 import useDispatchDataLoading from "./use-dispatch-data-loading";

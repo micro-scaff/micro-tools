@@ -1,16 +1,15 @@
 <script lang="ts" setup>
 
-import Footer from "../footer/index.vue";
-import Header from "../header/index.vue";
-import Skeleton from "../skeleton/index.vue";
 import {
   isVNode
 } from "vue";
-
 import {
   ElDrawer
 } from "element-plus";
 
+import Footer from "../footer/index.vue";
+import Header from "../header/index.vue";
+import Skeleton from "../skeleton/index.vue";
 import {
   transformWidthSize,
   usePropsContent,

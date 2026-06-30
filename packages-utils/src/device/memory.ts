@@ -52,7 +52,9 @@ export default function deviceMemory(): IMemory {
         const jsHeapSizeLimit = typeof memory.jsHeapSizeLimit === "number" ? memory.jsHeapSizeLimit : 0;
 
         // 验证数值有效性
-        const isValidNumber = (num: number): boolean => !Number.isNaN(num) && Number.isFinite(num) && num >= 0;
+        const isValidNumber = (num: number): boolean => {
+          return !Number.isNaN(num) && Number.isFinite(num) && num >= 0;
+        };
 
         return {
           usedJSHeapSize: isValidNumber(usedJSHeapSize) ? Number((usedJSHeapSize / 1_048_576).toFixed(2)) : 0,

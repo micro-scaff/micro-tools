@@ -1,3 +1,1 @@
-export {
-  default as libPlugin
-} from "./lib-plugin";
+export { default as libPlugin } from "./lib-plugin";

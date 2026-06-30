@@ -21,15 +21,19 @@ interface IPropsScKeyValueItemV {
 }
 
 const ScKeyValue = styled.div<IPropsScKeyValue>`
-  ${props => (props.horizontal ? css`
+  ${props => {
+    return (props.horizontal ? css`
     display: flex;
     overflow: hidden;
-  ` : null)};
+  ` : null);
+  }};
 `;
 
 const ScKeyValueItem = styled.div<IPropsScKeyValue>`
   display: flex;
-  margin: 4px ${props => (props.horizontal ? 16 : 0)}px 4px 0;
+  margin: 4px ${props => {
+    return (props.horizontal ? 16 : 0);
+  }}px 4px 0;
   color: #333;
   color: var(--cb-color-text-primary, #333);
 
@@ -46,14 +50,16 @@ const ScKeyValueItemK = styled.div`
 
 const ScKeyValueItemV = styled.div<IPropsScKeyValueItemV>`
   flex: 1;
-  ${props => (props.wrapValue ? css`
+  ${props => {
+    return (props.wrapValue ? css`
     white-space: normal;
     word-wrap: break-word;
   ` : css`
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-  `)}
+  `);
+  }}
 `;
 
 /**
@@ -75,25 +81,33 @@ export default function KeyValue({
     return null;
   }
 
-  return <ScKeyValue horizontal={horizontal}
-    {...props}>
-    {items.map(({
-      key,
-      k,
-      v
-    }, i) => <ScKeyValueItem {...{
-      key: key || i,
-      className: classNameForItem,
-      horizontal
-    }}>
-      <ScKeyValueItemK className={classNameForKey}>
-        {k}
-      </ScKeyValueItemK>
+  return (
+    <ScKeyValue
+      horizontal={horizontal}
+      {...props}>
+      {items.map(({
+        key,
+        k,
+        v
+      }, i) => {
+        return (
+          <ScKeyValueItem {...{
+            key: key || i,
+            className: classNameForItem,
+            horizontal
+          }}>
+            <ScKeyValueItemK className={classNameForKey}>
+              {k}
+            </ScKeyValueItemK>
 
-      <ScKeyValueItemV className={classNameForValue}
-        wrapValue={wrapValue}>
-        {v}
-      </ScKeyValueItemV>
-    </ScKeyValueItem>)}
-  </ScKeyValue>;
+            <ScKeyValueItemV
+              className={classNameForValue}
+              wrapValue={wrapValue}>
+              {v}
+            </ScKeyValueItemV>
+          </ScKeyValueItem>
+        );
+      })}
+    </ScKeyValue>
+  );
 }

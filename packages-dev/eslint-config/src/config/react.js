@@ -1,268 +1,86 @@
-import pluginReact from "eslint-plugin-react";
+import eslintReact from "@eslint-react/eslint-plugin";
 import reactCompiler from "eslint-plugin-react-compiler";
-import * as reactHooks from "eslint-plugin-react-hooks";
 
-import jsxA11y from "eslint-plugin-jsx-a11y";
+const REACT_FILES = [
+  "**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}"
+];
 
-export default [
-  {
-    files: [
-      "**/*.{js,jsx,ts,tsx}"
-    ],
-    plugins: {
-      "react-hooks": reactHooks
-    },
-    rules: {
-      "react-hooks/rules-of-hooks": "error",
-      "react-hooks/exhaustive-deps": "error"
+const REACT_RECOMMENDED_CONFIG = eslintReact.configs["recommended-typescript"] ?? eslintReact.configs.recommended;
+
+/**
+ * React
+ *
+ * 使用 @eslint-react/eslint-plugin 替代 eslint-plugin-react。
+ * eslint-plugin-jsx-a11y 当前未安装，暂不接入 a11y 规则。
+ */
+export default {
+  files: REACT_FILES,
+  languageOptions: {
+    parserOptions: {
+      ecmaFeatures: {
+
+        // 允许解析 JSX / TSX
+        jsx: true
+      },
+
+      // 使用最新 ECMAScript 语法
+      ecmaVersion: "latest",
+
+      // 按 ES Module 方式解析 React 文件
+      sourceType: "module"
     }
   },
-  {
-    files: [
-      "**/*.{js,mjs,cjs,ts,jsx,tsx}"
-    ],
-    ...pluginReact.configs.flat.recommended,
-    ...jsxA11y.flatConfigs.recommended,
-    languageOptions: {
+  plugins: {
 
-      // parserOptions: {
-      //   ecmaFeatures: {
-      //     jsx: true
-      //   }
-      // },
-      ...pluginReact.configs.flat.recommended.languageOptions,
-      ...jsxA11y.flatConfigs.recommended.languageOptions
-    },
-    plugins: {
-      react: pluginReact,
-      "react-compiler": reactCompiler
-    },
-    settings: {
-      react: {
-        version: "detect"
-      }
-    },
-    rules: {
+    // @eslint-react 的推荐配置会注册该插件，这里保留显式注册便于 react.js 单独使用
+    ...REACT_RECOMMENDED_CONFIG.plugins,
 
-      // https://zh-hans.react.dev/learn/react-compiler#installing-eslint-plugin-react-compiler
-      "react-compiler/react-compiler": "error",
+    // React Compiler 官方规则
+    "react-compiler": reactCompiler
+  },
+  settings: {
 
-      // 强制一致地使用属性、状态和上下文的解构分配
-      "react/destructuring-assignment": "error",
+    // 继承 @eslint-react 的 React 版本探测和 importSource 设置
+    ...REACT_RECOMMENDED_CONFIG.settings
+  },
+  rules: {
 
-      // 显示名称
-      "react/display-name": "error",
+    // 启用 @eslint-react 推荐的 React / JSX / DOM / Web API 规则
+    ...REACT_RECOMMENDED_CONFIG.rules,
 
-      // 为函数组件强制执行特定的函数类型
-      "react/function-component-definition": "error",
+    // React Compiler 编译兼容性检查
+    "react-compiler/react-compiler": "error",
 
-      // 变量的解构和对称命名
-      "react/hook-use-state": "error",
+    // Hook 调用规则，替代当前无法加载的 eslint-plugin-react-hooks
+    "@eslint-react/rules-of-hooks": "error",
 
-      // 在 JSX 中强制使用布尔属性表示法
-      "react/jsx-boolean-value": "error",
+    // Hook 依赖数组检查，替代当前无法加载的 eslint-plugin-react-hooks
+    "@eslint-react/exhaustive-deps": "error",
 
-      // JSX属性和表达式中强制使用或禁止使用花括号内的空格
-      "react/jsx-child-element-spacing": "error",
+    // 禁止使用数组索引作为 key
+    "@eslint-react/no-array-index-key": "error",
 
-      // JSX强制多行JSX的结束标记位置
-      "react/jsx-closing-tag-location": [
-        2,
-        {
-          location: "line-aligned"
-        }
-      ],
+    // 禁止缺失组件 displayName
+    "@eslint-react/no-missing-component-display-name": "error",
 
-      // TODO 在JSX中强制第一个属性的正确位置
-      "react/jsx-max-props-per-line": [
-        "error",
-        {
-          maximum: 1
-        }
-      ],
+    // 统一 useState 变量和 setter 的命名
+    "@eslint-react/use-state": "error",
 
-      "react/jsx-indent-props": [
-        "error",
-        2
-      ],
+    // 禁止在组件内部定义嵌套组件，替代 react/no-multi-comp 的主要风险控制
+    "@eslint-react/no-nested-component-definitions": "error",
 
-      // 事件处理名称
-      "react/jsx-handler-names": [
-        2,
-        {
-          eventHandlerPrefix: "handle",
-          eventHandlerPropPrefix: "on",
-          checkLocalVariables: true,
-          checkInlineFunction: true
-        }
-      ],
+    // 禁止给 void DOM 元素传 children
+    "@eslint-react/dom-no-void-elements-with-children": "error",
 
-      // 标签最大深度
-      "react/jsx-max-depth": [
-        2,
-        {
-          max: 4
-        }
-      ],
+    // 参考原配置：暂不强制 JSX key
+    "@eslint-react/no-missing-key": "off",
 
-      // 要求或防止相邻JSX元素和表达式之间的行
-      "react/jsx-newline": [
-        1,
-        {
-          prevent: true,
-          allowMultilines: true
-        }
-      ],
+    // 禁止非必要 Fragment
+    "@eslint-react/jsx-no-useless-fragment": "error",
 
-      // 禁止 bind
-      "react/jsx-no-bind": [
-        "error",
-        {
-          ignoreDOMComponents: false,
-          ignoreRefs: true,
-          allowArrowFunctions: true,
-          allowFunctions: false,
-          allowBind: false
-        }
-      ],
+    // 禁止 bind / inline function 这类旧 react/jsx-no-bind 暂无等价替代，先不强行模拟
 
-      // 拒绝重复属性
-      "react/jsx-no-duplicate-props": "error",
-
-      // 禁止未声明的变量
-      "react/jsx-no-undef": "error",
-
-      // 禁止非必要代码段
-      "react/jsx-no-useless-fragment": "error",
-
-      // 每行一个元素
-      "react/jsx-one-expression-per-line": [
-        2,
-        {
-          allow: "literal"
-        }
-      ],
-
-      // 强制defaultProps声明按字母排序
-      "react/sort-default-props": "error",
-
-      // props 排序
-      "react/jsx-sort-props": "error",
-
-      // 禁止使用 index 做为 key
-      "react/no-array-index-key": "error",
-
-      // 禁止一个文件定义多个组件
-      "react/no-multi-comp": "error",
-
-      // 禁止函数组件中 this
-      "react/no-this-in-sfc": "error",
-
-      // 禁止未转义的HTML实体出现在标记中
-      "react/no-unescaped-entities": [
-        "error",
-        {
-          forbid: [
-            {
-              char: ">",
-              alternatives: [
-                "&gt;"
-              ]
-            },
-            {
-              char: "}",
-              alternatives: [
-                "&#125;"
-              ]
-            }
-          ]
-        }
-      ],
-
-      // 顶部可以不引入 React
-      "react/react-in-jsx-scope": "off",
-
-      // 禁止组件没有闭合
-      "react/self-closing-comp": [
-        "error",
-        {
-          component: true, // 强制 React 组件自闭合（无子元素时）
-          html: true // 强制 HTML 标签自闭合（如 <img />）
-        }
-      ],
-
-      // react/sort-comp 组件引入顺序
-      "react/sort-comp": [
-        1,
-        {
-          order: [
-            "displayName",
-            "propTypes",
-            "defaultProps",
-            "childContextTypes",
-            "static-methods",
-            "state",
-            "instance-variables",
-            "instance-methods",
-            "everything-else",
-            "lifecycle",
-            "render",
-            "/^_?render.+$/"
-          ]
-        }
-      ],
-
-      // 禁止 br 等有子
-      "react/void-dom-elements-no-children": "error",
-
-      // 禁止 return 后的括号
-      "no-extra-parens": "off",
-
-      // 禁止没有 key
-      "react/jsx-key": "off",
-
-      // 缩进
-      // "react/jsx-indent": [
-      //   "error", 2
-      // ],
-
-      // "react/jsx-indent-props": ["error", 8],
-      // "react/jsx-max-props-per-line": ["error", { "maximum": 3 }],
-
-      // 在JSX中强制右括号位置
-      "react/jsx-closing-bracket-location": [
-        "error",
-        "after-props"
-      ],
-
-      // 在JSX属性和表达式中强制使用或禁止使用花括号内的空格
-      "react/jsx-curly-spacing": [
-        "error",
-        {
-          when: "never",
-          children: {
-            when: "never"
-          }
-        }
-      ],
-      "react/jsx-curly-brace-presence": [
-        "error",
-        {
-          props: "never",
-          children: "never"
-        }
-      ],
-
-      // JSX禁止可能包含JSX的文件扩展名
-      "react/jsx-filename-extension": [
-        2,
-        {
-          extensions: [
-            ".tsx"
-          ],
-          allow: "as-needed"
-        }
-      ]
-    }
+    // 关闭 core 多余括号规则，避免和 JSX / TSX 场景产生冲突
+    "no-extra-parens": "off"
   }
-];
+};

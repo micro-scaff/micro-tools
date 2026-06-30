@@ -10,14 +10,22 @@ import {
 
 // 默认的请求拦截器配置
 const defaultRequestInterceptorConfig: RequestInterceptorConfig = {
-  fulfilled: response => response, // 请求成功时的处理函数
-  rejected: error => Promise.reject(error) // 请求失败时的处理函数
+  fulfilled: response => {
+    return response;
+  }, // 请求成功时的处理函数
+  rejected: error => {
+    return Promise.reject(error);
+  } // 请求失败时的处理函数
 };
 
 // 默认的响应拦截器配置
 const defaultResponseInterceptorConfig: ResponseInterceptorConfig = {
-  fulfilled: (response: AxiosResponse) => response, // 响应成功时的处理函数
-  rejected: error => Promise.reject(error) // 响应失败时的处理函数
+  fulfilled: (response: AxiosResponse) => {
+    return response;
+  }, // 响应成功时的处理函数
+  rejected: error => {
+    return Promise.reject(error);
+  } // 响应失败时的处理函数
 };
 
 /**

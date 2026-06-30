@@ -77,7 +77,6 @@ echo '{"extends": "@mt-kit/ts-config/base.json"}' > tsconfig.json
 | `preserveWatchOutput` | `true` | 保留 watch 模式的控制台输出 |
 | `resolveJsonModule` | `true` | 允许导入 JSON 模块 |
 | `removeComments` | `false` | 不移除注释 |
-| `baseUrl` | `"."` | 模块解析的基准路径 |
 | `noImplicitThis` | `true` | 禁止隐式 any 类型的 this |
 | `verbatimModuleSyntax` | `true` | 使用字面模块语法 |
 | `useDefineForClassFields` | `true` | 使用 define 语义定义类字段 |
@@ -162,9 +161,8 @@ echo '{"extends": "@mt-kit/ts-config/base.json"}' > tsconfig.json
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "@mt-kit/ts-config/base.json",
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
+      "@/*": ["./src/*"],
       "@/components/*": ["src/components/*"],
       "@/utils/*": ["src/utils/*"]
     }
@@ -212,7 +210,6 @@ echo '{"extends": "@mt-kit/ts-config/base.json"}' > tsconfig.json
 {
   "extends": "@mt-kit/ts-config/vue.json",
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     }
@@ -286,9 +283,8 @@ npx tsc --noEmit --project tsconfig.json
 ```json
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
+      "@/*": ["./src/*"],
       "@/components/*": ["src/components/*"]
     }
   }

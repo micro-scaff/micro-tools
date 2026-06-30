@@ -17,15 +17,7 @@ export default function imageBase64ToBlob(base64Buf: string): Blob {
     ""
   ];
 
-  const bstr = window.atob(arr[1]);
-
-  let n = bstr.length;
-
-  const u8arr = new Uint8Array(n);
-
-  while (n--) {
-    u8arr[n] = bstr.codePointAt(n) || 0;
-  }
+  const u8arr = Uint8Array.fromBase64(arr[1]);
 
   return new Blob([
     u8arr

@@ -49,28 +49,34 @@ const Table = <T extends Record<string, unknown>>({
   ].filter(Boolean).join(" ")}>
       <thead>
         <tr style=${headerBackground ? `background-color: ${headerBackground}` : ""}>
-          ${columns.map(column => html`
-            <th
-              style=${column.width ? `width: ${column.width}` : ""}
-              class=${column.align ? `storybook-table--align-${column.align}` : ""}
-            >
-              ${column.title}
-            </th>
-          `)}
+          ${columns.map(column => {
+    return html`
+      <th
+        style=${column.width ? `width: ${column.width}` : ""}
+        class=${column.align ? `storybook-table--align-${column.align}` : ""}
+      >
+        ${column.title}
+      </th>
+    `;
+  })}
         </tr>
       </thead>
       <tbody>
-        ${data.map((record, rowIndex) => html`
-          <tr>
-            ${columns.map(column => html`
-              <td
-                class=${column.align ? `storybook-table--align-${column.align}` : ""}
-              >
-                ${renderCell(column, record, rowIndex)}
-              </td>
-            `)}
-          </tr>
-        `)}
+        ${data.map((record, rowIndex) => {
+    return html`
+      <tr>
+        ${columns.map(column => {
+    return html`
+      <td
+        class=${column.align ? `storybook-table--align-${column.align}` : ""}
+      >
+        ${renderCell(column, record, rowIndex)}
+      </td>
+    `;
+  })}
+      </tr>
+    `;
+  })}
       </tbody>
     </table>
   `;

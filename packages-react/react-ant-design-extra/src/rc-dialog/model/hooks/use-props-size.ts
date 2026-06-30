@@ -14,7 +14,9 @@ export default function usePropsSize(): number | ESize {
 
   const mode = usePropsMode();
 
-  return useMemo(() => props?.size || (mode === EMode.DRAWER ? ESize.M : ESize.L), [
+  return useMemo(() => {
+    return props?.size || (mode === EMode.DRAWER ? ESize.M : ESize.L);
+  }, [
     props,
     mode
   ]);

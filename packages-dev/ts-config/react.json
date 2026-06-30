@@ -23,7 +23,6 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "jsx": "react",
-    "baseUrl": "./",
     "outDir": "lib",
     "incremental": true,
     "plugins": [

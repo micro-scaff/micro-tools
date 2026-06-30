@@ -29,11 +29,19 @@ const localStorageHelper = {
   set<T>({
     key, value, expire
   }: IParams<T>): void {
-    if (key === "" || key === null || key === undefined) {
+    if ([
+      "",
+      null,
+      undefined
+    ].includes(key)) {
       throw new Error("key 不能为空");
     }
 
-    if (value === "" || value === null || value === undefined) {
+    if ([
+      "",
+      null,
+      undefined
+    ].includes(value as null | string | undefined)) {
       throw new Error("value 不能为空");
     }
 

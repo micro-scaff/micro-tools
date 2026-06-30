@@ -1,6 +1,7 @@
 import {
   cac
 } from "cac";
+
 import {
   exit
 } from "process";

@@ -6,10 +6,6 @@ import {
 import {
   useRoute
 } from "vue-router";
-
-import {
-  ROUTER
-} from "@/const";
 import {
   ElContainer,
   ElHeader,
@@ -19,6 +15,10 @@ import {
   ElFooter
 } from "element-plus";
 
+import {
+  ROUTER
+} from "@/const";
+
 const route = useRoute();
 
 const activeIndex = ref("");
@@ -27,7 +27,9 @@ const syncActive = (): void => {
   activeIndex.value = route.path === "/" ? "/" : route.path;
 };
 
-watch(() => route.path, syncActive, {
+watch(() => {
+  return route.path;
+}, syncActive, {
   immediate: true
 });
 </script>

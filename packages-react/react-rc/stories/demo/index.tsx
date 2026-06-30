@@ -24,9 +24,11 @@ export default function Demo(): React.ReactElement {
     empty4: "undefined"
   };
 
-  return <ScDiv>
-    <KeyValue
-      ignoreEmpty
-      o={o}/>
-  </ScDiv>;
+  return (
+    <ScDiv>
+      <KeyValue
+        ignoreEmpty
+        o={o} />
+    </ScDiv>
+  );
 }

@@ -6,12 +6,14 @@ import {
   IDialogProps
 } from "../types";
 
-let idIncrementer = 0;
+const idState = {
+  incrementer: 0
+};
 
 function getId(): string {
-  idIncrementer += 1;
+  idState.incrementer += 1;
 
-  return `${idIncrementer}`; // 不要拼接其他的 因为逻辑中会用它来做数字比较
+  return String(idState.incrementer); // 不要拼接其他的 因为逻辑中会用它来做数字比较
 }
 
 export default function getDefaultContextState(props: IDialogProps): IModelState {

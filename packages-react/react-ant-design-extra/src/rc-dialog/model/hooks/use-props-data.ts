@@ -12,7 +12,9 @@ type TPropsData<D> = D | Record<string, unknown> | unknown | undefined | ((param
 export default function usePropsData<D>(): TPropsData<D> {
   const props = useModelProps();
 
-  return useMemo(() => props.data as TPropsData<D>, [
+  return useMemo(() => {
+    return props.data as TPropsData<D>;
+  }, [
     props
   ]);
 }

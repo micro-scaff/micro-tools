@@ -1,5 +1,4 @@
 import React from "react";
-
 import {
   ModalProps,
   Modal as AntdModal
@@ -48,20 +47,22 @@ export default function Modal(): React.ReactElement {
 
   const dataLoading = useStateDataLoading();
 
-  return <AntdModal
-    {...options as ModalProps}
-    className={classNameOnBody}
-    closable={closable}
-    footer={<Footer />}
-    keyboard={esc}
-    loading={dataLoading}
-    mask={backdrop}
-    maskClosable={backdropClosable}
-    onCancel={handleOnClose}
-    open={open}
-    title={<Header />}
-    width={transformWidthSize(size)}
-    zIndex={zIndex}>
-    {content}
-  </AntdModal>;
+  return (
+    <AntdModal
+      {...options as ModalProps}
+      className={classNameOnBody}
+      closable={closable}
+      footer={<Footer />}
+      keyboard={esc}
+      loading={dataLoading}
+      mask={backdrop}
+      maskClosable={backdropClosable}
+      onCancel={handleOnClose}
+      open={open}
+      title={<Header />}
+      width={transformWidthSize(size)}
+      zIndex={zIndex}>
+      {content}
+    </AntdModal>
+  );
 }

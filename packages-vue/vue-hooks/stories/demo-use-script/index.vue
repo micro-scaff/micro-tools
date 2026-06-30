@@ -19,7 +19,7 @@ export default defineComponent({
     const {
       isLoading, error, success, promise
     } = useScript({
-      src: "http://xxx.com/test.js"
+      src: "https://xxx.com/test.js"
     });
 
     // 用于存储外部脚本定义的变量
@@ -39,8 +39,8 @@ export default defineComponent({
         // 假设 test.js 文件中定义了全局变量 test
         testData.value = (window as any).test;
         console.log("test.a 的值为：", testData.value.a);
-      } catch (error_) {
-        console.error("加载脚本失败：", error_);
+      } catch (caughtError) {
+        console.error("加载脚本失败：", caughtError);
       }
     }
 

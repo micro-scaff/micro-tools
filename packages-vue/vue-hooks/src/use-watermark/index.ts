@@ -60,7 +60,9 @@ function isDef<T = unknown>(val?: T): val is T {
 function findTargetNode(el: unknown): Omit<IUseWatermarkRes, "clearAll"> | undefined {
   return [
     ...sourceMap.values()
-  ].find(item => item.targetElement === el);
+  ].find(item => {
+    return item.targetElement === el;
+  });
 }
 
 function createBase64(
@@ -157,7 +159,7 @@ const obFn = (): MutationObserver => {
 
           resetWatermarkStyle(
             _target as HTMLElement,
-            _target?.getAttribute("data-watermark-text") || "",
+            _target?.dataset.watermarkText || "",
             waterMarkOptions
           );
         }
@@ -169,12 +171,12 @@ const obFn = (): MutationObserver => {
 };
 
 function clearAll(): void {
-  [
-    ...sourceMap.values()
-  ].forEach(item => {
+  for (const item of
+    sourceMap.values()
+  ) {
     item?.obInstance?.disconnect();
     item.clear();
-  });
+  }
 }
 
 export default function useWatermark(

@@ -1,6 +1,7 @@
 import {
   faker
 } from "@faker-js/faker";
+
 import {
   usePageResponseSuccess
 } from "~/utils/response";
@@ -42,7 +43,9 @@ function generateMockDataList(count: number) {
       inProduction: faker.datatype.boolean(),
       tags: Array.from({
         length: 3
-      }, () => faker.commerce.productAdjective())
+      }, () => {
+        return faker.commerce.productAdjective();
+      })
     };
 
     dataList.push(dataItem);
@@ -70,8 +73,8 @@ export default eventHandler(async event => {
       if (sortOrder === "asc") {
         if (sortBy === "price") {
           return (
-            Number.parseFloat(a[sortBy as string]) -
-            Number.parseFloat(b[sortBy as string])
+            Number(a[sortBy as string]) -
+            Number(b[sortBy as string])
           );
         }
 
@@ -81,8 +84,8 @@ export default eventHandler(async event => {
 
       if (sortBy === "price") {
         return (
-          Number.parseFloat(b[sortBy as string]) -
-            Number.parseFloat(a[sortBy as string])
+          Number(b[sortBy as string]) -
+            Number(a[sortBy as string])
         );
       }
 
