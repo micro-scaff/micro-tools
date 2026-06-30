@@ -13,4 +13,4 @@ const meta = {
 export default meta;
 type TStory = StoryObj<typeof meta>;
 
-export const 消息提示: TStory = {};
+export const Messages: TStory = {};

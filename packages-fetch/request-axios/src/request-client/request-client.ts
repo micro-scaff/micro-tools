@@ -73,6 +73,8 @@ function getParamsSerializer(paramsSerializer: RequestClientOptions["paramsSeria
 }
 
 class RequestClient {
+  private readonly instance: AxiosInstance;
+
   public addRequestInterceptor: InterceptorManager["addRequestInterceptor"];
 
   public addResponseInterceptor: InterceptorManager["addResponseInterceptor"];
@@ -88,8 +90,6 @@ class RequestClient {
   public errorQueue: (() => void)[] = [];
 
   public upload: FileUploader["upload"];
-
-  private readonly instance: AxiosInstance;
 
   /**
    * 构造函数，用于创建Axios实例

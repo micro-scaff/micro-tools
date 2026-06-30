@@ -52,7 +52,7 @@ const ops: ComputedRef<EChartsOption> = computed(() => {
       type: "category",
       data: Array.from({
         length: 12
-      }).map((_item, index) => {
+      }, (_item, index) => {
         return `${index + 1}月`;
       })
     },

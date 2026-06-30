@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2019",               // 输出 ES6 模块
-    "lib": ["es2021", "dom"],
+    "lib": ["es2021", "es2022.error", "dom"],
     "baseUrl": "./",
     "rootDir": "./src",            // TypeScript 源代码目录
 

@@ -13,4 +13,4 @@ const meta = {
 export default meta;
 type TStory = StoryObj<typeof meta>;
 
-export const 弹出框: TStory = {};
+export const Dialog: TStory = {};

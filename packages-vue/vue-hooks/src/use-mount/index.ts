@@ -69,18 +69,21 @@ export default function useMount(rootEl?: string | Ref<HTMLElement>): <T extends
       const el = document.createElement(type);
 
       if (isObject(props)) {
-        Object.keys(props).forEach(key => {
-          el.setAttribute(key, String((props as Record<string, unknown>)[key]));
-        });
+        for (const [
+          key,
+          value
+        ] of Object.entries(props as Record<string, unknown>)) {
+          el.setAttribute(key, String(value));
+        }
       }
 
       if (children) {
         if (typeof children === "string") {
           el.textContent = children;
         } else if (Array.isArray(children)) {
-          children.forEach(item => {
+          for (const item of children) {
             el.append(item as unknown as Node);
-          });
+          }
         } else {
           el.append(children as unknown as Node);
         }

@@ -14,4 +14,4 @@ export default meta;
 
 type TStory = StoryObj<typeof meta>;
 
-export const 失败: TStory = {};
+export const Failure: TStory = {};

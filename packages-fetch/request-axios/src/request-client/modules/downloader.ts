@@ -1,7 +1,7 @@
 import {
   RequestClientConfig
 } from "../../types";
-import RequestClient from "../request-client";
+import type RequestClient from "../request-client";
 
 type TDownloadRequestConfig = {
   method?: "get" | "post";

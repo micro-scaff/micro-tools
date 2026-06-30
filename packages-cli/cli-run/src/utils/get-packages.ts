@@ -131,5 +131,7 @@ export default async function getPackages(): Promise<string[]> {
   // 去重并排序
   return [
     ...new Set(allPackages)
-  ].sort();
+  ].toSorted((a, b) => {
+    return a.localeCompare(b);
+  });
 }

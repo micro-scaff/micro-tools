@@ -73,7 +73,7 @@ export default function useEventListener({
         element,
         (v, _ov, cleanUp) => {
           if (!v) {
-          	return;
+            return;
           }
 
           !unref(isAddRef) && addEventListener(v);

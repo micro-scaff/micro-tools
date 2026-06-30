@@ -156,7 +156,7 @@ export default function useEcharts(
       },
       theme => {
         if (!chartInstance) {
-        	return;
+          return;
         }
 
         chartInstance.dispose();

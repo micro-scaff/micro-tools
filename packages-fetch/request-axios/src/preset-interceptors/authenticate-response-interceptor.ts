@@ -107,9 +107,9 @@ const authenticateResponseInterceptor = ({
         const newToken = await doRefreshToken();
 
         // 处理队列中的请求
-        client.refreshTokenQueue.forEach(callback => {
-          return callback(newToken);
-        });
+        for (const callback of client.refreshTokenQueue) {
+          callback(newToken);
+        }
 
         // 清空队列
         client.refreshTokenQueue = [];
@@ -120,9 +120,10 @@ const authenticateResponseInterceptor = ({
       } catch (refreshError) {
 
         // 如果刷新 token 失败，处理错误（如强制登出或跳转登录页面）
-        client.refreshTokenQueue.forEach(callback => {
-          return callback("");
-        });
+        for (const callback of client.refreshTokenQueue) {
+          callback("");
+        }
+
         client.refreshTokenQueue = [];
         console.error("Refresh token failed, please login again.");
         await doReAuthenticate?.();

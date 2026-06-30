@@ -41,7 +41,7 @@ function searchToQuery<T>(
 
     // 忽略 undefined 和 空串
     if (!originalValue) {
-      if (key in defaults) {
+      if (Object.hasOwn(defaults, key)) {
         result[key] = defaults[key];
       }
 

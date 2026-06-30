@@ -34,9 +34,9 @@ export default function cloneDeep<T>(
 
       map.set(value, newSet);
 
-      value.forEach(item => {
+      for (const item of value) {
         newSet.add(cloneDeep(item, map));
-      });
+      }
 
       return newSet;
     }
@@ -51,9 +51,12 @@ export default function cloneDeep<T>(
 
       map.set(value, newMap);
 
-      value.forEach((val, key) => {
+      for (const [
+        key,
+        val
+      ] of value) {
         newMap.set(cloneDeep(key, map), cloneDeep(val, map));
-      });
+      }
 
       return newMap;
     }
@@ -66,6 +69,7 @@ export default function cloneDeep<T>(
     // 函数类型
     if (isFunction(value)) {
       return function(...args: unknown[]) {
+        // eslint-disable-next-line unicorn/no-this-outside-of-class
         return value.apply(this, args);
       };
     }

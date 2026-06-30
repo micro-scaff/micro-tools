@@ -18,6 +18,15 @@ class IframeMessage {
     });
   }
 
+  private destroy(): void {
+    if (!this.iframe) {
+      return;
+    }
+
+    this.iframe?.remove();
+    this.iframe = null;
+  }
+
   createIframe(url: string): HTMLIFrameElement {
     this.url = url;
 
@@ -63,15 +72,6 @@ class IframeMessage {
 
   removeMessageListener(callback: (e: MessageEvent | IMessage | never) => void): void {
     window.removeEventListener("message", callback);
-  }
-
-  private destroy(): void {
-    if (!this.iframe) {
-    	return;
-    }
-
-    this.iframe?.remove();
-    this.iframe = null;
   }
 }
 

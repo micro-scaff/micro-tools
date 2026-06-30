@@ -25,14 +25,18 @@ import WithProvider from "../with-model";
 const activeDialogs = new Set<string>();
 
 // 全局错误处理函数
-let unhandledRejectionHandler: ((event: PromiseRejectionEvent) => void) | null = null;
+const unhandledRejectionState: {
+  handler: ((event: PromiseRejectionEvent) => void) | null;
+} = {
+  handler: null
+};
 
 // 添加全局错误处理
 const addGlobalErrorHandler = (dialogId: string): void => {
   activeDialogs.add(dialogId);
 
-  if (!unhandledRejectionHandler) {
-    unhandledRejectionHandler = event => {
+  if (!unhandledRejectionState.handler) {
+    unhandledRejectionState.handler = event => {
 
       // 只处理活跃 Dialog 的错误
       if (activeDialogs.size > 0) {
@@ -42,7 +46,7 @@ const addGlobalErrorHandler = (dialogId: string): void => {
       }
     };
 
-    window.addEventListener("unhandledrejection", unhandledRejectionHandler);
+    window.addEventListener("unhandledrejection", unhandledRejectionState.handler);
   }
 };
 
@@ -50,9 +54,9 @@ const addGlobalErrorHandler = (dialogId: string): void => {
 const removeGlobalErrorHandler = (dialogId: string): void => {
   activeDialogs.delete(dialogId);
 
-  if (activeDialogs.size === 0 && unhandledRejectionHandler) {
-    window.removeEventListener("unhandledrejection", unhandledRejectionHandler);
-    unhandledRejectionHandler = null;
+  if (activeDialogs.size === 0 && unhandledRejectionState.handler) {
+    window.removeEventListener("unhandledrejection", unhandledRejectionState.handler);
+    unhandledRejectionState.handler = null;
   }
 };
 
@@ -110,7 +114,7 @@ export default function openIndirect<T = void, D extends object = Record<string,
       container = null;
       root = null;
       close = null;
-      unhandledRejectionHandler = null;
+      unhandledRejectionState.handler = null;
     }, 500);
   }
 

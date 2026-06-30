@@ -14,4 +14,4 @@ export default meta;
 
 type TStory = StoryObj<typeof meta>;
 
-export const 成功: TStory = {};
+export const Success: TStory = {};

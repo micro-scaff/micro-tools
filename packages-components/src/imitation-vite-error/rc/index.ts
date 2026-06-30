@@ -324,7 +324,7 @@ export default class ErrorOverlay extends HTMLElement {
 
   close(): void {
     if (!this.dialog) {
-    	return;
+      return;
     }
 
     // eslint-disable-next-line unicorn/prefer-dom-node-remove

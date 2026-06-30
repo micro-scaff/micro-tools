@@ -37,8 +37,8 @@ export function usePageResponseSuccess<T = unknown>(
     } = {}
 ) {
   const pageData = pagination(
-      Number.parseInt(`${page}`),
-      Number.parseInt(`${pageSize}`),
+      Number.parseInt(String(page)),
+      Number.parseInt(String(pageSize)),
       list
   );
 

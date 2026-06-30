@@ -13,4 +13,4 @@ const meta = {
 export default meta;
 type TStory = StoryObj<typeof meta>;
 
-export const 滚动条组件: TStory = {};
+export const Scrollbar: TStory = {};

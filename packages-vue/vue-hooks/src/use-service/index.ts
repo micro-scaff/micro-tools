@@ -72,15 +72,15 @@ export default function useService<T, Q = unknown>(fetch: IServiceFunction<T, Q>
         data.value = res as UnwrapRef<T>;
         reactive(res);
       }).
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-          catch(error_ => {
-            error.value = error_;
+
+          catch(caughtError => {
+            error.value = caughtError;
 
             if (errorFn) {
-              errorFn(error_);
+              errorFn(caughtError);
             }
 
-            reject(error_);
+            reject(caughtError);
           }).
           finally(() => {
             loading.value = false;

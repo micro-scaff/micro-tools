@@ -7,17 +7,11 @@ import {
 
 import Context from "../context/index.vue";
 import Lifecycle from "../lifecycle/index.vue";
-
-// import {
-//   EAction
-// } from "../enum";
 import reducer from "../reducer";
 import {
   IDialogProps,
   IModelState,
   TModelAction
-
-  // TFormInstance
 } from "../types";
 import {
   getDefaultContextState

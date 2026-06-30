@@ -31,6 +31,7 @@ export default function animationFrameThrottle<T extends TFunctionArgs>(fn: T): 
 
     // window.requestAnimationFrame 用于在下一次浏览器重绘之前调用指定的函数
     window.requestAnimationFrame(() => {
+      // eslint-disable-next-line unicorn/no-this-outside-of-class
       fn.apply(this, args);
       isLocked = false;
     });

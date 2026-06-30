@@ -70,13 +70,13 @@ export default function throttle<T extends(...args: unknown[]) => unknown>(func:
                  */
         const nowTime = Date.now();
 
-        const remainTime = wait - (nowTime - lastTime);
-
         if (lastTime === 0 && leading === false) {
           lastTime = nowTime;
 
           return;
         }
+
+        const remainTime = wait - (nowTime - lastTime);
 
         if (remainTime <= 0) {
 
@@ -88,6 +88,7 @@ export default function throttle<T extends(...args: unknown[]) => unknown>(func:
             timer = null;
           }
 
+          // eslint-disable-next-line unicorn/no-this-outside-of-class
           const result = func.apply(this, args);
 
           resolve(result);
@@ -100,6 +101,7 @@ export default function throttle<T extends(...args: unknown[]) => unknown>(func:
         if (trailing === true && remainTime > 0 && timer === null) {
           timer = setTimeout(() => {
             timer = null;
+            // eslint-disable-next-line unicorn/no-this-outside-of-class
             const result = func.apply(this, args);
 
             /**

@@ -13,4 +13,4 @@ const meta = {
 export default meta;
 type TStory = StoryObj<typeof meta>;
 
-export const 计算器组件: TStory = {};
+export const CountTo: TStory = {};

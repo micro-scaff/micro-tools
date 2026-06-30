@@ -48,30 +48,22 @@ function searchToQuery<T>(search: string, keys: Array<keyof T>, defaults: Partia
     const originalValue = o[key];
 
     if (!originalValue) { // 忽略 undefined 和 空串
-      if (key in defaults) {
+      if (Object.hasOwn(defaults, key)) {
         result[key] = defaults[key];
       }
 
       continue;
     }
 
+    const valueType = types[key] || typeof defaults[key];
+
     // 把 originalValue 转成正确的格式
-    switch (types[key] || typeof defaults[key]) {
-      case "boolean": {
-        result[key] = originalValue === "1" || originalValue === "true";
-
-        break;
-      }
-      case "number": {
-        result[key] = Number(originalValue);
-
-        break;
-      }
-      default: {
-        result[key] = originalValue as string;
-
-        break;
-      }
+    if (valueType === "boolean") {
+      result[key] = originalValue === "1" || originalValue === "true";
+    } else if (valueType === "number") {
+      result[key] = Number(originalValue);
+    } else {
+      result[key] = originalValue as string;
     }
   }
 

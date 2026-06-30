@@ -47,11 +47,13 @@ const markPreviousAsCancelled = (key: string, currentId: symbol): void => {
   cancelledIds.set(key, cancelledSet);
 
   // 1. 取消排队中的任务 (普通队列模式)
-  queues.get(key)?.forEach(item => {
+  const queueItems = queues.get(key) ?? [];
+
+  for (const item of queueItems) {
     if (item.id !== currentId) {
       cancelledSet.add(item.id);
     }
-  });
+  }
 
   // 2. 取消正在执行的任务
   const runningId = runningTaskIds.get(key);
@@ -96,9 +98,9 @@ const cleanupCancelledIds = (key: string): void => {
   const activeIds = new Set<symbol>();
 
   if (queueList) {
-    queueList.forEach(item => {
-      return activeIds.add(item.id);
-    });
+    for (const item of queueList) {
+      activeIds.add(item.id);
+    }
   }
 
   if (runningId) {
@@ -115,11 +117,11 @@ const cleanupCancelledIds = (key: string): void => {
     // 如果取消集合太大，清理所有不在活跃列表中的ID
     const toDelete: symbol[] = [];
 
-    cancelledSet.forEach(id => {
+    for (const id of cancelledSet) {
       if (!activeIds.has(id)) {
         toDelete.push(id);
       }
-    });
+    }
 
     for (const id of toDelete) {
       cancelledSet.delete(id);
@@ -342,7 +344,7 @@ export default function queue<T = unknown>(
         // 定时器结束，执行任务
         // 从 pending 中移除 (因为它即将开始执行)
         if (pendingDebounceItem.get(key)?.id !== id) {
-        	return;
+          return;
         }
 
         pendingDebounceItem.delete(key);

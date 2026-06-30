@@ -11,17 +11,7 @@ export default function arrayBufferToBase64(buffer: ArrayBuffer): string {
       return "";
     }
 
-    const bytes = new Uint8Array(buffer);
-
-    let binary = "";
-
-    // 使用String.fromCharCode，安全且高效
-    for (const byte of bytes) {
-      // eslint-disable-next-line unicorn/prefer-code-point
-      binary += String.fromCharCode(byte);
-    }
-
-    return btoa(binary);
+    return new Uint8Array(buffer).toBase64();
   } catch (error) {
     console.warn("Base64 编码失败:", error);
 

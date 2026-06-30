@@ -108,7 +108,7 @@ const cookieHelper = {
    * @param {CookieOptions} options - Cookie 的路径（一版不需要）
    */
   deleteCookie(name: string, options?: ICookieOptions): void {
-    if (!this.getCookie(name)) {
+    if (!cookieHelper.getCookie(name)) {
       return;
     }
 
@@ -121,7 +121,7 @@ const cookieHelper = {
       secure: options?.secure
     };
 
-    this.setCookie(name, "", deleteOptions);
+    cookieHelper.setCookie(name, "", deleteOptions);
   }
 };
 

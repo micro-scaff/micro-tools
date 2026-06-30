@@ -169,7 +169,9 @@ const getImageDataSafe = (ctx: CanvasRenderingContext2D, width: number, height: 
     return ctx.getImageData(0, 0, width, height);
   } catch (error: unknown) {
     if (error instanceof Error && error.name === "SecurityError") {
-      throw new Error("跨域限制：目标图片未正确设置 CORS");
+      throw new Error("跨域限制：目标图片未正确设置 CORS", {
+        cause: error
+      });
     }
 
     throw error;
@@ -267,9 +269,7 @@ export default async function getImageColor(image: string): Promise<IImageColor>
     }
   };
 
-  if (img.complete && img.naturalWidth) {
-    color = await updateThemeColor(img);
-  }
+  color = img.complete && img.naturalWidth ? await updateThemeColor(img) : color;
 
   img.addEventListener("load", async () => {
     color = await updateThemeColor(img);

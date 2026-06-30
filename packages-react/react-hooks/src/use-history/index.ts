@@ -38,7 +38,7 @@ export default function useHistory(): IHistoryHook {
       return;
     }
 
-    navigate(`${compoundUrl(url as string, options)}`);
+    navigate(compoundUrl(url as string, options));
   };
 
   const replace = (url: string | INavigateOptions, options?: INavigateOptions): void => {

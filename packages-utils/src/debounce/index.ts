@@ -40,6 +40,7 @@ export default function debounce<T extends(...args: unknown[]) => unknown>(func:
         }
 
         if (immediate && !isInvoke) {
+          // eslint-disable-next-line unicorn/no-this-outside-of-class
           const result = func.apply(this, args);
 
           isInvoke = true;
@@ -53,6 +54,7 @@ export default function debounce<T extends(...args: unknown[]) => unknown>(func:
           /**
                      * 确保 this 指向的正确
                      */
+          // eslint-disable-next-line unicorn/no-this-outside-of-class
           const result = func.apply(this, args);
 
           isInvoke = false;
@@ -70,7 +72,7 @@ export default function debounce<T extends(...args: unknown[]) => unknown>(func:
      */
   _debounce.cancel = function(): void {
     if (!timer) {
-    	return;
+      return;
     }
 
     clearTimeout(timer);
@@ -86,14 +88,14 @@ export default function debounce<T extends(...args: unknown[]) => unknown>(func:
 let timer = null;
 
 function debounce() {
-	if(timer!=null){
-		window.clearTimeout(myTimer);
-	}
-	//重新启动定时器
-	timer = setTimeout(()=>{
-		console.log("我是防抖");
-		timer =null;
-	},200);
+  if(timer!=null){
+    window.clearTimeout(myTimer);
+  }
+  //重新启动定时器
+  timer = setTimeout(()=>{
+    console.log("我是防抖");
+    timer =null;
+  },200);
 }
 
 // ts 类型定义解释：

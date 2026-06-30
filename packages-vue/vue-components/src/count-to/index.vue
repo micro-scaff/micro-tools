@@ -145,7 +145,9 @@ const formatNumber = (val: number): string => {
 
   if (props.separator && !isNumber(props.separator)) {
     while (rgx.test(x1)) {
-      x1 = x1.replace(rgx, `$1${ props.separator }$2`);
+      x1 = x1.replace(rgx, (_match, prefix, suffix) => {
+        return `${prefix}${props.separator}${suffix}`;
+      });
     }
   }
 
@@ -164,6 +166,7 @@ const state = reactive<{
   rAF: null | number;
   remaining: number;
   start: number;
+  timer: null | ReturnType<typeof setTimeout>;
 }>({
   autoplay: props.autoplay, // 是否自动播放
   delay: props.delay,
@@ -174,11 +177,9 @@ const state = reactive<{
   printVal: props.startVal,
   rAF: null,
   remaining: 0,
-  start: props.startVal
+  start: props.startVal,
+  timer: null
 });
-
-// 初始化定时器
-let timer: null | ReturnType<typeof setTimeout> = null;
 
 // 初始化展示在页面上的值
 const displayValue = computed(() => {
@@ -207,9 +208,9 @@ const step = (timestamp: number): void => {
 
   if (progress < state.duration) {
     state.rAF = window.requestAnimationFrame(step);
-  } else if (timer) {
-    clearTimeout(timer);
-    timer = null;
+  } else if (state.timer) {
+    clearTimeout(state.timer);
+    state.timer = null;
   }
 };
 
@@ -222,12 +223,12 @@ const delayStart = (): void => {
   }
 
   // 如果有定时器,先清除
-  if (timer) {
-    clearTimeout(timer);
+  if (state.timer) {
+    clearTimeout(state.timer);
   }
 
   // 如果没有定时器,生成一个定时器
-  timer = setTimeout(() => {
+  state.timer = setTimeout(() => {
     state.rAF = window.requestAnimationFrame(step);
   }, state.delay);
 };

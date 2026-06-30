@@ -5,8 +5,8 @@ const isServer = typeof window === "undefined";
 
 // 为 HTMLElement 扩展自定义属性
 interface IResizeListenerElement extends HTMLElement {
-  __resizeListeners__?: Array<() => void>;
-  __ro__?: ResizeObserver;
+  "__resizeListeners__"?: Array<() => void>;
+  "__ro__"?: ResizeObserver;
 }
 
 /**
@@ -18,9 +18,9 @@ function resizeHandler(entries: ResizeObserverEntry[]): void {
 
     const listeners = element.__resizeListeners__ ?? [];
 
-    listeners.forEach(fn => {
+    for (const fn of listeners) {
       fn();
-    });
+    }
   }
 }
 

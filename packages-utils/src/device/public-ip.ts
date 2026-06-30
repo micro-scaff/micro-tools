@@ -4,7 +4,7 @@ interface IIpServiceResponse {
   ipAddress?: string;
   origin?: string;                    // httpbin.org 使用 origin 字段
   country?: string;
-  country_name?: string;
+  countryName?: string;
   region?: string;
   city?: string;
 }
@@ -51,6 +51,11 @@ export default async function devicePublicIp(): Promise<string> {
 
       if (response.ok) {
         const data = await response.json();
+
+        if ("country_name" in data) {
+          data.countryName = data.country_name;
+          delete data.country_name;
+        }
 
         return data;
       }
@@ -122,8 +127,8 @@ export default async function devicePublicIp(): Promise<string> {
       if (ipData.city) {
         location += `, ${ipData.city}`;
       }
-    } else if (ipData.country_name) {
-      location = ipData.country_name;
+    } else if (ipData.countryName) {
+      location = ipData.countryName;
 
       if (ipData.region) {
         location += `, ${ipData.region}`;

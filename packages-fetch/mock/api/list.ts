@@ -73,8 +73,8 @@ export default eventHandler(async event => {
       if (sortOrder === "asc") {
         if (sortBy === "price") {
           return (
-            Number.parseFloat(a[sortBy as string]) -
-            Number.parseFloat(b[sortBy as string])
+            Number(a[sortBy as string]) -
+            Number(b[sortBy as string])
           );
         }
 
@@ -84,8 +84,8 @@ export default eventHandler(async event => {
 
       if (sortBy === "price") {
         return (
-          Number.parseFloat(b[sortBy as string]) -
-            Number.parseFloat(a[sortBy as string])
+          Number(b[sortBy as string]) -
+            Number(a[sortBy as string])
         );
       }
 

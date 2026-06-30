@@ -21,7 +21,7 @@ export default function omitBy<T>(obj: IDictionary<T> | null | undefined, condit
 
   for (const key in obj) {
     if (!Object.prototype.hasOwnProperty.call(obj, key)) {
-    	continue;
+      continue;
     }
 
     const value = obj[key];

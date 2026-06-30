@@ -10,7 +10,7 @@ export default function bindMethods<T extends object>(instance: T): void {
   const propertyNames = Object.getOwnPropertyNames(prototype);
 
   // 遍历所有属性名
-  propertyNames.forEach(propertyName => {
+  for (const propertyName of propertyNames) {
 
     // 获取属性的描述符
     const descriptor = Object.getOwnPropertyDescriptor(prototype, propertyName);
@@ -30,5 +30,5 @@ export default function bindMethods<T extends object>(instance: T): void {
       // 将方法绑定到实例上
       instance[propertyName as keyof T] = propertyValue.bind(instance);
     }
-  });
+  }
 }
