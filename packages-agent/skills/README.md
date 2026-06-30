@@ -10,12 +10,13 @@
 | --- | --- |
 | 找已有 skill | [Skills 清单](#skills-清单) |
 | 新写一个 skill | [书写规范](#书写规范) |
-| 看示例 | [经典示例](#经典示例) |
-| 给别人用 | [发布方式](#发布方式) |
-| 在 Codex 或 Claude Code 中使用 | [在 Codex 和 Claude Code 中使用](#在-codex-和-claude-code-中使用) |
-| 配合 MCP 或其他 Agent | [配合其他 Agent 和 MCP 使用](#配合其他-agent-和-mcp-使用) |
+| 看官方规范 | [Skill 书写规范官方文档](#skill-书写规范官方文档) |
+| 看示例 | [Skill 经典示例](#skill-经典示例) |
+| 给别人用 | [Skill 怎么发布](#skill-怎么发布) |
+| 在 Codex 或 Claude Code 中使用 | [Skill 在 Codex 和 Claude Code 中怎么使用](#skill-在-codex-和-claude-code-中怎么使用) |
+| 配合 MCP 或其他 Agent | [Skill 怎么配合其他 Agent 和 MCP 使用](#skill-怎么配合其他-agent-和-mcp-使用) |
 
-## 官方文档
+## Skill 书写规范官方文档
 
 优先参考这些官方资料。平时写 skill 不需要全读，遇到不确定的字段、发布方式或工具集成时再查。
 
@@ -160,7 +161,7 @@ dependencies:
 - 文件名使用小写英文和连字符，例如 `integration-recipes.md`。
 - 不在 skill 目录里放未引用的 README、CHANGELOG、QUICK_REFERENCE。
 
-## 经典示例
+## Skill 经典示例
 
 ### 参考知识类
 
@@ -232,7 +233,7 @@ python3 ${SKILL_DIR}/scripts/visualize.py .
 - `references/integration-recipes.md`：外部项目安装和配置模板。
 - `references/troubleshooting.md`：常见问题分类排查。
 
-## 发布方式
+## Skill 怎么发布
 
 ### Codex
 
@@ -277,7 +278,7 @@ Claude Code 也可以使用项目级、用户级或 plugin 级 skill。
 4. 本地测试 plugin：使用 `claude --plugin-dir ./my-plugin`。
 5. 修改 plugin 后，在 Claude Code 中运行 `/reload-plugins` 重新加载。
 
-## 在 Codex 和 Claude Code 中使用
+## Skill 在 Codex 和 Claude Code 中怎么使用
 
 ### Codex
 
@@ -304,7 +305,7 @@ Codex 会先看到 skill 的 `name` 和 `description`。只有决定使用这个
 
 Claude Code 支持更多专属 frontmatter，例如 `disable-model-invocation`、`user-invocable`、`allowed-tools`、`context: fork`、`agent`、`paths` 等。为了跨工具兼容，本仓库默认只使用通用字段；只有明确面向 Claude Code 的 skill 才添加 Claude 专属字段。
 
-## 配合其他 Agent 和 MCP 使用
+## Skill 怎么配合其他 Agent 和 MCP 使用
 
 ### Skill、MCP、Agent 分别负责什么
 

@@ -23,4 +23,4 @@
 - `vue-element-plus-extra` 需要外部项目提供 `element-plus >=2.11.4`。
 - `vue-echarts` 依赖 `@mt-kit/vue-hooks` 和 `@mt-kit/utils`，开发时需要 `echarts`。
 - `vue-hooks` 依赖 `@mt-kit/utils`、`lodash-es`、`resize-observer-polyfill`。
-- `vue-config` 和 `vue-directives` 依赖 `@mt-kit/components`，接入时注意包名是否与实际发布包一致。
+- `vue-config` 和 `vue-directives` 的 `package.json` 依赖 `@mt-kit/components`，外部项目需要能解析这个包。

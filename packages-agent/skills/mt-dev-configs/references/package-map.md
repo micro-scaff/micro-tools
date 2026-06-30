@@ -4,7 +4,7 @@
 
 | 包 | 路径 | 用途 |
 | --- | --- | --- |
-| `@mt-kit/eslint-config` | `packages-dev/eslint-config` | ESLint flat config，默认导出 `DEFAULT`，对外用默认导入变量 `EsLint`；命名导出 `VUE`、`REACT` |
+| `@mt-kit/eslint-config` | `packages-dev/eslint-config` | ESLint flat config，默认导出 `DEFAULT` 配置数组（不是命名导出），对外用默认导入变量 `EsLint`；命名导出 `VUE`、`REACT` |
 | `@mt-kit/prettier-config` | `packages-dev/prettier-config` | Prettier 3 配置，补充 ESLint 未覆盖的格式化场景 |
 | `@mt-kit/stylelint-config` | `packages-dev/stylelint-config` | Stylelint 16 配置，提供默认、Vue、React 样式检查 |
 | `@mt-kit/ts-config` | `packages-dev/ts-config` | TypeScript 配置集合，提供 base/app/node/vue/react |

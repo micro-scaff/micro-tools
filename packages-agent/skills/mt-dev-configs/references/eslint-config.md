@@ -26,7 +26,7 @@ yarn add -D eslint @mt-kit/eslint-config
 
 `src/index.js` 对外提供：
 
-- 默认导出：`DEFAULT`
+- 默认导出：`DEFAULT` 配置数组；它不是命名导出，外部项目需要用默认导入接收。
 - 命名导出：`VUE`
 - 命名导出：`REACT`
 
