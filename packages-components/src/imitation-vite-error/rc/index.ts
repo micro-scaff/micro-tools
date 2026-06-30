@@ -3,12 +3,8 @@ import type {
 } from "../types";
 
 // 设置：主机样式，使剧作家检测到元素可见
-function template(dialog: boolean = false): string {
-  return `
-        <style>
-            :host {
-                ${
-  dialog
+function template(dialog = false): string {
+  const hostDialogStyle = dialog
     ? `
       position: fixed;
       top: 0;
@@ -16,8 +12,30 @@ function template(dialog: boolean = false): string {
       width: 100%;
       height: 100%;
       z-index: 99999;`
-    : ""
-}
+    : "";
+
+  const windowColorVariables = dialog
+    ? `
+      --window-background: #181818;
+      --window-color: #d8d8d8;`
+    : "";
+
+  const backdropDialogStyle = dialog
+    ? `
+      position: fixed;
+      z-index: 99999;
+      top: 0;
+      left: 0;`
+    : "";
+
+  const windowWidth = dialog ? "width: 800px;" : "width: 100%";
+
+  const windowMargin = dialog ? "margin: 30px auto;" : "";
+
+  return `
+        <style>
+            :host {
+                ${hostDialogStyle}
 
                 --monospace: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
                 --red: #ff5555;
@@ -26,32 +44,16 @@ function template(dialog: boolean = false): string {
                 --cyan: #2dd9da;
                 --dim: #c9c9c9;
 
-                ${
-  dialog
-    ? `
-                            --window-background: #181818;
-                            --window-color: #d8d8d8;`
-    : ""
-}
+                ${windowColorVariables}
             }
 
             .backdrop {
-                ${
-  dialog
-    ? `
-                            position: fixed;
-                            z-index: 99999;
-                            top: 0;
-                            left: 0;`
-    : ""
-}
+                ${backdropDialogStyle}
 
                 width: 100%;
                 height: 100%;
                 overflow-y: scroll;
                 margin: 0;
-                ${dialog ? "background: rgba(0, 0, 0, 0.66);" : ""}
-
                 background: rgba(0, 0, 0, 0.66);
             }
 
@@ -59,10 +61,10 @@ function template(dialog: boolean = false): string {
                 font-family: var(--monospace);
                 line-height: 1.5;
 
-                ${dialog ? "width: 800px;" : "width: 100%"}
+                ${windowWidth}
                 color: var(--window-color);
 
-                ${dialog ? "margin: 30px auto;" : ""}
+                ${windowMargin}
 
                 padding: 25px 40px;
                 position: relative;
@@ -182,15 +184,15 @@ function template(dialog: boolean = false): string {
     `;
 }
 
-const fileRE = /(?:[a-z]:\\|\/).*?:\d+:\d+/gi;
+const fileRegex = /(?:[a-z]:\\|\/).*?:\d+:\d+/gi;
 
-const codeframeRE = /^(?:>?\s*\d+\s+\|.*|\s+\|\s*\^.*)\r?\n/gm;
+const codeframeRegex = /^(?:>?\s*\d+\s+\|.*|\s+\|\s*\^.*)\r?\n/gm;
 
 // 允许“ErrorOverlay”扩展“HTMLElement”，即使在以下环境中也是如此
 // `HTMLElement`最初未定义。
 const {
   // eslint-disable-next-line @typescript-eslint/no-extraneous-class
-  HTMLElement = class {} as typeof globalThis.HTMLElement
+  HTMLElement: BaseHtmlElement = class {} as typeof globalThis.HTMLElement
 } = globalThis;
 
 /**
@@ -210,7 +212,7 @@ const {
  *
  * 获取到的页面元素.appendChild(new ErrorOverlays(err));
  */
-export default class ErrorOverlay extends HTMLElement {
+class ErrorOverlay extends BaseHtmlElement {
   root: ShadowRoot;
 
   closeOnEsc: (e: KeyboardEvent) => void;
@@ -230,11 +232,11 @@ export default class ErrorOverlay extends HTMLElement {
       this.closeText();
     }
 
-    codeframeRE.lastIndex = 0;
-    const hasFrame = err.frame && codeframeRE.test(err.frame);
+    codeframeRegex.lastIndex = 0;
+    const hasFrame = err.frame && codeframeRegex.test(err.frame);
 
     const message = hasFrame
-      ? err.message.replaceAll(codeframeRE, "")
+      ? err.message.replaceAll(codeframeRegex, "")
       : err.message;
 
     if (err.plugin) {
@@ -285,9 +287,9 @@ export default class ErrorOverlay extends HTMLElement {
 
       let match: RegExpExecArray | null;
 
-      fileRE.lastIndex = 0;
+      fileRegex.lastIndex = 0;
 
-      while ((match = fileRE.exec(text))) {
+      while ((match = fileRegex.exec(text))) {
         const {
           0: file, index
         } = match;
@@ -342,3 +344,5 @@ const {
 if (customElements && !customElements.get(overlayId)) {
   customElements.define(overlayId, ErrorOverlay);
 }
+
+export default ErrorOverlay;
