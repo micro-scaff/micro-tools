@@ -35,7 +35,11 @@
 
 | Skill | 路径 | 用途 |
 | --- | --- | --- |
+| `mt-dev-configs` | `packages-agent/skills/mt-dev-configs` | 为内部或外部项目接入、迁移、定制和排查 MT 开发配置包 |
 | `mt-eslint-config` | `packages-agent/skills/mt-eslint-config` | 为内部或外部项目接入、迁移、定制和排查 `@mt-kit/eslint-config` |
+| `mt-vue-packages` | `packages-agent/skills/mt-vue-packages` | 为内部或外部 Vue 项目接入、使用和排查 MT Vue 包 |
+| `mt-react-packages` | `packages-agent/skills/mt-react-packages` | 为内部或外部 React 项目接入、使用和排查 MT React 包 |
+| `mt-request-axios` | `packages-agent/skills/mt-request-axios` | 为内部或外部项目接入、定制和排查 `@mt-kit/request-axios` |
 
 外部项目使用时，可以将需要的 skill 目录复制到目标环境的 skills 目录，或在任务中显式引用该 skill 路径。
 

@@ -1,0 +1,4 @@
+interface:
+  display_name: "MT Vue Packages"
+  short_description: "帮助内部和外部 Vue 项目接入、使用和排查 MT Vue 组件与 hooks 包"
+  default_prompt: "使用 $mt-vue-packages 为这个 Vue 项目接入或排查 MT Vue 包。"

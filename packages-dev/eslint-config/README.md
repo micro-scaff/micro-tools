@@ -99,11 +99,11 @@ export default [
     "fix": "eslint \"./**/*.{css,tsx,vue,ts,js,html}\" --fix"
   },
   "peerDependencies": {
-    "eslint": ">=9.0.0"
+    "eslint": ">10.0.0"
   },
   "devDependencies": {
     "@mt-kit/eslint-config": "^X.Y.Z",
-    "eslint": "^9.24.0"
+    "eslint": "^X.Y.Z"
   }
 }
 ```

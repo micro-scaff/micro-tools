@@ -1,0 +1,4 @@
+interface:
+  display_name: "MT Request Axios"
+  short_description: "帮助内部和外部项目接入、定制和排查 request-axios 请求客户端"
+  default_prompt: "使用 $mt-request-axios 为这个项目接入或排查 @mt-kit/request-axios。"
