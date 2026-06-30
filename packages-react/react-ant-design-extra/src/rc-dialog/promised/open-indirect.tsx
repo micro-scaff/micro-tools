@@ -1,9 +1,9 @@
+import React from "react";
+
 import {
   noop as _noop,
   isUndefined
 } from "lodash-es";
-
-import React from "react";
 import {
   createRoot
 } from "react-dom/client";

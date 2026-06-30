@@ -4,6 +4,4 @@ const obj = {
   c: 3
 };
 
-export {
-  obj
-};
+export { obj };

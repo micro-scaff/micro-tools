@@ -226,13 +226,13 @@ export function getMenuIds(menus: { id: number;
 children?: { id: number }[]; }[]) {
   const ids: number[] = [];
 
-  menus.forEach(item => {
+  for (const item of menus) {
     ids.push(item.id);
 
     if (item.children && item.children.length > 0) {
       ids.push(...getMenuIds(item.children));
     }
-  });
+  }
 
   return ids;
 }

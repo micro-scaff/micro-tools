@@ -93,7 +93,9 @@ export default function getAvailableFonts(fontList = COMMON_FONTS): string[] {
 
     const results = detectFontsCanvas(fontList);
 
-    const availableFonts = Object.keys(results).filter(font => results[font]);
+    const availableFonts = Object.keys(results).filter(font => {
+      return results[font];
+    });
 
     console.warn(`Font detection completed: ${availableFonts.length}/${fontList.length} fonts available`);
 

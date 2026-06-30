@@ -10,7 +10,9 @@ import useModelProps from "./_use-model-props";
 export default function usePropsOptions(): TDialogPropsOptions {
   const props = useModelProps();
 
-  return useMemo(() => props.options || {}, [
+  return useMemo(() => {
+    return props.options || {};
+  }, [
     props
   ]);
 }

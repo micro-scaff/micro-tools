@@ -1,13 +1,12 @@
 import {
-  isNull as _isNull,
-  omitBy as _omitBy
-} from "lodash-es";
-
-import {
   useCallback,
   useMemo
 } from "react";
 
+import {
+  isNull as _isNull,
+  omitBy as _omitBy
+} from "lodash-es";
 import qs from "qs";
 
 import useHistory from "../use-history";
@@ -84,7 +83,9 @@ function searchToQuery<T>(search: string, keys: Array<keyof T>, defaults: Partia
  */
 function queryToSearch<T>(query: Partial<T>, defaults: Partial<T>): string {
 
-  return qs.stringify(_omitBy(query, (v: unknown, k: string) => _isNull(v) || v === "" || v === defaults[k as keyof T]), {
+  return qs.stringify(_omitBy(query, (v: unknown, k: string) => {
+    return _isNull(v) || v === "" || v === defaults[k as keyof T];
+  }), {
     addQueryPrefix: true
   });
 }
@@ -107,13 +108,17 @@ export default function useLocationQuery<T>({
     replace
   } = useHistory();
 
-  const getQuery = useCallback<(search: string) => Partial<T>>(search => searchToQuery<T>(search, keys, defaults, types), [
+  const getQuery = useCallback<(search: string) => Partial<T>>(search => {
+    return searchToQuery<T>(search, keys, defaults, types);
+  }, [
     keys,
     defaults,
     types
   ]);
 
-  const query = useMemo<Partial<T>>(() => getQuery(hookSearch), [
+  const query = useMemo<Partial<T>>(() => {
+    return getQuery(hookSearch);
+  }, [
     hookSearch,
     getQuery
   ]);

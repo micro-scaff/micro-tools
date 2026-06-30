@@ -109,19 +109,21 @@ describe("requestClient", () => {
       type: "text/plain"
     });
 
-    mock.onPost("/test/upload").reply(config => (config.data instanceof FormData && config.data.has("file")
-      ? [
-        200,
-        {
-          data: "file uploaded"
-        }
-      ]
-      : [
-        400,
-        {
-          error: "Bad Request"
-        }
-      ]));
+    mock.onPost("/test/upload").reply(config => {
+      return (config.data instanceof FormData && config.data.has("file")
+        ? [
+          200,
+          {
+            data: "file uploaded"
+          }
+        ]
+        : [
+          400,
+          {
+            error: "Bad Request"
+          }
+        ]);
+    });
 
     const response = await requestClient.upload("/test/upload", {
       file: fileData

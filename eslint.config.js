@@ -17,6 +17,12 @@ export default defineConfig([
       "**/*.js",
       "**/*.mjs"
     ],
+    ignores: [
+      "./packages-vue/**/*.vue",
+      "./packages-cli/cli-storybook-vue/**/*.vue",
+      "./packages-demo/demo-vue/**/*.vue",
+      "./packages-react/**/*.{ts,tsx,js,jsx}"
+    ],
     extends: [
       EsLint
     ]

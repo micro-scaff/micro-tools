@@ -2,7 +2,6 @@ import type {
   Meta,
   StoryObj
 } from "@storybook/web-components";
-
 import {
   fn
 } from "@storybook/test";
@@ -18,7 +17,9 @@ const meta: Meta<ButtonProps> = {
   // tags: [
   //   "autodocs"
   // ],
-  render: args => Button(args),
+  render: args => {
+    return Button(args);
+  },
   argTypes: {
     backgroundColor: {
       control: "color"

@@ -7,8 +7,10 @@ import useModelDispatch from "./_use-model-dispatch";
 export default function useDispatchLoading(): () => void {
   const dispatch = useModelDispatch();
 
-  return () => dispatch({
-    type: EAction.LOCK,
-    payload: ELockState.LOADING
-  });
+  return () => {
+    return dispatch({
+      type: EAction.LOCK,
+      payload: ELockState.LOADING
+    });
+  };
 }

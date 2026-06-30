@@ -116,7 +116,9 @@ const props = defineProps({
    * 滚动数字的样式
    */
   style: {
-    default: () => ({}),
+    default: () => {
+      return {};
+    },
     type: Object as PropType<CSSProperties>
   },
 
@@ -179,10 +181,14 @@ const state = reactive<{
 let timer: null | ReturnType<typeof setTimeout> = null;
 
 // 初始化展示在页面上的值
-const displayValue = computed(() => formatNumber(state.printVal));
+const displayValue = computed(() => {
+  return formatNumber(state.printVal);
+});
 
 // 定义一个计算属性，当开始数字大于结束数字时返回true
-const stopCount = computed(() => props.startVal > props.endVal);
+const stopCount = computed(() => {
+  return props.startVal > props.endVal;
+});
 
 // 数字增加的过程函数
 const step = (timestamp: number): void => {
@@ -270,7 +276,9 @@ const pauseResume = (): void => {
 };
 
 // 如果是autoplay为true时,自动执行
-watch(() => state.autoplay, autoplay => {
+watch(() => {
+  return state.autoplay;
+}, autoplay => {
   autoplay && start();
 }, {
   immediate: true

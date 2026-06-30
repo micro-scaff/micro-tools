@@ -37,7 +37,9 @@ export default async function devicePublicIp(): Promise<string> {
   const fetchService = async (service: string): Promise<IIpServiceResponse> => {
     const controller = new AbortController();
 
-    const timeoutId = setTimeout(() => controller.abort(), 5000);
+    const timeoutId = setTimeout(() => {
+      return controller.abort();
+    }, 5000);
 
     try {
       const response = await fetch(service, {
@@ -138,7 +140,7 @@ export default async function devicePublicIp(): Promise<string> {
 
     throw new Error("无法解析IP地址");
 
-  } else {
-    throw lastError || new Error("所有IP查询服务都失败了");
   }
+
+  throw lastError || new Error("所有IP查询服务都失败了");
 }

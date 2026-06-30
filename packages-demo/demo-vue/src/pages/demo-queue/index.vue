@@ -1,43 +1,50 @@
 <script setup lang="ts">
 import {
-  queue
-} from "@mt-kit/utils";
-import {
   ElButton
 } from "element-plus";
 
-const test01Fetch = (param?: string): Promise<string> => new Promise(resolve => {
-  setTimeout(() => {
-    const result = `test01Fetch - 1s${param ? ` - ${param}` : ""}`;
+import {
+  queue
+} from "@mt-kit/utils";
 
-    // eslint-disable-next-line no-console
-    console.log(result, "test01Fetch");
+const test01Fetch = (param?: string): Promise<string> => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const result = `test01Fetch - 1s${param ? ` - ${param}` : ""}`;
 
-    resolve(result);
-  }, 1000);
-});
+      // eslint-disable-next-line no-console
+      console.log(result, "test01Fetch");
 
-const test02Fetch = (): Promise<string> => new Promise(resolve => {
-  setTimeout(() => {
-    const result = "test02Fetch - 2s";
+      resolve(result);
+    }, 1000);
+  });
+};
 
-    // eslint-disable-next-line no-console
-    console.log(result, "test02Fetch");
+const test02Fetch = (): Promise<string> => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const result = "test02Fetch - 2s";
 
-    resolve(result);
-  }, 2000);
-});
+      // eslint-disable-next-line no-console
+      console.log(result, "test02Fetch");
 
-const test03Fetch = (): Promise<string> => new Promise(resolve => {
-  setTimeout(() => {
-    const result = "test03Fetch - 3s";
+      resolve(result);
+    }, 2000);
+  });
+};
 
-    // eslint-disable-next-line no-console
-    console.log(result, "test03Fetch");
+const test03Fetch = (): Promise<string> => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const result = "test03Fetch - 3s";
 
-    resolve(result);
-  }, 3000);
-});
+      // eslint-disable-next-line no-console
+      console.log(result, "test03Fetch");
+
+      resolve(result);
+    }, 3000);
+  });
+};
 
 const handleSerialTest = (): void => {
   queue(test01Fetch);
@@ -48,7 +55,9 @@ const handleSerialTest = (): void => {
 const handleDurationTest = (): void => {
 
   // 如果 test01Fetch 需要参数，使用箭头函数包装
-  queue(() => test01Fetch("参数值"), {
+  queue(() => {
+    return test01Fetch("参数值");
+  }, {
     duration: 1000
   }).catch(error => {
 

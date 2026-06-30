@@ -11,5 +11,7 @@ import useModelProps from "./_use-model-props";
 export default function usePropsSize(): ComputedRef<number | ESize> {
   const props = useModelProps();
 
-  return computed(() => props.value?.size || ESize.M);
+  return computed(() => {
+    return props.value?.size || ESize.M;
+  });
 }

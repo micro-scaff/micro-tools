@@ -21,12 +21,14 @@ export default function Provider({
     dispatch
   ] = useReducer(reducer, getDefaultContextState(props));
 
-  return <Context.Provider value={{
-    state,
-    dispatch,
-    props
-  }}>
-    {children}
-    <Lifecycle />
-  </Context.Provider>;
+  return (
+    <Context.Provider value={{
+      state,
+      dispatch,
+      props
+    }}>
+      {children}
+      <Lifecycle />
+    </Context.Provider>
+  );
 }

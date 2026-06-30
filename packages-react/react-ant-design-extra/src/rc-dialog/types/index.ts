@@ -1,3 +1,1 @@
-export type {
-  IDialogIndirectPromise
-} from "./props";
+export type { IDialogIndirectPromise } from "./props";

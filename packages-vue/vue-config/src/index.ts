@@ -1,3 +1,1 @@
-export {
-  default as configErrorHandler
-} from "./error-handler";
+export { default as configErrorHandler } from "./error-handler";

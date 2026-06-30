@@ -1,12 +1,12 @@
 import {
-  isObject
-} from "lodash-es";
-
-import {
   Location,
   useLocation,
   useNavigate
 } from "react-router-dom";
+
+import {
+  isObject
+} from "lodash-es";
 
 interface INavigateOptions {
   hash?: string;

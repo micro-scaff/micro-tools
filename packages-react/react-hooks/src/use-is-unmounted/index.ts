@@ -13,10 +13,14 @@ import {
 export default function useIsUnmounted(): () => boolean {
   const ref = useRef<boolean>(false);
 
-  const isUnmounted = useCallback(() => ref.current, []);
+  const isUnmounted = useCallback(() => {
+    return ref.current;
+  }, []);
 
-  useEffect(() => (): void => {
-    ref.current = true;
+  useEffect(() => {
+    return (): void => {
+      ref.current = true;
+    };
   }, []);
 
   return isUnmounted;

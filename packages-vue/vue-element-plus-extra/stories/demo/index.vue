@@ -1,14 +1,14 @@
 <script lang="ts" setup>
-import WithModel from "./with-model/index.vue";
 import {
   createApp,
   h,
   ref
 } from "vue";
-
 import {
   ElButton
 } from "element-plus";
+
+import WithModel from "./with-model/index.vue";
 
 const app = ref<ReturnType<typeof createApp>>();
 

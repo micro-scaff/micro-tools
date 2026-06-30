@@ -34,7 +34,9 @@ const pendingDebounceItem = new Map<string, IQueueItem<unknown>>();
 /**
  * 检查任务是否被取消
  */
-const isCancelled = (key: string, id: symbol): boolean => cancelledIds.get(key)?.has(id) ?? false;
+const isCancelled = (key: string, id: symbol): boolean => {
+  return cancelledIds.get(key)?.has(id) ?? false;
+};
 
 /**
  * 标记之前的任务为已取消
@@ -94,7 +96,9 @@ const cleanupCancelledIds = (key: string): void => {
   const activeIds = new Set<symbol>();
 
   if (queueList) {
-    queueList.forEach(item => activeIds.add(item.id));
+    queueList.forEach(item => {
+      return activeIds.add(item.id);
+    });
   }
 
   if (runningId) {
@@ -117,7 +121,9 @@ const cleanupCancelledIds = (key: string): void => {
       }
     });
 
-    toDelete.forEach(id => cancelledSet.delete(id));
+    for (const id of toDelete) {
+      cancelledSet.delete(id);
+    }
   }
 };
 
@@ -335,17 +341,21 @@ export default function queue<T = unknown>(
 
         // 定时器结束，执行任务
         // 从 pending 中移除 (因为它即将开始执行)
-        if (pendingDebounceItem.get(key)?.id === id) {
-          pendingDebounceItem.delete(key);
-          executeTask(key, item);
+        if (pendingDebounceItem.get(key)?.id !== id) {
+        	return;
         }
+
+        pendingDebounceItem.delete(key);
+        executeTask(key, item);
       }, debounceTime);
 
       // 3. 存入 pending
       // 类型兼容修正: 使 resolve 和 reject 适配 unknown
       pendingDebounceItem.set(key, {
         ...item,
-        resolve: (value: unknown) => resolve(value as T),
+        resolve: (value: unknown) => {
+          return resolve(value as T);
+        },
         reject
       });
     } else {
@@ -362,7 +372,9 @@ export default function queue<T = unknown>(
         task: fn,
 
         // 类型兼容修正: 使 resolve 和 reject 适配 unknown
-        resolve: (value: unknown) => resolve(value as T),
+        resolve: (value: unknown) => {
+          return resolve(value as T);
+        },
         reject
       });
 

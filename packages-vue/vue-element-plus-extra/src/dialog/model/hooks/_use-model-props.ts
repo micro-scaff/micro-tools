@@ -11,5 +11,7 @@ import useModelContext from "./_use-model-context";
 export default function useModelProps(): ComputedRef<IDialogProps> {
   const context = useModelContext();
 
-  return computed(() => context?.value.props);
+  return computed(() => {
+    return context?.value.props;
+  });
 }

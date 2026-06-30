@@ -9,8 +9,10 @@ import useModelDispatch from "./_use-model-dispatch";
 export default function useDispatchForm(): (payload?: TFormInstance) => void {
   const dispatch = useModelDispatch();
 
-  return ((payload?: TFormInstance) => dispatch({
-    type: EAction.FORM,
-    payload: payload ?? null
-  }));
+  return ((payload?: TFormInstance) => {
+    return dispatch({
+      type: EAction.FORM,
+      payload: payload ?? null
+    });
+  });
 }

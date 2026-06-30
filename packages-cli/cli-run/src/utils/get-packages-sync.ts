@@ -2,6 +2,7 @@ import {
   Package,
   getPackages as getPackagesFunc
 } from "@manypkg/get-packages";
+
 import {
   existsSync
 } from "fs";
@@ -28,7 +29,9 @@ export default async function getPackagesSync(cwd?: string): Promise<Package[]> 
   if (!cwd) {
     const rootDir = _root();
 
-    return getPackagesFunc(rootDir).then(packages => packages.packages);
+    return getPackagesFunc(rootDir).then(packages => {
+      return packages.packages;
+    });
   }
 
   // 如果指定了目录，检查该目录下是否有 workspace 文件
@@ -39,7 +42,9 @@ export default async function getPackagesSync(cwd?: string): Promise<Package[]> 
   if (existsSync(workspaceFile)) {
 
     // 如果有 workspace 文件，使用 @manypkg/get-packages
-    return getPackagesFunc(resolvedDir).then(packages => packages.packages);
+    return getPackagesFunc(resolvedDir).then(packages => {
+      return packages.packages;
+    });
   }
 
   // 如果没有 workspace 文件，手动查找该目录下的包

@@ -11,5 +11,7 @@ import useModelProps from "./_use-model-props";
 export default function usePropsOnClose(): ComputedRef<IDialogProps["onClose"]> {
   const props = useModelProps();
 
-  return computed(() => props.value.onClose);
+  return computed(() => {
+    return props.value.onClose;
+  });
 }

@@ -7,7 +7,9 @@ import useModelProps from "./_use-model-props";
 export default function usePropsFooterExtra(): React.ReactElement[] {
   const props = useModelProps();
 
-  return useMemo(() => props.footerExtra || [], [
+  return useMemo(() => {
+    return props.footerExtra || [];
+  }, [
     props
   ]);
 }

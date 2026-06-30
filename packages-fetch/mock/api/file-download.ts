@@ -2,7 +2,6 @@ import type {
   EventHandlerRequest,
   H3Event
 } from "h3";
-
 import {
   faker
 } from "@faker-js/faker";
@@ -39,7 +38,9 @@ export default eventHandler(async (event: H3Event<EventHandlerRequest>) => {
     setHeader(event, "Content-Length", buffer.length.toString() as unknown as number);
 
     // 模拟下载延迟
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise(resolve => {
+      return setTimeout(resolve, 500);
+    });
 
     return buffer;
   } catch (error) {

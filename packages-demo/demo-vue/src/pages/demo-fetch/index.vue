@@ -1,19 +1,21 @@
 <script setup lang="ts">
 
 import {
+  ElTable,
+  ElTableColumn,
+  ElButton
+} from "element-plus";
+
+import {
+  createDedupedRequest
+} from "@mt-kit/utils";
+
+import {
   dataList
 } from "@/api";
 import {
   SelectFetch
 } from "@/components";
-import {
-  createDedupedRequest
-} from "@mt-kit/utils";
-import {
-  ElTable,
-  ElTableColumn,
-  ElButton
-} from "element-plus";
 
 const dedupedDataList = createDedupedRequest(dataList);
 

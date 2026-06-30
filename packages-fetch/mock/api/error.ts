@@ -1,1 +1,3 @@
-export default eventHandler(() => useResponseError("error"));
+export default eventHandler(() => {
+  return useResponseError("error");
+});

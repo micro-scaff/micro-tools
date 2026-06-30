@@ -11,5 +11,7 @@ import useModelProps from "./_use-model-props";
 export default function usePropsData(): ComputedRef<IDialogProps["data"]> {
   const props = useModelProps();
 
-  return computed(() => props.value.data);
+  return computed(() => {
+    return props.value.data;
+  });
 }

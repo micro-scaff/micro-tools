@@ -1,7 +1,9 @@
 import {
-  ElMessage,
-  type MessageOptions,
-  type MessageHandler
+  ElMessage
+
+} from "element-plus";
+import type {
+  MessageOptions, MessageHandler
 } from "element-plus";
 
 /**
@@ -207,6 +209,4 @@ const messages = new Messages();
 export default messages;
 
 // 也可以导出类，以便在需要时创建多个实例
-export {
-  Messages
-};
+export { Messages };

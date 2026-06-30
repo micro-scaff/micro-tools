@@ -4,6 +4,4 @@ export type {
   StoryObj
 } from "@storybook/vue3";
 
-export type {
-  StorybookConfig
-} from "@storybook/vue3-vite";
+export type { StorybookConfig } from "@storybook/vue3-vite";

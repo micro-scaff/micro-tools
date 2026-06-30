@@ -10,12 +10,12 @@ function template(dialog: boolean = false): string {
                 ${
   dialog
     ? `
-                            position: fixed;
-                            top: 0;
-                            left: 0;
-                            width: 100%;
-                            height: 100%;
-                            z-index: 99999;`
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 99999;`
     : ""
 }
 
@@ -34,7 +34,7 @@ function template(dialog: boolean = false): string {
     : ""
 }
             }
-            
+
             .backdrop {
                 ${
   dialog
@@ -54,14 +54,14 @@ function template(dialog: boolean = false): string {
 
                 background: rgba(0, 0, 0, 0.66);
             }
-            
+
             .window {
                 font-family: var(--monospace);
                 line-height: 1.5;
-                
+
                 ${dialog ? "width: 800px;" : "width: 100%"}
                 color: var(--window-color);
-            
+
                 ${dialog ? "margin: 30px auto;" : ""}
 
                 padding: 25px 40px;
@@ -73,7 +73,7 @@ function template(dialog: boolean = false): string {
                 direction: ltr;
                 text-align: left;
             }
-            
+
             pre {
                 font-family: var(--monospace);
                 font-size: 16px;
@@ -82,55 +82,55 @@ function template(dialog: boolean = false): string {
                 overflow-x: scroll;
                 scrollbar-width: none;
             }
-            
+
             pre::-webkit-scrollbar {
                 display: none;
             }
-            
+
             pre.frame::-webkit-scrollbar {
                 display: block;
                 height: 5px;
             }
-            
+
             pre.frame::-webkit-scrollbar-thumb {
                 background: #999;
                 border-radius: 5px;
             }
-            
+
             pre.frame {
                 scrollbar-width: thin;
             }
-            
+
             .message {
                 line-height: 1.3;
                 font-weight: 600;
                 white-space: pre-wrap;
             }
-            
+
             .message-body {
                 color: var(--red);
             }
-            
+
             .plugin {
                 color: var(--purple);
             }
-            
+
             .file {
                 color: var(--cyan);
                 margin-bottom: 0;
                 white-space: pre-wrap;
                 word-break: break-all;
             }
-            
+
             .frame {
                 color: var(--yellow);
             }
-            
+
             .stack {
                 font-size: 13px;
                 color: var(--dim);
             }
-            
+
             .tip {
                 font-size: 13px;
                 color: #999;
@@ -138,13 +138,13 @@ function template(dialog: boolean = false): string {
                 padding-top: 13px;
                 line-height: 1.8;
             }
-            
+
             code {
                 font-size: 13px;
                 font-family: var(--monospace);
                 color: var(--yellow);
             }
-            
+
             .file-link {
                 text-decoration: underline;
                 cursor: pointer;
@@ -152,7 +152,7 @@ function template(dialog: boolean = false): string {
             a {
                 color: var(--dim);
             }
-            
+
             kbd {
                 line-height: 1.5;
                 font-family: ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
@@ -323,11 +323,13 @@ export default class ErrorOverlay extends HTMLElement {
   }
 
   close(): void {
-    if (this.dialog) {
-      // eslint-disable-next-line unicorn/prefer-dom-node-remove
-      this.parentNode?.removeChild(this);
-      document.removeEventListener("keydown", this.closeOnEsc);
+    if (!this.dialog) {
+    	return;
     }
+
+    // eslint-disable-next-line unicorn/prefer-dom-node-remove
+    this.parentNode?.removeChild(this);
+    document.removeEventListener("keydown", this.closeOnEsc);
   }
 }
 

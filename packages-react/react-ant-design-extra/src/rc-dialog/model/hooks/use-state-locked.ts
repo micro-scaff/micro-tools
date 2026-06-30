@@ -10,7 +10,9 @@ import useModelState from "./_use-model-state";
 export default function useStateLocked(): ELockState {
   const state = useModelState();
 
-  return useMemo(() => state.locked, [
+  return useMemo(() => {
+    return state.locked;
+  }, [
     state
   ]);
 }

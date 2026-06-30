@@ -69,11 +69,13 @@ export default function debounce<T extends(...args: unknown[]) => unknown>(func:
      * 取消之后，重置所有变量
      */
   _debounce.cancel = function(): void {
-    if (timer) {
-      clearTimeout(timer);
-      timer = null;
-      isInvoke = false;
+    if (!timer) {
+    	return;
     }
+
+    clearTimeout(timer);
+    timer = null;
+    isInvoke = false;
   };
 
   return _debounce;

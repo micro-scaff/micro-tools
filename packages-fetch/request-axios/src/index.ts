@@ -1,12 +1,8 @@
-export {
-  default as axios
-} from "axios";
+export { default as axios } from "axios";
 export * from "./enum";
 export * from "./types";
 
-export {
-  formatToken
-} from "./utils";
+export { formatToken } from "./utils";
 
 export {
   authenticateResponseInterceptor,
@@ -14,6 +10,4 @@ export {
   errorMessageResponseInterceptor
 } from "./preset-interceptors";
 
-export {
-  RequestClient as default
-} from "./request-client";
+export { RequestClient as default } from "./request-client";

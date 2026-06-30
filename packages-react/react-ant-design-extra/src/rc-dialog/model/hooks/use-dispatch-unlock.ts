@@ -10,9 +10,11 @@ import useModelDispatch from "./_use-model-dispatch";
 export default function useDispatchUnlock(): () => void {
   const dispatch = useModelDispatch();
 
-  return useCallback(() => dispatch({
-    type: EAction.UNLOCK
-  }), [
+  return useCallback(() => {
+    return dispatch({
+      type: EAction.UNLOCK
+    });
+  }, [
     dispatch
   ]);
 }

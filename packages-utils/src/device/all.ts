@@ -3,7 +3,6 @@ import type {
   IDeviceAll,
   IDeviceAllOptions
 } from "./types";
-
 import deviceBrowser from "./browser";
 import deviceCpuCores from "./cpu-cores";
 import deviceFeatures from "./features";

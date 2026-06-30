@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import Footer from "../footer/index.vue";
-import Header from "../header/index.vue";
-import Skeleton from "../skeleton/index.vue";
 import {
   isVNode
 } from "vue";
-
 import {
   ElDialog
 } from "element-plus";
 
+import Footer from "../footer/index.vue";
+import Header from "../header/index.vue";
+import Skeleton from "../skeleton/index.vue";
 import {
   transformWidthSize,
   usePropsContent,

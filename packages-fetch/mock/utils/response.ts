@@ -76,7 +76,9 @@ export function unAuthorizedResponse(event: H3Event<EventHandlerRequest>) {
 }
 
 export function sleep(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise(resolve => {
+    return setTimeout(resolve, ms);
+  });
 }
 
 export function pagination<T = unknown>(

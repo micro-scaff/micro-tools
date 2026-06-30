@@ -105,7 +105,9 @@ export default function useService<T, Q = unknown>(fetch: IServiceFunction<T, Q>
   }
 
   if (watchQuery && (isReactive(query) || isRef(query))) {
-    watch(() => query, newQuery => {
+    watch(() => {
+      return query;
+    }, newQuery => {
       run(newQuery);
     }, {
       deep: true,

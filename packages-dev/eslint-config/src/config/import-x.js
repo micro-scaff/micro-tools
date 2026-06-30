@@ -125,6 +125,16 @@ export default [
   },
   {
     files: [
+      "**/*.{ts,tsx,mts,cts,vue}"
+    ],
+    rules: {
+
+      // TypeScript 类型导出不一定存在于运行时 export map 中，例如 Vue 的 Ref。
+      "import-x/named": "off"
+    }
+  },
+  {
+    files: [
       "**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx,vue}"
     ],
     ignores: [

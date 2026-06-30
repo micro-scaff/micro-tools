@@ -8,5 +8,7 @@ import useModelProps from "./_use-model-props";
 export default function usePropsBackdropClosable(): ComputedRef<boolean> {
   const props = useModelProps();
 
-  return computed(() => props.value.backdropClosable ?? true);
+  return computed(() => {
+    return props.value.backdropClosable ?? true;
+  });
 }

@@ -1,9 +1,3 @@
-import type {
-  TQueryTypes,
-  IOptions,
-  TQueryHookResult
-} from "./type";
-
 /**
  * Storybook vue-Router Link(Not recommended)
  * https://www.npmjs.com/package/storybook-vue3-router
@@ -25,6 +19,12 @@ import {
   isEqual,
   queryStringToObject
 } from "@mt-kit/utils";
+
+import type {
+  TQueryTypes,
+  IOptions,
+  TQueryHookResult
+} from "./type";
 
 /**
  * 把 search string 转成对象，如果从 URL 中获取到的参数为空串，将被忽略，且只有在 defaults 中有的才会被接受
@@ -105,15 +105,17 @@ export default function useLocationQuery<T>({
 
   const query = ref<Partial<T>>(defaults);
 
-  const getQuery = computed(() => searchToQuery(
-      {
-        ...defaults,
-        ...route.query
-      },
-      keys,
-      defaults,
-      types
-  ));
+  const getQuery = computed(() => {
+    return searchToQuery(
+        {
+          ...defaults,
+          ...route.query
+        },
+        keys,
+        defaults,
+        types
+    );
+  });
 
   watchEffect(() => {
     query.value = getQuery.value;

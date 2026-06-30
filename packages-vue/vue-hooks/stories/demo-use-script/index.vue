@@ -19,7 +19,7 @@ export default defineComponent({
     const {
       isLoading, error, success, promise
     } = useScript({
-      src: "http://xxx.com/test.js"
+      src: "https://xxx.com/test.js"
     });
 
     // 用于存储外部脚本定义的变量

@@ -72,6 +72,8 @@ export default {
     "unicorn/prefer-module": "off",
 
     // 允许直接写 node 内置模块名，不强制 node: 前缀
-    "unicorn/prefer-node-protocol": "off"
+    "unicorn/prefer-node-protocol": "off",
+
+    "unicorn/prefer-iterator-to-array": "off"
   }
 };

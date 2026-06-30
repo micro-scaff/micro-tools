@@ -7,7 +7,7 @@ import {
  */
 export default function deviceI18n(): II18n {
   return {
-    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    timeZone: new Intl.DateTimeFormat().resolvedOptions().timeZone,
     daylightSaving: new Date().getTimezoneOffset() < new Date(2024, 6, 1).getTimezoneOffset(),
     numberFormat: new Intl.NumberFormat().format(1234.56),
     currencyFormat: new Intl.NumberFormat("zh-CN", {

@@ -2,11 +2,12 @@ import {
   Package
 } from "@manypkg/get-packages";
 import {
-  readFileSync
-} from "fs";
-import {
   glob
 } from "glob";
+
+import {
+  readFileSync
+} from "fs";
 import {
   join
 } from "path";

@@ -10,10 +10,12 @@ import useModelDispatch from "./_use-model-dispatch";
 export default function useDispatchData(): (payload?: Record<string, unknown> | unknown) => void {
   const dispatch = useModelDispatch();
 
-  return useCallback((payload?: Record<string, unknown> | unknown) => dispatch({
-    type: EAction.DATA,
-    payload: payload ?? undefined
-  }), [
+  return useCallback((payload?: Record<string, unknown> | unknown) => {
+    return dispatch({
+      type: EAction.DATA,
+      payload: payload ?? undefined
+    });
+  }, [
     dispatch
   ]);
 }

@@ -1,6 +1,7 @@
 import {
   faker
 } from "@faker-js/faker";
+
 import {
   usePageResponseSuccess
 } from "~/utils/response";
@@ -42,7 +43,9 @@ function generateMockDataList(count: number) {
       inProduction: faker.datatype.boolean(),
       tags: Array.from({
         length: 3
-      }, () => faker.commerce.productAdjective())
+      }, () => {
+        return faker.commerce.productAdjective();
+      })
     };
 
     dataList.push(dataItem);

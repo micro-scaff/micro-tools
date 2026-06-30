@@ -4,14 +4,14 @@ import {
   computed,
   isVNode
 } from "vue";
-
-import {
-  isObject
-} from "@mt-kit/utils";
 import{
   ElSpace,
   ElButton
 } from "element-plus";
+
+import {
+  isObject
+} from "@mt-kit/utils";
 
 import {
   usePropsOk,
@@ -26,19 +26,23 @@ import {
 
 const ok = usePropsOk();
 
-const okButtonProps = computed(() => (isObject(ok.value) ? {
-  ...ok.value
-} : {
-  label: ok.value
-}));
+const okButtonProps = computed(() => {
+  return (isObject(ok.value) ? {
+    ...ok.value
+  } : {
+    label: ok.value
+  });
+});
 
 const cancel = usePropsCancel();
 
-const cancelButtonProps = computed(() => (isObject(cancel.value) ? {
-  ...cancel.value
-} : {
-  label: cancel.value
-}));
+const cancelButtonProps = computed(() => {
+  return (isObject(cancel.value) ? {
+    ...cancel.value
+  } : {
+    label: cancel.value
+  });
+});
 
 const isSubmit = usePropsIsSubmit();
 

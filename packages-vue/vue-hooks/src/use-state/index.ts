@@ -1,13 +1,13 @@
 import {
-  isPlainObject as _isPlainObject
-} from "lodash-es";
-
-import {
   ref,
   isRef,
   reactive,
   isReactive
 } from "vue";
+
+import {
+  isPlainObject as _isPlainObject
+} from "lodash-es";
 
 import {
   isFunction as _isFunction,

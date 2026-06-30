@@ -1,7 +1,4 @@
 import {
-  useEventListener
-} from "@mt-kit/vue-hooks";
-import {
   Ref,
   unref,
   nextTick,
@@ -12,11 +9,15 @@ import {
 } from "vue";
 
 import {
-  debounce
-} from "@mt-kit/utils";
-import {
   EChartsOption
 } from "echarts";
+
+import {
+  useEventListener
+} from "@mt-kit/vue-hooks";
+import {
+  debounce
+} from "@mt-kit/utils";
 
 import {
   IFn
@@ -49,7 +50,9 @@ export default function useEcharts(
   /**
      * 主题监听，因为有可能全局修改了主题颜色
      */
-  const getDarkMode = computed(() => theme);
+  const getDarkMode = computed(() => {
+    return theme;
+  });
 
   const cacheOptions = ref({}) as Ref<EChartsOption>;
 
@@ -148,13 +151,17 @@ export default function useEcharts(
      * 监听主题变化
      */
   watch(
-      () => getDarkMode.value,
+      () => {
+        return getDarkMode.value;
+      },
       theme => {
-        if (chartInstance) {
-          chartInstance.dispose();
-          initCharts(theme as "default");
-          setOptions(cacheOptions.value);
+        if (!chartInstance) {
+        	return;
         }
+
+        chartInstance.dispose();
+        initCharts(theme as "default");
+        setOptions(cacheOptions.value);
       }
   );
 

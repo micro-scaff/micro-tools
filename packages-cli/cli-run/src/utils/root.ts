@@ -1,6 +1,7 @@
 import {
   findUpSync
 } from "find-up";
+
 import {
   existsSync
 } from "fs";

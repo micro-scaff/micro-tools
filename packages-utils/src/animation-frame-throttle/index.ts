@@ -20,19 +20,19 @@ type TFunctionArgs<Args extends unknown[] = unknown[], Return = void> = (...args
  * const animatedFunction = animationFrameThrottle(updateAnimation);
  */
 export default function animationFrameThrottle<T extends TFunctionArgs>(fn: T): T {
-  let locked = false;
+  let isLocked = false;
 
   return function(this: unknown, ...args: Parameters<T>): ReturnType<T> {
-    if (locked) {
+    if (isLocked) {
       return undefined as unknown as ReturnType<T>;
     }
 
-    locked = true;
+    isLocked = true;
 
     // window.requestAnimationFrame 用于在下一次浏览器重绘之前调用指定的函数
     window.requestAnimationFrame(() => {
       fn.apply(this, args);
-      locked = false;
+      isLocked = false;
     });
 
     return undefined as unknown as ReturnType<T>;

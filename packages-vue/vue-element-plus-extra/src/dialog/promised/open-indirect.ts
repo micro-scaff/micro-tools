@@ -1,13 +1,12 @@
 import {
-  noop as _noop
-} from "lodash-es";
-
-import WithModel from "../with-model/index.vue";
-import {
   createApp,
   App,
   h
 } from "vue";
+
+import {
+  noop as _noop
+} from "lodash-es";
 
 import {
   createContainer,
@@ -15,6 +14,7 @@ import {
   isUndefined
 } from "@mt-kit/utils";
 
+import WithModel from "../with-model/index.vue";
 import {
   DialogProps
 } from "../model";

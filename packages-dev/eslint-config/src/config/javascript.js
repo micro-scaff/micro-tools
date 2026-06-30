@@ -198,17 +198,9 @@ export default {
       "tmp",
       "temp",
       "data",
-      "obj",
-      "arr",
-      "str",
       "num",
       "bool",
-      "val",
-      "retval",
-      "cb",
-      "callback",
-      "err",
-      "e"
+      "retval"
     ], // 禁止使用指定的标识符，避免无意义的占位命名
     "id-length": "off", // 禁止在标识符中使用悬空下划线
     "id-match": [

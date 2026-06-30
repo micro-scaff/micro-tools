@@ -7,7 +7,9 @@ import useModelState from "./_use-model-state";
 export default function useStateDataLoading(): boolean {
   const state = useModelState();
 
-  return useMemo(() => state.dataLoading, [
+  return useMemo(() => {
+    return state.dataLoading;
+  }, [
     state
   ]);
 }

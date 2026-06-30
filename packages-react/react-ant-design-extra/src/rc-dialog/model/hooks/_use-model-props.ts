@@ -11,7 +11,9 @@ export default function useModelProps<T, D extends object>(): IDialogProps<T, D>
 
   const context = useModelContext<T, D>();
 
-  return useMemo(() => context.props, [
+  return useMemo(() => {
+    return context.props;
+  }, [
     context
   ]);
 }

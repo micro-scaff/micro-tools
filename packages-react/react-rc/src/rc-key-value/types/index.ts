@@ -9,9 +9,9 @@ export interface IItemResolved {
   v: ReactNode;
 }
 
-export type TItems = {
+export type TItems = (IItemResolved | null)[] | {
   [k: string]: ReactNode;
-} | (IItemResolved | null)[];
+};
 
 export interface IKeyValueProps extends HTMLAttributes<HTMLDivElement> {
   o: TItems;

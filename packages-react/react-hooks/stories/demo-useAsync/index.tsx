@@ -33,23 +33,27 @@ export default function DemoUseAsync(): React.ReactElement {
     runWithDebounce
   ]);
 
-  return <div>
-    <p>useIsUnmounted 的使用</p>
+  return (
+    <div>
+      <p>useIsUnmounted 的使用</p>
 
-    <button
-      disabled={loading}
-      onClick={handleClick}>
-      {loading ? "Loading..." : "Fetch Data"}
-    </button>
+      <button
+        disabled={loading}
+        onClick={handleClick}>
+        {loading ? "Loading..." : "Fetch Data"}
+      </button>
 
-    <button
-      disabled={loading}
-      onClick={handleDebouncedClick}>
-      {loading ? "Loading..." : "Fetch Data (Debounced)"}
-    </button>
+      <button
+        disabled={loading}
+        onClick={handleDebouncedClick}>
+        {loading ? "Loading..." : "Fetch Data (Debounced)"}
+      </button>
 
-    {data && <pre>
-      {JSON.stringify(data, null, 2)}
-    </pre>}
-  </div>;
+      {data && (
+        <pre>
+          {JSON.stringify(data, null, 2)}
+        </pre>
+      )}
+    </div>
+  );
 }
