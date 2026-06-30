@@ -60,6 +60,7 @@
     "@types/lodash-es": "catalog:",
     "@vitejs/plugin-vue": "catalog:",
     "@vitejs/plugin-vue-jsx": "catalog:",
+    "element-plus": "catalog:",
     "storybook": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",

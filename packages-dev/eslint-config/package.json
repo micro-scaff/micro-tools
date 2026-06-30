@@ -20,7 +20,6 @@
   },
   "files": [
     "README.md",
-    "index.d.ts",
     "src"
   ],
   "main": "./src/index.js",

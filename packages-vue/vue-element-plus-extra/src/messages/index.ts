@@ -1,30 +1,28 @@
 import {
-  ElMessage
-
+  ElMessage,
+  MessageHandler,
+  MessageOptions
 } from "element-plus";
 
-type TMessageHandler = ReturnType<typeof ElMessage>;
+type TEnhancedMessageOptions = MessageOptions & {
 
-type TMessageOptions = Exclude<Parameters<typeof ElMessage>[0], string>;
+  /** 是否用新消息替换当前正在显示的消息，默认 false（与原逻辑保持一致） */
+  replace?: boolean;
+};
+
+type TEnhancedMessageShortcutOptions = Omit<TEnhancedMessageOptions, "message" | "type">;
 
 /**
  * ElMessage 单例类
  * 确保全局每次只能弹出一个消息
  */
-interface IEnhancedMessageOptions extends TMessageOptions {
-
-  /**
-   * 是否用新消息替换当前正在显示的消息，默认 false（与原逻辑保持一致）
-   */
-  replace?: boolean;
-}
 
 class Messages {
-  private currentMessage: TMessageHandler | null = null;
+  private currentMessage: MessageHandler | null = null;
 
   private isClosing = false;
 
-  private pendingOptions: IEnhancedMessageOptions | null = null;
+  private pendingOptions: TEnhancedMessageOptions | null = null;
 
   /**
    * 关闭所有现有消息
@@ -46,10 +44,10 @@ class Messages {
   /**
    * 显示消息
    * @param options 消息配置选项
-   * @returns TMessageHandler
+   * @returns MessageHandler
    */
-  show(options: string | IEnhancedMessageOptions): TMessageHandler {
-    const normalized: IEnhancedMessageOptions =
+  show(options: string | TEnhancedMessageOptions): MessageHandler {
+    const normalized: TEnhancedMessageOptions =
       typeof options === "string"
         ? {
           message: options
@@ -63,7 +61,7 @@ class Messages {
       replace: _replace,
       onClose: userOnClose,
       ...elMessageOptions
-    } = normalized as IEnhancedMessageOptions & { onClose?: () => void };
+    } = normalized as TEnhancedMessageOptions & { onClose?: () => void };
 
     // 如果已有消息正在显示
     if (this.currentMessage) {
@@ -131,8 +129,8 @@ class Messages {
    */
   success(
       message: string,
-      options?: Omit<TMessageOptions, "message" | "type"> & IEnhancedMessageOptions
-  ): TMessageHandler {
+      options?: TEnhancedMessageShortcutOptions
+  ): MessageHandler {
     return this.show({
       message,
       type: "success",
@@ -147,8 +145,8 @@ class Messages {
    */
   warning(
       message: string,
-      options?: Omit<TMessageOptions, "message" | "type"> & IEnhancedMessageOptions
-  ): TMessageHandler {
+      options?: TEnhancedMessageShortcutOptions
+  ): MessageHandler {
     return this.show({
       message,
       type: "warning",
@@ -163,8 +161,8 @@ class Messages {
    */
   error(
       message: string,
-      options?: Omit<TMessageOptions, "message" | "type"> & IEnhancedMessageOptions
-  ): TMessageHandler {
+      options?: TEnhancedMessageShortcutOptions
+  ): MessageHandler {
     return this.show({
       message,
       type: "error",
@@ -179,8 +177,8 @@ class Messages {
    */
   info(
       message: string,
-      options?: Omit<TMessageOptions, "message" | "type"> & IEnhancedMessageOptions
-  ): TMessageHandler {
+      options?: TEnhancedMessageShortcutOptions
+  ): MessageHandler {
     return this.show({
       message,
       type: "info",
