@@ -80,6 +80,8 @@ export default {
     "unicorn/consistent-boolean-name": "off",
 
     // Promise 链在当前仓库中大量存在，保留 .then/.catch/.finally 写法
-    "unicorn/prefer-await": "off"
+    "unicorn/prefer-await": "off",
+
+    "unicorn/no-process-exit": "off"
   }
 };

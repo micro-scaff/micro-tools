@@ -10,15 +10,17 @@ const currentDir = path.dirname(currentFile);
 
 const root = path.resolve(currentDir, "..");
 
+const errors = [];
+
 const skillDirs = fs.readdirSync(root, {
   withFileTypes: true
 }).filter(entry => {
   return entry.isDirectory() && fs.existsSync(path.join(root, entry.name, "SKILL.md"));
 }).map(entry => {
   return entry.name;
-}).sort();
-
-const errors = [];
+}).toSorted((a, b) => {
+  return a.localeCompare(b, "en");
+});
 
 function read(file) {
   return fs.readFileSync(file, "utf8");
@@ -37,9 +39,11 @@ function checkCodeFences(file) {
 function listMarkdownFiles(dir) {
   const result = [];
 
-  for (const entry of fs.readdirSync(dir, {
+  const entries = fs.readdirSync(dir, {
     withFileTypes: true
-  })) {
+  });
+
+  for (const entry of entries) {
     const full = path.join(dir, entry.name);
 
     if (entry.isDirectory()) {
@@ -69,15 +73,19 @@ for (const dir of skillDirs) {
     continue;
   }
 
-  const name = (frontmatter[1].match(/^name:\s*(.+)$/m) || [])[1]?.trim();
+  const nameMatch = frontmatter[1].match(/^name:([^\r\n]+)$/m) || [];
 
-  const description = (frontmatter[1].match(/^description:\s*(.+)$/m) || [])[1]?.trim();
+  const descriptionMatch = frontmatter[1].match(/^description:([^\r\n]+)$/m) || [];
 
-  if (name !== dir || !(/^[a-z0-9-]+$/).test(name || "")) {
-    errors.push(`${dir}: invalid name "${name || ""}"`);
+  const trimmedName = nameMatch[1]?.trim();
+
+  const trimmedDescription = descriptionMatch[1]?.trim();
+
+  if (trimmedName !== dir || !(/^[a-z0-9-]+$/).test(trimmedName || "")) {
+    errors.push(`${dir}: invalid name "${trimmedName || ""}"`);
   }
 
-  if (!description || description.length < 80 || description.length > 1024) {
+  if (!trimmedDescription || trimmedDescription.length < 80 || trimmedDescription.length > 1024) {
     errors.push(`${dir}: description length must be 80-1024 chars`);
   }
 
@@ -98,9 +106,13 @@ for (const dir of skillDirs) {
   if (fs.existsSync(openaiFile)) {
     const yaml = read(openaiFile);
 
-    const shortDescription = (yaml.match(/short_description:\s*"([^"]+)"/) || [])[1];
+    const shortDescriptionMatch = yaml.match(/short_description:\s*"([^"]+)"/);
 
-    const defaultPrompt = (yaml.match(/default_prompt:\s*"([^"]+)"/) || [])[1];
+    const defaultPromptMatch = yaml.match(/default_prompt:\s*"([^"]+)"/);
+
+    const shortDescription = shortDescriptionMatch?.[1];
+
+    const defaultPrompt = defaultPromptMatch?.[1];
 
     if (!shortDescription || shortDescription.length < 25 || shortDescription.length > 64) {
       errors.push(`${dir}: short_description length must be 25-64 chars`);
@@ -119,7 +131,6 @@ for (const file of listMarkdownFiles(root)) {
 }
 
 if (errors.length > 0) {
-  console.error(errors.join("\n"));
   process.exit(1);
 }
 
