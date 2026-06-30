@@ -1,12 +1,10 @@
 {
   "compilerOptions": {
     "target": "es2019",               // 输出 ES6 模块
-    "lib": ["es2021", "es2022.error", "dom"],
-    "rootDir": "./src",            // TypeScript 源代码目录
+    "lib": ["esnext", "dom"],
 
+    "moduleResolution": "bundler",
     "module": "ES6",               // ES6 ECMAScript 模块 / CommonJS CommonJS 模块
-    // 解决 TS2792: Cannot find module 'undici-types'. Did you mean to set the 'moduleResolution' option to 'nodenext', or to add aliases to the 'paths' option? 这个报错
-    "moduleResolution": "node",
     "paths": {
       "#/*": ["./src/*"]
     },
@@ -14,13 +12,12 @@
     "noImplicitThis": false,       // 取消 TypeScript 中 this 的隐式 any 类型报错
     "noUnusedLocals": true,
     "declaration": true,           // 生成 .d.ts 类型声明文件
-    "outDir": "./dist",            // 输出目录
     // "declarationMap": true,     // 生成 .d.ts.map 映射文件
     "sourceMap": true,             // 生成 .js.map 源映射文件
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipDefaultLibCheck": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
   },
   "include": [
     "src/**/*.ts"
