@@ -1,0 +1,4 @@
+interface:
+  display_name: "MT ESLint Config"
+  short_description: "接入和排查 @mt-kit/eslint-config"
+  default_prompt: "使用 $mt-eslint-config 为这个项目接入或排查 @mt-kit/eslint-config。"
