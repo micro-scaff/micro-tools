@@ -1,5 +1,11 @@
 # @mt-kit/utils
 
+## 1.8.0
+
+### Minor Changes
+
+- 修复 Sourcemap for "xxx.js" points to missing source files
+
 ## 1.7.0
 
 ### Minor Changes
