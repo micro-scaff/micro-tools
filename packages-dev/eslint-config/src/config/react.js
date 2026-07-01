@@ -1,11 +1,18 @@
-import eslintReact from "@eslint-react/eslint-plugin";
+// React 官方规则（eslint-plugin-react-hooks 后面去要更新一下）
+import reactHooks from "eslint-plugin-react-hooks";
 import reactCompiler from "eslint-plugin-react-compiler";
+import eslintReact from "@eslint-react/eslint-plugin";
+import {
+  reactRefresh
+} from "eslint-plugin-react-refresh";
 
 const REACT_FILES = [
   "**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}"
 ];
 
 const REACT_RECOMMENDED_CONFIG = eslintReact.configs["recommended-typescript"] ?? eslintReact.configs.recommended;
+
+const REACT_HOOKS_RECOMMENDED_CONFIG = reactHooks.configs.flat?.recommended ?? reactHooks.configs.recommended;
 
 /**
  * React
@@ -36,7 +43,13 @@ export default {
     ...REACT_RECOMMENDED_CONFIG.plugins,
 
     // React Compiler 官方规则
-    "react-compiler": reactCompiler
+    "react-compiler": reactCompiler,
+
+    // React Hooks 官方规则
+    "react-hooks": reactHooks,
+
+    // React Fast Refresh 官方规则
+    "react-refresh": reactRefresh.plugin
   },
   settings: {
 
@@ -48,14 +61,18 @@ export default {
     // 启用 @eslint-react 推荐的 React / JSX / DOM / Web API 规则
     ...REACT_RECOMMENDED_CONFIG.rules,
 
+    "react-refresh/only-export-components": [
+      "error",
+      {
+        allowConstantExport: true
+      }
+    ],
+
     // React Compiler 编译兼容性检查
     "react-compiler/react-compiler": "error",
 
-    // Hook 调用规则，替代当前无法加载的 eslint-plugin-react-hooks
-    "@eslint-react/rules-of-hooks": "error",
-
-    // Hook 依赖数组检查，替代当前无法加载的 eslint-plugin-react-hooks
-    "@eslint-react/exhaustive-deps": "error",
+    // React Hooks 官方推荐规则
+    ...REACT_HOOKS_RECOMMENDED_CONFIG.rules,
 
     // 禁止使用数组索引作为 key
     "@eslint-react/no-array-index-key": "error",
