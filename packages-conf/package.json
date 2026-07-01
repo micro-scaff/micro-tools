@@ -22,6 +22,11 @@
     "clear": "rm -fr node_modules && rm -fr dist",
     "prepublishOnly": "npm run build"
   },
+  "files": [
+    "README.md",
+    "dist",
+    "src"
+  ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "publishConfig": {

@@ -33,6 +33,13 @@
     "clear": "rm -fr node_modules && rm -fr dist && rm -fr lib",
     "prepublishOnly": "pnpm run build"
   },
+  "files": [
+    "CHANGELOG.md",
+    "README.md",
+    "dist",
+    "lib",
+    "src"
+  ],
   "main": "./lib/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
