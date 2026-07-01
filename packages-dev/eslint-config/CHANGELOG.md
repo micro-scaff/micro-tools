@@ -1,5 +1,11 @@
 # @mt-kit/eslint-config
 
+## 3.1.0
+
+### Minor Changes
+
+- 新增 eslint-plugin-react-refresh、eslint-plugin-react-hooks 插件
+
 ## 3.0.0
 
 ### Major Changes
