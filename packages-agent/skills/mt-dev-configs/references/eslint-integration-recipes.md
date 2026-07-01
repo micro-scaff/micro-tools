@@ -79,7 +79,7 @@ export default [
 ];
 ```
 
-用于 React、React + TypeScript、JSX 和 TSX。不要仅为了 Hooks 规则额外添加 `eslint-plugin-react-hooks`；这个配置包使用 `@eslint-react` 的等价规则。
+用于 React、React + TypeScript、JSX 和 TSX。不要仅为了 Hooks 或 Fast Refresh 规则在外部项目里额外安装插件；这个配置包已经内置 `eslint-plugin-react-hooks` 和 `eslint-plugin-react-refresh`。
 
 ## 本地覆盖
 

@@ -15,7 +15,7 @@
 - `config/javascript.js`：基础 language options、browser/ES2021/Node globals、JSX parser option、`@eslint/js` 推荐规则、`eslint-plugin-unused-imports`，以及部分 unicorn 行为。
 - `config/typescript.js`：作用于 TS、TSX、MTS、CTS 和 Vue 文件。使用 `@typescript-eslint/parser`，注册 `@typescript-eslint`，启用 strict 与 recommended 规则，并约束项目命名习惯，例如 interface 使用 `I` 前缀、enum 使用 `E` 前缀。
 - `config/vue.js`：使用 `vue-eslint-parser`，并为 script block 配置 `@typescript-eslint/parser`。继承 `eslint-plugin-vue` flat recommended 配置，再补充 Vue SFC 顺序、宏顺序、template casing、属性排序、HTML 缩进等 Vue 规则。
-- `config/react.js`：使用 `@eslint-react/eslint-plugin` 和 `eslint-plugin-react-compiler`。不使用经典 `eslint-plugin-react` 或 `eslint-plugin-react-hooks`。Hooks 检查来自 `@eslint-react/rules-of-hooks` 和 `@eslint-react/exhaustive-deps`。
+- `config/react.js`：使用 `@eslint-react/eslint-plugin`、`eslint-plugin-react-hooks`、`eslint-plugin-react-refresh` 和 `eslint-plugin-react-compiler`。不使用经典 `eslint-plugin-react`。Hooks 检查来自官方 `react-hooks/rules-of-hooks` 和 `react-hooks/exhaustive-deps`，Fast Refresh 检查来自 `react-refresh/only-export-components`。
 - `config/jsx.js`：使用 `@stylistic/eslint-plugin` 承接 JSX 排版规则，这些规则在旧 lint 体系里常见于 React 相关插件。
 - `config/import-x.js`：使用 `eslint-plugin-import-x`、它的 flat recommended 配置，以及 `createNodeResolver`。默认关闭 `import-x/no-unresolved`，避免别名、TS paths 和 package export maps 带来的误报。
 - `config/jsonc.js`：使用 `eslint-plugin-jsonc` 和 `jsonc-eslint-parser`，覆盖 JSON、JSONC、JSON5、workspace 文件和 package.json 字段排序。
@@ -30,6 +30,6 @@
 
 ## 依赖事实来源
 
-当 README 的插件表与源码不一致时，优先相信 `package.json` 和源码 import。当前源码使用 `@eslint-react/eslint-plugin`，不是经典 `eslint-plugin-react`；使用 import-x，不是 import；没有安装 jsx-a11y 或 react-hooks 插件。
+当 README 的插件表与源码不一致时，优先相信 `package.json` 和源码 import。当前源码使用 `@eslint-react/eslint-plugin`，不是经典 `eslint-plugin-react`；使用 import-x，不是 import；没有安装 jsx-a11y；Hooks 使用官方 `eslint-plugin-react-hooks`。
 
 当前源码对应的 peer dependency 要求 `eslint >=10`。如果目标项目使用 ESLint 9，先检查实际安装的 `@mt-kit/eslint-config` 版本、lockfile 和 package manager resolution，再判断兼容性；不要只按旧 README 片段下结论。

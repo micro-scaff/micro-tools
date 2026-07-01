@@ -43,7 +43,7 @@ import {
 
 ## ESLint 版本描述冲突
 
-README 标题提到 ESLint 9.x，但当前 `package.json` peer dependency 是 `eslint >=10`。排查 peer dependency 时以当前包元信息和 lockfile 为准。
+当前 `package.json` peer dependency 是 `eslint >=10`。排查 peer dependency 时以当前包元信息和 lockfile 为准。
 
 外部项目如果出现 peer dependency 警告，先查看目标项目实际安装版本：
 
@@ -75,15 +75,14 @@ import EsLint from "@mt-kit/eslint-config";
 
 ## ESLint React 插件
 
-本包使用 `@eslint-react/eslint-plugin` 和 `eslint-plugin-react-compiler`。
+本包使用 `@eslint-react/eslint-plugin`、`eslint-plugin-react-hooks`、`eslint-plugin-react-refresh` 和 `eslint-plugin-react-compiler`。
 
 不要假设这些经典规则可用：
 
 - `react/*`
-- `react-hooks/*`
 - `jsx-a11y/*`
 
-React 相关覆盖应使用 `@eslint-react/*` 规则名。
+React 组件规则覆盖优先使用 `@eslint-react/*` 规则名。Hooks 覆盖使用 `react-hooks/*`，Fast Refresh 覆盖使用 `react-refresh/*`。
 
 ## ESLint Prettier
 

@@ -12,7 +12,7 @@
 }
 ```
 
-README 中仍有 “ESLint 9.x” 和部分旧插件生态描述；接入和排错时以当前 `package.json` 与源码为准。
+README、接入模板和排错说明应以当前 `package.json` 与源码为准；当前配置包要求 ESLint 10。
 
 ## 安装
 
@@ -145,6 +145,8 @@ export default [
 - `@stylistic/eslint-plugin`
 - `@eslint-react/eslint-plugin`
 - `eslint-plugin-react-compiler`
+- `eslint-plugin-react-hooks`
+- `eslint-plugin-react-refresh`
 - `eslint-plugin-import-x`
 - `eslint-plugin-jsonc`
 - `eslint-plugin-vue`
@@ -155,7 +157,7 @@ export default [
 - `eslint-plugin-command`
 - `eslint-plugin-eslint-comments`
 
-不要按旧 README 插件表假设存在 `eslint-plugin-react`、`eslint-plugin-react-hooks`、`eslint-plugin-jsx-a11y` 或 `eslint-plugin-import`。
+不要按旧插件生态假设存在 `eslint-plugin-react`、`eslint-plugin-jsx-a11y` 或 `eslint-plugin-import`。React 规则来自 `@eslint-react/eslint-plugin`，Hooks 规则来自官方 `eslint-plugin-react-hooks`，Fast Refresh 规则来自 `eslint-plugin-react-refresh`。
 
 ## 命名和变量规则
 

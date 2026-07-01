@@ -22,4 +22,4 @@
 
 ## README 与源码不一致时
 
-优先相信当前源码和 `package.json`。例如 `@mt-kit/eslint-config` 的 README 里有部分旧插件生态描述，但当前源码实际使用 `@eslint-react/eslint-plugin`、`eslint-plugin-import-x`、`eslint-plugin-react-compiler`，且根入口只导出默认配置、`VUE`、`REACT`。
+优先相信当前源码和 `package.json`。例如 `@mt-kit/eslint-config` 当前源码实际使用 `@eslint-react/eslint-plugin`、`eslint-plugin-react-hooks`、`eslint-plugin-react-refresh`、`eslint-plugin-import-x`、`eslint-plugin-react-compiler`，且根入口只导出默认配置、`VUE`、`REACT`。

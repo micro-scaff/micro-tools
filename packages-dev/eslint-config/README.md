@@ -1,6 +1,6 @@
 # @mt-kit/eslint-config
 
-> 基于 ESLint 9.x 的现代化代码规范配置，支持 TypeScript、Vue、React 等多种技术栈
+> 基于 ESLint 10 的现代化代码规范配置，支持 TypeScript、Vue、React 等多种技术栈
 
 [![npm version](https://img.shields.io/npm/v/@mt-kit/eslint-config.svg?style=for-the-badge&labelColor=2c3e50&color=3498db&logo=npm&logoColor=white)](https://www.npmjs.com/package/@mt-kit/eslint-config)
 [![GitHub stars](https://img.shields.io/github/stars/Not-have/micro-tools?style=for-the-badge&labelColor=2c3e50&color=e74c3c&logo=github&logoColor=white)](https://github.com/Not-have/micro-tools/tree/main/packages-dev/eslint-config)
@@ -99,7 +99,7 @@ export default [
     "fix": "eslint \"./**/*.{css,tsx,vue,ts,js,html}\" --fix"
   },
   "peerDependencies": {
-    "eslint": ">10.0.0"
+    "eslint": ">=10.0.0"
   },
   "devDependencies": {
     "@mt-kit/eslint-config": "^X.Y.Z",
@@ -134,10 +134,9 @@ export default [
 
 | 配置名称 | 描述 | 适用场景 |
 |---------|------|----------|
-| `EsLint` | 基础 JavaScript/TypeScript 配置 | 所有项目 |
-| `typescript` | TypeScript 专用配置 | TypeScript 项目 |
-| `vue` | Vue.js 专用配置 | Vue 项目 |
-| `react` | React 专用配置 | React 项目 |
+| `EsLint` | 默认导出，基础 JavaScript/TypeScript 配置 | 所有项目 |
+| `VUE` | 命名导出，默认配置 + Vue SFC 规则 | Vue 项目 |
+| `REACT` | 命名导出，默认配置 + JSX/React 规则 | React 项目 |
 
 ## ⚙️ 高级配置
 
@@ -184,9 +183,9 @@ export default [
 
 | 插件名 | 版本 | 作用 |
 |--------|------|------|
-| `eslint` | ^9.24.0 | ESLint 核心包，提供代码分析和检查功能 |
-| `@eslint/js` | ^9.24.0 | JavaScript 基础配置和规则 |
-| `@stylistic/eslint-plugin` | ^2.0.0 | 统一的代码风格配置插件 |
+| `eslint` | >=10 | ESLint 核心包，提供代码分析和检查功能 |
+| `@eslint/js` | ^10.0.1 | JavaScript 基础配置和规则 |
+| `@stylistic/eslint-plugin` | ^5.10.0 | 统一的代码风格配置插件 |
 
 ### TypeScript 支持
 
@@ -194,48 +193,40 @@ export default [
 |--------|------|------|
 | `@typescript-eslint/eslint-plugin` | ^8.0.0 | TypeScript 专用规则和检查 |
 | `@typescript-eslint/parser` | ^8.0.0 | TypeScript 代码解析器 |
-| `@types/eslint` | ^8.0.0 | TypeScript 类型定义 |
 
 ### 代码质量
 
 | 插件名 | 版本 | 作用 |
 |--------|------|------|
-| `eslint-plugin-unicorn` | ^60.0.0 | 现代 JavaScript/TypeScript 最佳实践 |
-| `eslint-plugin-perfectionist` | ^4.0.0 | 高级代码质量检查规则 |
-| `eslint-plugin-import` | ^2.30.0 | 模块导入管理和解析 |
-| `eslint-plugin-unused-imports` | ^4.1.0 | 检测未使用的导入语句 |
-| `eslint-plugin-jsdoc` | ^48.0.0 | JSDoc 注释一致性检查 |
+| `eslint-plugin-unicorn` | ^69.0.0 | 现代 JavaScript/TypeScript 最佳实践 |
+| `eslint-plugin-import-x` | ^4.17.1 | 模块导入管理和解析 |
+| `eslint-plugin-unused-imports` | ^4.4.1 | 检测未使用的导入语句 |
+| `eslint-plugin-jsdoc` | ^63.0.10 | JSDoc 注释一致性检查 |
 
 ### 工具集成
 
 | 插件名 | 版本 | 作用 |
 |--------|------|------|
-| `eslint-plugin-prettier` | ^5.0.0 | 与 Prettier 集成，确保代码风格一致 |
-| `eslint-plugin-jsonc` | ^2.0.0 | JSON/JSONC 文件格式校验 |
-| `eslint-plugin-regexp` | ^2.0.0 | 正则表达式优化和错误检测 |
-| `eslint-plugin-command` | ^0.2.0 | 项目命令规则检查 |
-| `eslint-plugin-eslint-comments` | ^7.0.0 | ESLint 注释使用优化 |
+| `eslint-plugin-jsonc` | ^3.2.0 | JSON/JSONC 文件格式校验 |
+| `eslint-plugin-regexp` | ^3.1.1 | 正则表达式优化和错误检测 |
+| `eslint-plugin-command` | ^3.5.2 | 项目命令规则检查 |
+| `eslint-plugin-eslint-comments` | ^3.2.0 | ESLint 注释使用优化 |
 
 ### Vue.js 支持
 
 | 插件名 | 版本 | 作用 |
 |--------|------|------|
-| `eslint-plugin-vue` | ^9.0.0 | Vue.js 专用规则和模板检查 |
-| `@vue/eslint-config-typescript` | ^14.0.0 | Vue + TypeScript 官方配置 |
+| `eslint-plugin-vue` | ^10.9.2 | Vue.js 专用规则和模板检查 |
+| `vue-eslint-parser` | ^10.4.1 | Vue SFC 解析器 |
 
 ### React 支持
 
 | 插件名 | 版本 | 作用 |
 |--------|------|------|
-| `eslint-plugin-react` | ^7.34.0 | React 代码规范和最佳实践 |
-| `eslint-plugin-react-hooks` | ^5.0.0 | React Hooks 正确使用检查 |
-| `eslint-plugin-jsx-a11y` | ^6.8.0 | JSX 可访问性检查 |
-
-### 实验性插件
-
-| 插件名 | 版本 | 作用 |
-|--------|------|------|
-| `eslint-plugin-oxlint` | ^0.1.0 | Oxlint 代码风格和质量规则 |
+| `@eslint-react/eslint-plugin` | ^5.10.0 | React / JSX / DOM / Web API 规则 |
+| `eslint-plugin-react-hooks` | ^5.2.0 | React Hooks 正确使用检查 |
+| `eslint-plugin-react-refresh` | ^0.5.3 | React Fast Refresh 组件导出检查 |
+| `eslint-plugin-react-compiler` | ^19.1.0-rc.2 | React Compiler 兼容性检查 |
 
 ## 🎯 规则特性
 
