@@ -7,7 +7,7 @@ description: 当需要为内部或外部项目接入、迁移、定制或排查 
 
 ## 快速开始
 
-使用本 skill 处理 MT 开发配置包。遇到 ESLint 深度规则解释时，可继续使用已有 `$mt-eslint-config`；本 skill 也记录 `@mt-kit/eslint-config` 的正确安装、导出名和 README 接入方式，方便做开发配置包总览、组合接入和跨工具排错。
+使用本 skill 处理 MT 开发配置包，包括 `@mt-kit/eslint-config` 的接入、迁移、规则解释和排错。总览接入时先判断目标工具；遇到 ESLint 深度问题时再按需读取 ESLint 专属 reference。
 
 先判断任务属于哪类：
 
@@ -34,6 +34,8 @@ description: 当需要为内部或外部项目接入、迁移、定制或排查 
 - `references/package-map.md`：4 个配置包的包名、入口、导出和用途。
 - `references/external-usage.md`：外部项目使用本 skill 时的通用约定。
 - `references/eslint-config.md`：ESLint 配置包的安装、导出名、接入模板和注意事项。
+- `references/eslint-config-map.md`：ESLint 配置包源码模块映射、导出结构和关键规则行为。
+- `references/eslint-integration-recipes.md`：外部项目和常见项目类型的 ESLint 接入模板。
 - `references/prettier-config.md`：Prettier 配置接入和与 ESLint 的边界。
 - `references/stylelint-config.md`：Stylelint 默认、Vue、React 配置接入。
 - `references/ts-config.md`：TypeScript 配置继承模板。

@@ -11,7 +11,7 @@
 
 ## 使用边界
 
-- ESLint 细节可交给 `$mt-eslint-config`，但总览接入时必须使用源码真实导出：默认导出、`VUE`、`REACT`。
+- ESLint 细节也由本 skill 处理；总览接入时必须使用源码真实导出：默认导出、`VUE`、`REACT`。
 - Prettier 只做格式化，不承担代码质量检查。
 - Stylelint 只处理样式文件和 Vue/HTML 中的样式语法。
 - TSConfig 负责编译器行为，不负责 lint 规则。

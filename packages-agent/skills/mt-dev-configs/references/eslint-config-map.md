@@ -1,4 +1,4 @@
-# 配置映射
+# ESLint 配置映射
 
 解释、扩展或排查 `@mt-kit/eslint-config` 时使用本文件。
 

@@ -1,4 +1,4 @@
-# 接入配方
+# ESLint 接入配方
 
 将 `@mt-kit/eslint-config` 接入项目时使用这些模板。
 
