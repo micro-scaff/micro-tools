@@ -6,7 +6,7 @@
 [![License](https://img.shields.io/github/license/Not-have/micro-tools?style=for-the-badge&labelColor=2c3e50&color=9b59b6&logo=opensourceinitiative&logoColor=white)](https://github.com/Not-have/micro-tools/blob/main/LICENSE)
 [![Documentation](https://img.shields.io/badge/docs-online-blue?style=for-the-badge&labelColor=2c3e50&color=3498db&logoColor=white)](https://not-have.github.io/micro-tools/)
 
-自定义 Vue 组件库，提供数字滚动动画等常用组件。
+自定义 Vue 组件库，提供序列帧动画、数字滚动动画等常用组件。
 
 ## 安装
 
@@ -15,6 +15,41 @@ npm i @mt-kit/vue-components
 ```
 
 ## 组件
+
+### AnimationFrame
+
+基于 Canvas 的图片序列帧播放器，支持循环播放、暂停恢复、资源切换和滚轮缩放。
+
+```vue
+<script lang="ts" setup>
+import {
+  AnimationFrame,
+  getAnimationFrameUrls
+} from "@mt-kit/vue-components";
+import "@mt-kit/vue-components/style.css";
+
+const frames = getAnimationFrameUrls({
+  framePath: "/assets/owl",
+  framePrefix: "owl_",
+  totalFrames: 74
+});
+</script>
+
+<template>
+  <AnimationFrame
+    aria-label="眨眼的猫头鹰"
+    :duration="2400"
+    :frames="frames"
+    :loop-interval="600"
+    :zoom="{
+      min: -1,
+      max: 1
+    }"
+  />
+</template>
+```
+
+组件实例提供 `pause`、`resume`、`restart`、`zoomIn` 和 `zoomOut` 方法，并抛出 `end`、`zoom-change` 事件。
 
 ### CountTo
 

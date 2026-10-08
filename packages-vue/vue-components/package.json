@@ -15,6 +15,10 @@
   },
   "license": "ISC",
   "author": "LiYong",
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
     "storybook": "storybook dev",
     "build-storybook": "storybook build",
@@ -27,12 +31,14 @@
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
+  "style": "dist/vue-components.css",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.es.js",
       "require": "./dist/index.umd.js"
-    }
+    },
+    "./style.css": "./dist/vue-components.css"
   },
   "publishConfig": {
     "access": "public",

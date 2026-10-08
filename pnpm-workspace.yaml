@@ -1,6 +1,8 @@
 packages:
   - packages*/**
   - envs
+overrides:
+  typescript: ^5.9.3
 catalog:
   "@ant-design/v5-patch-for-react-19": ^1.0.3
   "@changesets/cli": ^2.29.5
@@ -115,7 +117,7 @@ catalog:
   stylelint-processor-styled-components: ^1.10.0
   tailwindcss: ^4
   ts-loader: ^9.5.2
-  typescript: ^5
+  typescript: ^5.9.3
   unbuild: ^3.5.0
   unfetch: ^4.2.0
   vite: ^7.2.4
