@@ -69,6 +69,19 @@ const zoomOrigin = ref({
   y: 50
 });
 
+// 拖动位移使用屏幕像素保存，并放在 scale 之前执行，确保鼠标移动距离
+// 与画面视觉移动距离一致，不会随当前缩放倍数再次放大。
+const dragOffset = ref({
+  x: 0,
+  y: 0
+});
+
+const isDragging = ref(false);
+
+const isDraggingEnabled = computed(() => {
+  return props.zoom?.draggable === true && zoomValue.value > 0;
+});
+
 const isZoomOverflowVisible = computed(() => {
   return props.zoom?.allowOverflow === true && zoomValue.value > 0;
 });
@@ -102,6 +115,18 @@ let playbackRunId = 0;
 // 每次加载资源都会递增批次号。较旧的异步任务即使更晚完成，
 // 也会因为批次不一致被丢弃，防止旧动画覆盖新动画。
 let loadId = 0;
+
+// Pointer Events 可以同时覆盖鼠标、触控笔和触摸操作。记录 pointerId 后，
+// 组件只响应发起本次拖动的指针，避免多点触控导致画面跳动。
+let draggingPointerId: number | undefined;
+
+let dragStartClientX = 0;
+
+let dragStartClientY = 0;
+
+let dragStartOffsetX = 0;
+
+let dragStartOffsetY = 0;
 
 /**
  * 将数值限制在闭区间内，统一处理缩放边界、进度和鼠标坐标。
@@ -168,6 +193,33 @@ const syncZoomScale = (): void => {
 };
 
 /**
+ * 结束当前指针拖动并释放指针捕获，但保留已经产生的画面位移。
+ */
+const stopDragging = (): void => {
+  const pointerId = draggingPointerId;
+
+  draggingPointerId = undefined;
+  isDragging.value = false;
+
+  const viewport = viewportRef.value;
+
+  if (pointerId !== undefined && viewport?.hasPointerCapture(pointerId)) {
+    viewport.releasePointerCapture(pointerId);
+  }
+};
+
+/**
+ * 将画面拖动位移恢复为初始位置，并结束可能仍在进行的拖动。
+ */
+const resetDragOffset = (): void => {
+  stopDragging();
+  dragOffset.value = {
+    x: 0,
+    y: 0
+  };
+};
+
+/**
  * 更新缩放值，并按需向父组件发送变化事件。
  */
 const setZoomValue = (nextZoomValue: number, emitChange = false): void => {
@@ -182,6 +234,12 @@ const setZoomValue = (nextZoomValue: number, emitChange = false): void => {
   zoomValue.value = normalizedZoomValue;
   syncZoomScale();
 
+  // 原始比例和缩小状态不允许拖动，回到这些状态时同步清除旧位移，
+  // 避免下一次放大后画面从之前的位置出现。
+  if (normalizedZoomValue <= 0) {
+    resetDragOffset();
+  }
+
   if (emitChange) {
     emit("zoomChange", {
       zoom: zoomValue.value
@@ -193,6 +251,7 @@ const setZoomValue = (nextZoomValue: number, emitChange = false): void => {
  * 将缩放比例和缩放原点恢复到初始状态。
  */
 const resetZoom = (emitChange = false): void => {
+  resetDragOffset();
   zoomOrigin.value = {
     x: 50,
     y: 50
@@ -297,6 +356,52 @@ const handleWheel = (event: WheelEvent): void => {
   }
 
   setZoomValue(nextZoomValue, true);
+};
+
+/**
+ * 在允许拖动且画面已经放大时开始一次拖动。
+ *
+ * setPointerCapture 会让指针移出组件边界后仍继续派发移动和抬起事件，避免
+ * 快速拖动时丢失 pointerup，造成组件一直停留在拖动状态。
+ */
+const handlePointerDown = (event: PointerEvent): void => {
+  if (!isDraggingEnabled.value || event.button !== 0) {
+    return;
+  }
+
+  event.preventDefault();
+  draggingPointerId = event.pointerId;
+  dragStartClientX = event.clientX;
+  dragStartClientY = event.clientY;
+  dragStartOffsetX = dragOffset.value.x;
+  dragStartOffsetY = dragOffset.value.y;
+  isDragging.value = true;
+  viewportRef.value?.setPointerCapture(event.pointerId);
+};
+
+/**
+ * 根据当前指针与拖动起点的距离更新画面位移。
+ */
+const handlePointerMove = (event: PointerEvent): void => {
+  if (draggingPointerId !== event.pointerId || !isDraggingEnabled.value) {
+    return;
+  }
+
+  dragOffset.value = {
+    x: dragStartOffsetX + event.clientX - dragStartClientX,
+    y: dragStartOffsetY + event.clientY - dragStartClientY
+  };
+};
+
+/**
+ * 结束对应指针的拖动。
+ */
+const handlePointerEnd = (event: PointerEvent): void => {
+  if (draggingPointerId !== event.pointerId) {
+    return;
+  }
+
+  stopDragging();
 };
 
 /**
@@ -695,6 +800,10 @@ watch(
         return;
       }
 
+      if (props.zoom?.draggable !== true) {
+        resetDragOffset();
+      }
+
       setZoomValue(clamp(zoomValue.value, zoomBounds.minZoom, zoomBounds.maxZoom));
     },
     {
@@ -725,6 +834,7 @@ onMounted(() => {
 // 卸载时让未完成的图片 Promise 失效，并取消所有浏览器调度任务。
 onBeforeUnmount(() => {
   loadId += 1;
+  stopDragging();
   stopAnimation();
 });
 </script>
@@ -734,8 +844,15 @@ onBeforeUnmount(() => {
     ref="viewportRef"
     class="animation-frame"
     :class="{
+      'animation-frame--draggable': isDraggingEnabled,
+      'animation-frame--dragging': isDragging,
       'animation-frame--overflow-visible': isZoomOverflowVisible
     }"
+    @lostpointercapture="handlePointerEnd"
+    @pointercancel="handlePointerEnd"
+    @pointerdown="handlePointerDown"
+    @pointermove="handlePointerMove"
+    @pointerup="handlePointerEnd"
     @wheel="handleWheel"
   >
     <canvas
@@ -745,9 +862,9 @@ onBeforeUnmount(() => {
       :aria-label="ariaLabel"
       :role="ariaLabel ? 'img' : undefined"
       :style="{
-        transform: `scale(${zoomScale})`,
+        transform: `translate(${dragOffset.x}px, ${dragOffset.y}px) scale(${zoomScale})`,
         transformOrigin: `${zoomOrigin.x}% ${zoomOrigin.y}%`,
-        transitionDuration: `${zoomTransitionDuration}ms`
+        transitionDuration: `${isDragging ? 0 : zoomTransitionDuration}ms`
       }"
     ></canvas>
   </div>
@@ -762,6 +879,16 @@ onBeforeUnmount(() => {
 
 .animation-frame--overflow-visible {
   overflow: visible;
+}
+
+.animation-frame--draggable {
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+.animation-frame--dragging {
+  cursor: grabbing;
 }
 
 .animation-frame__canvas {

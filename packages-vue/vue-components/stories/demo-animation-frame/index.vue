@@ -42,7 +42,7 @@ const handleEnd = (): void => {
 };
 
 // zoom-change 返回语义化 zoom，而不是最终 CSS scale。
-const handleZoomChange = (payload: AnimationFrameZoomChangePayload) => {
+const handleZoomChange = (payload: AnimationFrameZoomChangePayload): void => {
   currentZoom.value = payload.zoom;
 };
 </script>
@@ -58,6 +58,7 @@ const handleZoomChange = (payload: AnimationFrameZoomChangePayload) => {
         :frames="frames"
         :loop-interval="600"
         :zoom="{
+          draggable: true,
           min: -1,
           max: 1,
           step: 0.1,
@@ -102,7 +103,7 @@ const handleZoomChange = (payload: AnimationFrameZoomChangePayload) => {
     </div>
 
     <p class="animation-frame-demo__status">
-      滚轮可缩放 · 当前 zoom：{{ currentZoom.toFixed(1) }} · 已完成：{{ completedLoops }} 轮
+      滚轮可缩放，放大后可拖动 · 当前 zoom：{{ currentZoom.toFixed(1) }} · 已完成：{{ completedLoops }} 轮
     </p>
   </main>
 </template>

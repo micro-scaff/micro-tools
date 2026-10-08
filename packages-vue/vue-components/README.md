@@ -42,6 +42,7 @@ const frames = getAnimationFrameUrls({
     :frames="frames"
     :loop-interval="600"
     :zoom="{
+      draggable: true,
       min: -1,
       max: 1
     }"

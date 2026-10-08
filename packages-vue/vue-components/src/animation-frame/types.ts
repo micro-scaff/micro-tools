@@ -12,6 +12,11 @@ export interface AnimationFrameZoomConfig {
   allowOverflow?: boolean;
 
   /**
+   * 是否允许在画面放大后通过鼠标或触控拖动画面，默认为 false。
+   */
+  draggable?: boolean;
+
+  /**
    * 最大缩放语义值，1 表示放大 100%。
    */
   max: number;
