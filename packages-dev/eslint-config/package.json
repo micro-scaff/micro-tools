@@ -45,6 +45,7 @@
     "@typescript-eslint/parser": "catalog:",
     "eslint-plugin-command": "catalog:",
     "eslint-plugin-eslint-comments": "catalog:",
+    "eslint-plugin-import-newlines": "catalog:",
     "eslint-plugin-import-x": "catalog:",
     "eslint-plugin-jsdoc": "catalog:",
     "eslint-plugin-jsonc": "catalog:",

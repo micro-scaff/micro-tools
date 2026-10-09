@@ -1,4 +1,4 @@
-name: Release
+name: 自动发布
 
 # 这个工作流负责“生成版本”和“发布到 npm”，分两个阶段运行：
 #
@@ -56,7 +56,7 @@ permissions:
 jobs:
   release:
     # GitHub Actions 页面中显示的 Job 名称。
-    name: Version or publish packages
+    name: 生成版本或发布 npm 包
     # 使用 GitHub 托管的 Linux runner 执行构建和发布。
     runs-on: ubuntu-latest
     # 构建或发布超过 30 分钟时终止，避免异常任务长时间占用队列。
@@ -65,14 +65,14 @@ jobs:
     steps:
       # 将当前仓库代码检出到 runner。
       # fetch-depth: 0 表示拉取完整 Git 历史和标签，避免浅克隆影响版本和标签操作。
-      - name: Check out repository
+      - name: 检出仓库代码
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       # 安装 pnpm，版本与根目录 package.json 中的 packageManager 保持一致。
       # run_install: false 表示这一步只安装 pnpm，依赖由后面的独立步骤安装。
-      - name: Set up pnpm
+      - name: 安装 pnpm
         uses: pnpm/action-setup@v6
         with:
           version: 10.10.0
@@ -81,16 +81,25 @@ jobs:
       # 安装 Node.js，并开启 pnpm 依赖缓存。这里缓存的是 pnpm store，不是 node_modules。
       # registry-url 会生成指向 npm 官方仓库的项目级 .npmrc。
       # 生成的 .npmrc 会在发布时从 NODE_AUTH_TOKEN 读取 GitHub Secret。
-      - name: Set up Node.js
+      - name: 安装 Node.js
         uses: actions/setup-node@v6
         with:
           node-version: 22.14.0
           registry-url: https://registry.npmjs.org/
           cache: pnpm
 
+      # 首先判断是否真的有发布工作：
+      # - 存在 .changeset/*.md 时，继续运行，用于生成或更新版本 PR。
+      # - 不存在 Changeset 时，查询 npm 上是否已存在当前公开包版本。
+      # - 没有未发布版本时，should_run 为 false，后续步骤全部跳过。
+      - name: 检查是否需要生成版本或发布
+        id: release-check
+        run: node .github/scripts/check-release.mjs
+
       # 按 pnpm-lock.yaml 精确安装依赖。
       # frozen-lockfile 会在 package.json 和 lockfile 不一致时直接失败，防止 CI 暗中改锁文件。
-      - name: Install dependencies
+      - name: 安装项目依赖
+        if: steps.release-check.outputs.should_run == 'true'
         run: pnpm install --frozen-lockfile
 
       # Changesets Action 自动使用 GitHub 提供的 GITHUB_TOKEN，不需要在 env 中再声明。
@@ -105,7 +114,8 @@ jobs:
       # - createGithubReleases: true 使发布成功的包同时生成 GitHub Release。
       #
       # 仓库使用 @changesets/cli 2.x，因此这里使用兼容的 changesets/action@v1。
-      - name: Create release pull request or publish packages
+      - name: 创建版本 PR 或发布 npm 包
+        if: steps.release-check.outputs.should_run == 'true'
         uses: changesets/action@v1
         with:
           version: pnpm run version:packages

@@ -1,0 +1,3 @@
+# Changesets 使用 YAML front matter 和纯文本摘要，不要求一级标题
+extends: ../.markdownlint.yaml
+MD041: false

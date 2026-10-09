@@ -52,7 +52,6 @@ export default {
   // 对 JSX/TSX 单独覆盖闭合尖括号位置，对齐 @stylistic/jsx-closing-bracket-location: "after-props"
   overrides: [
     {
-
       // prettier-ignore
       files: [
         "*.jsx",

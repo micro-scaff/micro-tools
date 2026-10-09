@@ -1,4 +1,5 @@
 import js from "@eslint/js";
+import pluginImportNewlines from "eslint-plugin-import-newlines";
 import pluginUnicorn from "eslint-plugin-unicorn";
 import pluginUnusedImports from "eslint-plugin-unused-imports";
 import globals from "globals";
@@ -52,6 +53,7 @@ export default {
     reportUnusedDisableDirectives: true
   },
   plugins: {
+    "import-newlines": pluginImportNewlines,
     "unused-imports": pluginUnusedImports,
     unicorn: pluginUnicorn
   },
@@ -211,6 +213,13 @@ export default {
       "error",
       "beside"
     ], // 强制隐式返回的箭头函数体的位置
+    "import-newlines/enforce": [
+      "error",
+      {
+        forceSingleLine: false,
+        items: 1
+      }
+    ], // import 包含多个成员时，每个成员独占一行
     indent: [
       "error",
       2,

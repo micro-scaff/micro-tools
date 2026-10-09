@@ -156,7 +156,6 @@ export default {
   ],
 
   // Tailwind CSS 插件配置
-  tailwindConfig: "./tailwind.config.js", // Tailwind 配置文件路径
   tailwindFunctions: [
     "clsx",
     "cn",

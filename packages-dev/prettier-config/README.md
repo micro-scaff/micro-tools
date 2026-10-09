@@ -148,17 +148,17 @@ export { default } from "@mt-kit/prettier-config";
 
 ### 默认配置
 
-| 选项 | 值 | 说明 |
-|------|-----|------|
-| `semi` | `true` | 在语句末尾添加分号 |
-| `singleQuote` | `true` | 使用单引号而不是双引号 |
-| `tabWidth` | `2` | 缩进空格数 |
-| `useTabs` | `false` | 使用空格而不是制表符 |
-| `trailingComma` | `"es5"` | 在 ES5 中有效的尾随逗号 |
-| `printWidth` | `80` | 换行长度 |
-| `bracketSpacing` | `true` | 在对象字面量的大括号之间打印空格 |
-| `arrowParens` | `"avoid"` | 箭头函数参数周围避免括号 |
-| `endOfLine` | `"lf"` | 使用 LF 作为换行符 |
+| 选项             | 值        | 说明                             |
+| ---------------- | --------- | -------------------------------- |
+| `semi`           | `true`    | 在语句末尾添加分号               |
+| `singleQuote`    | `false`   | 使用双引号而不是单引号           |
+| `tabWidth`       | `2`       | 缩进空格数                       |
+| `useTabs`        | `false`   | 使用空格而不是制表符             |
+| `trailingComma`  | `"none"`  | 不添加尾随逗号                   |
+| `printWidth`     | `200`     | 换行长度                         |
+| `bracketSpacing` | `true`    | 在对象字面量的大括号之间打印空格 |
+| `arrowParens`    | `"avoid"` | 箭头函数参数周围避免括号         |
+| `endOfLine`      | `"lf"`    | 使用 LF 作为换行符               |
 
 ### 支持的文件类型
 
@@ -197,10 +197,12 @@ export default {
 
 ```js
 // .prettier.mjs
+import baseConfig from "@mt-kit/prettier-config";
+
 export default {
   // 基础配置
-  ...require("@mt-kit/prettier-config"),
-  
+  ...baseConfig,
+
   // 覆盖特定文件类型
   overrides: [
     {
