@@ -8,25 +8,24 @@ name: Release
 # - Action 消费 Changeset，创建或更新一个版本 PR。
 # - 版本 PR 中包含 package.json 版本、CHANGELOG 和 pnpm-lock.yaml 的变化。
 #
-# 阶段二：版本 PR 合并到 main
-# - Action 发现已没有待消费的 Changeset，改为执行 publish 命令。
+# 阶段二：通常是版本 PR 合并到 main 后
+# - 只要 Action 发现没有待消费的 Changeset，就会执行 publish 命令。
+# - 因此普通文档或 CI 提交进入 main 时也可能执行 publish，但已发布版本会被跳过。
 # - 发布前先构建所有包。
 # - changeset publish 查询 npm，只发布本地版本号还不存在的公开包。
 # - 发布成功后创建 Git 标签和 GitHub Release。
 #
-# npm 连接方式：Trusted Publishing（OIDC），不使用长期 NPM_TOKEN。
+# npm 连接方式：GitHub Actions Repository Secret。
+# Token 只保存在 GitHub 中，不能把真实值写入此 YAML 或提交到仓库。
 # 首次启用前，需要完成两项仓库外配置：
 # 1. GitHub 仓库允许 GitHub Actions 创建 Pull Request。
-# 2. 在 npmjs.com 的每一个待发布包中添加 GitHub Actions
-#    Trusted Publisher，并填写以下信息：
-# - Organization or user: micro-scaff
-# - Repository: micro-tools
-# - Workflow filename: release.yml
-# - Environment: 留空
+# 2. 进入 GitHub 仓库的 Settings -> Secrets and variables -> Actions，
+#    创建名为 NPM_TOKEN 的 Repository secret，值为新生成的 npm Token。
 #
 # 发布时的认证链路：
-# GitHub 签发短期 OIDC 身份 -> npm 核对组织、仓库和工作流文件
-# -> 核对成功后允许本次 npm publish。令牌不会保存到 GitHub Secrets。
+# GitHub 读取 secrets.NPM_TOKEN -> 注入 Changesets Action 步骤的 NODE_AUTH_TOKEN
+# -> 当此次运行进入发布分支时，npm CLI 从 .npmrc 读取该环境变量
+# -> npm 验证成功后允许发布。
 
 on:
   # 功能 PR 和版本 PR 都在合并进 main 后触发此工作流。
@@ -40,18 +39,17 @@ on:
 
 # 同一 Git ref 的发布任务必须串行执行。
 # main 分支的 github.ref 是 refs/heads/main，因此实际分组名为
-# release-refs/heads/main。同组新任务会排队，避免同时更新版本 PR 或发布。
+# release-refs/heads/main。同组最多同时有一个运行中和一个等待中任务。
+# 如果再来一个新任务，新任务会替换旧的等待任务；最新 main 已包含前面的提交。
 concurrency:
   group: release-${{ github.ref }}
-  # false 表示不取消正在运行的发布，新任务等待前一个任务结束。
+  # false 表示不取消正在运行的发布。
   cancel-in-progress: false
 
 # 这些权限授予 GitHub 自动生成的 GITHUB_TOKEN，无需手动创建该 Token。
 permissions:
   # 允许 Action 提交版本变更，以及创建 Git 标签和 GitHub Release。
   contents: write
-  # 允许工作流请求一次性 GitHub OIDC 身份，供 npm 验证。
-  id-token: write
   # 允许 Changesets Action 创建或更新版本 PR。
   pull-requests: write
 
@@ -59,7 +57,7 @@ jobs:
   release:
     # GitHub Actions 页面中显示的 Job 名称。
     name: Version or publish packages
-    # npm Trusted Publishing 需要使用 GitHub 托管的 runner。
+    # 使用 GitHub 托管的 Linux runner 执行构建和发布。
     runs-on: ubuntu-latest
     # 构建或发布超过 30 分钟时终止，避免异常任务长时间占用队列。
     timeout-minutes: 30
@@ -82,18 +80,13 @@ jobs:
 
       # 安装 Node.js，并开启 pnpm 依赖缓存。这里缓存的是 pnpm store，不是 node_modules。
       # registry-url 会生成指向 npm 官方仓库的项目级 .npmrc。
-      # 这里只配置仓库地址；身份认证会在 npm publish 时通过 OIDC 完成。
+      # 生成的 .npmrc 会在发布时从 NODE_AUTH_TOKEN 读取 GitHub Secret。
       - name: Set up Node.js
         uses: actions/setup-node@v6
         with:
           node-version: 22.14.0
           registry-url: https://registry.npmjs.org/
           cache: pnpm
-
-      # npm Trusted Publishing 需要支持 OIDC 的新版 npm CLI。
-      # 固定在 npm 11 主版本，避免 npm@latest 在未来自动跨越主版本。
-      - name: Install npm 11 for trusted publishing
-        run: npm install --global npm@11
 
       # 按 pnpm-lock.yaml 精确安装依赖。
       # frozen-lockfile 会在 package.json 和 lockfile 不一致时直接失败，防止 CI 暗中改锁文件。
@@ -108,7 +101,7 @@ jobs:
       #
       # 当版本 PR 已合并，并且没有待处理 Changeset 时：
       # - 执行 publish:ci，先构建所有包，再运行 changeset publish。
-      # - npm CLI 使用 id-token: write 获取短期 OIDC 身份，无需 NPM_TOKEN。
+      # - 将 GitHub 中的 NPM_TOKEN Secret 映射为 npm CLI 识别的 NODE_AUTH_TOKEN。
       # - createGithubReleases: true 使发布成功的包同时生成 GitHub Release。
       #
       # 仓库使用 @changesets/cli 2.x，因此这里使用兼容的 changesets/action@v1。
@@ -120,3 +113,6 @@ jobs:
           commit: "chore: release packages"
           title: "chore: release packages"
           createGithubReleases: true
+        env:
+          # 这里只引用 Secret 名称，GitHub 运行时才会注入真实 Token。
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
