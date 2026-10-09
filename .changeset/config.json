@@ -4,7 +4,7 @@
   "commit": false,
   "fixed": [],
   "linked": [],
-    "privatePackages": {
+  "privatePackages": {
     "version": true,
     "tag": false
   },

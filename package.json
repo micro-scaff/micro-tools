@@ -46,7 +46,10 @@
     "preinstall": "npx only-allow pnpm",
     "prepare": "husky",
     "commit": "cz",
-    "publish:ci": "npx changeset publish && git add . && git commit -m 'chore: publish packages version' && git push",
+    "changeset": "changeset",
+    "version:packages": "changeset version && pnpm install --lockfile-only",
+    "release:check": "pnpm run build:check",
+    "publish:ci": "pnpm run release:check && changeset publish",
     "start": "mt-cli-run"
   },
   "devDependencies": {

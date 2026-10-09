@@ -29,6 +29,7 @@
     "oxlint",
     "preinstall",
     "rushstack",
+    "scaff",
     "smacss",
     "sortablejs",
     "Splitpanes",
