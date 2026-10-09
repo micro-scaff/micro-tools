@@ -741,7 +741,8 @@ export default {
         vars: "all",
 
         // 以“^_”开头的变量名会被忽略（即不检查这类变量是否被使用），方便对一些特定命名规范的变量不做使用与否的检查
-        varsIgnorePattern: "^_"
+        varsIgnorePattern: "^_",
+        ignoreRestSiblings: true
       }
     ],
     "use-isnan": [
