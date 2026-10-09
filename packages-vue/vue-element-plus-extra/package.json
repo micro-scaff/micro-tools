@@ -26,6 +26,10 @@
     "dev": "vite build --watch",
     "prepublishOnly": "pnpm build"
   },
+  "files": [
+    "README.md",
+    "dist"
+  ],
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
@@ -41,7 +45,8 @@
     "registry": "https://registry.npmjs.org/"
   },
   "peerDependencies": {
-    "element-plus": ">=2.11.4"
+    "element-plus": ">=2.11.4",
+    "vue": ">=3.5.0"
   },
   "dependencies": {
     "@mt-kit/utils": "workspace:^",

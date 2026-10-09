@@ -22,9 +22,20 @@ export default defineConfig({
     }),
     libPlugin({
       name: "microVueElementPlusExtra",
+
+      // 这些依赖由宿主项目统一安装和复用，避免组件库重复打包框架、UI 库与工具库。
       external: [
-        "vue"
-      ]
+        "vue",
+        "element-plus",
+        "lodash-es"
+      ],
+
+      // UMD 产物通过 script 标签使用时，从对应的浏览器全局变量读取外部依赖。
+      globals: {
+        vue: "Vue",
+        "element-plus": "ElementPlus",
+        "lodash-es": "_"
+      }
     })
   ]
 });
