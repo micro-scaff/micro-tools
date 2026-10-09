@@ -1,5 +1,11 @@
 # @mt-kit/prettier-config
 
+## 2.1.0
+
+### Minor Changes
+
+- 3816807: 修改开发规则
+
 ## 2.0.1
 
 ### Patch Changes
