@@ -1,102 +1,201 @@
-# micro-tools (mt)
+# micro-tools（mt）
 
-[![npm version](https://img.shields.io/npm/v/@mt-kit/micro-tools.svg?style=for-the-badge&labelColor=2c3e50&color=3498db&logo=npm&logoColor=white)](https://www.npmjs.com/~not-have-warehouse)
-[![GitHub stars](https://img.shields.io/github/stars/Not-have/micro-tools?style=for-the-badge&labelColor=2c3e50&color=e74c3c&logo=github&logoColor=white)](https://github.com/Not-have/micro-tools)
-[![GitHub issues](https://img.shields.io/github/issues/Not-have/micro-tools?style=for-the-badge&labelColor=2c3e50&color=27ae60&logo=github&logoColor=white)](https://github.com/Not-have/micro-tools/issues)
-[![License](https://img.shields.io/github/license/Not-have/micro-tools?style=for-the-badge&labelColor=2c3e50&color=9b59b6&logo=opensourceinitiative&logoColor=white)](https://github.com/Not-have/micro-tools/blob/main/LICENSE)
-[![Documentation](https://img.shields.io/badge/docs-online-blue?style=for-the-badge&labelColor=2c3e50&color=3498db&logoColor=white)](https://not-have.github.io/micro-tools/)
+[![GitHub stars](https://img.shields.io/github/stars/micro-scaff/micro-tools?style=flat-square)](https://github.com/micro-scaff/micro-tools)
+[![License](https://img.shields.io/github/license/micro-scaff/micro-tools?style=flat-square)](./LICENSE)
+[![Node.js](https://img.shields.io/badge/Node.js-%3E%3D22-339933?style=flat-square&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
+[![pnpm](https://img.shields.io/badge/pnpm-%3E%3D10-F69220?style=flat-square&logo=pnpm&logoColor=white)](https://pnpm.io/)
 
-## 简介
+micro-tools 是一个前端工具集，采用 pnpm workspace 管理多个独立 npm 包。仓库包含通用工具函数、Vue/React Hooks、UI 组件、请求封装、Vite 插件和工程配置等内容。
 
-**micro-tools（简称 mt）** 是一个现代化的模块化前端工具集合，采用 monorepo 架构，基于 pnpm workspace 管理。项目涵盖 61+ 工具函数、UI 组件库、网络请求库、工程配置等，助力高效开发。每个子包独立维护，支持按需引入，提供完整的 TypeScript 类型支持。
+你不需要安装整个仓库。请根据需要安装具体的 `@mt-kit/*` 包。下表中带链接的包可以直接打开详细文档，查看 API 和示例。
 
-## 核心特性
+## 快速使用
 
-- **🏗 现代化架构**：基于 pnpm workspace 的 monorepo 管理，模块独立、依赖最小化
-- **📦 丰富生态**：61+ 工具函数、UI 组件、网络请求、工程配置等完整解决方案
-- **🎯 类型安全**：完整的 TypeScript 支持，提供类型定义和智能提示
-- **⚡ 高性能**：支持按需引入，减少包体积，提升加载性能
-- **🛠 开发友好**：提供 CLI 工具、Storybook 文档、完整的开发工具链
-
-## 技术栈
-
-- **构建工具**：Vite、Webpack、TypeScript
-- **包管理**：pnpm workspace
-- **代码质量**：ESLint、Prettier、Stylelint、Commitlint
-- **文档系统**：VitePress、Storybook
-- **前端框架**：Vue 3、React 18、Element Plus
-- **开发工具**：Husky、lint-staged、Changesets
-
-## 📊 项目统计
-
-- **15+** 核心包
-- **61+** 工具函数
-- **100%** TypeScript
-- **MIT** 开源协议
-
-## 开发环境
+以工具函数包 `@mt-kit/utils` 为例：
 
 ```bash
-# 全局安装pnpm（如未安装）
-npm install -g pnpm
-
-# 克隆项目
-git clone https://github.com/Not-have/micro-tools.git
-
-# 安装依赖
-pnpm run boot
-
-# 进入各个包的目录进行开发
+pnpm add @mt-kit/utils
 ```
 
-## 包结构说明
+```ts
+import { animationFrameThrottle } from "@mt-kit/utils";
+
+window.addEventListener(
+  "scroll",
+  animationFrameThrottle(() => {
+    console.log("页面正在滚动");
+  })
+);
+```
+
+使用 npm 或 Yarn 时，把安装命令换成下面任意一种即可：
+
+```bash
+npm install @mt-kit/utils
+yarn add @mt-kit/utils
+```
+
+其他包的安装方式相同，例如：
+
+```bash
+pnpm add @mt-kit/vue-hooks
+pnpm add @mt-kit/react-hooks
+pnpm add @mt-kit/request-axios
+```
+
+## 包目录
+
+### 通用能力
+
+| 包 | 用途 |
+| --- | --- |
+| [`@mt-kit/utils`](./packages-utils/README.md) | 常用工具函数 |
+| [`@mt-kit/components`](./packages-components/README.md) | 与框架无关的 UI 和 DOM 工具 |
+| [`@mt-kit/style`](./packages-style/README.md) | 通用样式和样式工具 |
+| [`@mt-kit/request-axios`](./packages-fetch/request-axios/README.md) | 基于 Axios 的请求封装 |
+| [`@mt-kit/conf`](./packages-conf/README.md) | 配置文件处理 |
+| `@mt-kit/env` | 环境变量处理 |
+| [`@mt-kit/enum`](./packages-enum/README.md) | 通用枚举 |
+| [`@mt-kit/types`](./packages-types/README.md) | 通用 TypeScript 类型 |
+| [`@mt-kit/vite-plugins`](./packages-vite-plugins/README.md) | Vite 插件集合 |
+| `@mt-kit/lit` | Lit 组件 |
+| [`@mt-kit/global-style`](./packages-theme/global-style/README.md) | 全局主题样式 |
+
+### Vue
+
+| 包 | 用途 |
+| --- | --- |
+| [`@mt-kit/vue-components`](./packages-vue/vue-components/README.md) | Vue 3 组件 |
+| [`@mt-kit/vue-hooks`](./packages-vue/vue-hooks/README.md) | Vue 3 组合式函数 |
+| [`@mt-kit/vue-directives`](./packages-vue/vue-directives/README.md) | Vue 3 指令 |
+| [`@mt-kit/vue-config`](./packages-vue/vue-config/README.md) | Vue 项目配置工具 |
+| [`@mt-kit/vue-echarts`](./packages-vue/vue-echarts/README.md) | ECharts 的 Vue 3 封装 |
+| [`@mt-kit/vue-element-plus-extra`](./packages-vue/vue-element-plus-extra/README.md) | Element Plus 扩展组件 |
+
+### React
+
+| 包 | 用途 |
+| --- | --- |
+| [`@mt-kit/react-hooks`](./packages-react/react-hooks/README.md) | React Hooks |
+| [`@mt-kit/react-ant-design-extra`](./packages-react/react-ant-design-extra/README.md) | Ant Design 扩展组件 |
+| `@mt-kit/react-rc` | React 基础组件 |
+
+### 工程工具
+
+| 包 | 用途 |
+| --- | --- |
+| [`@mt-kit/cli-run`](./packages-cli/cli-run/README.md) | 在 monorepo 中交互式选择并运行脚本 |
+| [`@mt-kit/cli-storybook-vue`](./packages-cli/cli-storybook-vue/README.md) | Vue Storybook 配置 |
+| [`@mt-kit/cli-storybook-react`](./packages-cli/cli-storybook-react/README.md) | React Storybook 配置 |
+| [`@mt-kit/eslint-config`](./packages-dev/eslint-config/README.md) | ESLint 共享配置 |
+| [`@mt-kit/prettier-config`](./packages-dev/prettier-config/README.md) | Prettier 共享配置 |
+| [`@mt-kit/stylelint-config`](./packages-dev/stylelint-config/README.md) | Stylelint 共享配置 |
+| [`@mt-kit/ts-config`](./packages-dev/ts-config/README.md) | TypeScript 共享配置 |
+
+## 本地开发
+
+这一部分面向准备修改或调试本仓库的开发者。
+
+### 1. 准备环境
+
+- Node.js 22 或更高版本；仓库当前使用的版本见 [`.node-version`](./.node-version)
+- pnpm 10 或更高版本；仓库锁定的版本见 [`package.json`](./package.json)
+
+如果没有安装 pnpm，可以通过 Corepack 启用：
+
+```bash
+corepack enable
+corepack prepare pnpm@10.10.0 --activate
+```
+
+### 2. 获取代码并安装依赖
+
+```bash
+git clone https://github.com/micro-scaff/micro-tools.git
+cd micro-tools
+pnpm install
+```
+
+### 3. 启动开发任务
+
+运行下面的命令后，按提示选择要启动的子包：
+
+```bash
+pnpm start
+```
+
+也可以直接启动指定子包：
+
+```bash
+# 启动工具函数包的监听构建
+pnpm --filter @mt-kit/utils dev
+
+# 启动 Vue 示例项目
+pnpm --filter demo-vue dev
+
+# 启动 Vue Hooks 的 Storybook
+pnpm --filter @mt-kit/vue-hooks storybook
+```
+
+### 4. 构建和检查
+
+```bash
+# 构建所有包
+pnpm build
+
+# 串行构建所有包，便于定位构建失败的子包
+pnpm run build:check
+
+# 检查 Markdown、拼写、包配置、依赖、样式和代码
+pnpm run lint:md
+pnpm run lint:cspell
+pnpm run lint:PkgJson
+pnpm run lint:depcheck
+pnpm run lint:css
+pnpm run lint:eslint
+```
+
+`pnpm run boot` 会先清理依赖、pnpm 本地存储和构建产物，再重新安装和构建。普通安装请使用 `pnpm install`；只有需要完全重建环境时才使用 `pnpm run boot`。
+
+## 仓库结构
 
 ```text
-├── packages-components/     # 🎨 UI 组件库 (可拖拽、数字动画、CSS 三角形等)
-├── packages-utils/          # 🛠 工具函数集合 (61+ 实用方法)
-├── packages-style/          # 🎨 样式方案 (文本省略、样式重置等)
-├── packages-fetch/          # 🌐 网络请求库 (Axios 增强封装)
-├── packages-react/          # ⚛️ React 生态 (Hooks、组件、配置)
-├── packages-vue/            # 🖖 Vue 生态 (组件、指令、Hooks、配置)
-├── packages-cli/            # 🚀 CLI 工具 (项目启动、Storybook 配置)
-├── packages-dev/            # ⚙️ 开发工具链配置 (ESLint、Prettier、Stylelint)
-├── packages-enum/           # 📋 枚举类型定义
-├── packages-types/          # 🎯 通用类型定义
-├── packages-conf/           # ⚙️ 配置文件管理
-├── packages-docs/           # 📚 文档系统
-├── packages-vite-plugins/   # 🔧 Vite 插件集合
-├── packages-theme/          # 🎨 主题样式
-├── packages-demo/           # 🎮 演示项目
-└── envs/                    # 🌍 环境配置
+packages-agent/         Agent 和 Skills 相关内容
+packages-cli/           CLI 与 Storybook 工具
+packages-components/    与框架无关的 UI 组件
+packages-conf/          配置文件处理
+packages-demo/          示例项目
+packages-dev/           ESLint、Prettier、Stylelint、TypeScript 配置
+packages-enum/          通用枚举
+packages-envs/          环境变量处理
+packages-fetch/         网络请求和 Mock 服务
+packages-lit/           Lit 组件
+packages-react/         React Hooks 与组件
+packages-style/         通用样式
+packages-theme/         主题与全局样式
+packages-types/         通用 TypeScript 类型
+packages-utils/         常用工具函数
+packages-vite-plugins/  Vite 插件
+packages-vue/           Vue 3 Hooks、指令与组件
+doc/                    开发笔记和项目说明
 ```
 
-## 文档资源
+## 更多文档
 
-- [在线文档（推荐）](https://not-have.github.io/micro-tools/) - 完整的使用指南和 API 文档
-- [组件开发指南](./doc/Storybook.md) - Storybook 组件开发指南
-- [代码规范说明](./doc/lint.md) - ESLint、Prettier 等代码规范
-- [Monorepo 管理](./doc/monorepo-pnpm.md) - pnpm workspace 管理说明
+- [Storybook 组件开发](./doc/Storybook.md)
+- [代码检查和格式化](./doc/lint.md)
+- [pnpm workspace 使用说明](./doc/monorepo-pnpm.md)
+- [Git 使用说明](./doc/git.md)
 
-## 🤝 社区与支持
+## 参与贡献
 
-- **🐛 问题反馈**: [提交 Issue](https://github.com/Not-have/micro-tools/issues) - 报告 Bug 或提出功能建议
-- **💬 讨论交流**: [提交 Issue](https://github.com/Not-have/micro-tools/issues) - 与其他开发者交流使用经验（Discussions 功能需在仓库设置中启用）
-- **⭐ Star 支持**: [访问仓库](https://github.com/Not-have/micro-tools) - 给项目一个 Star 表示支持
-- **🔧 贡献代码**: [查看 PR](https://github.com/Not-have/micro-tools/pulls) - 参与项目开发，提交 PR
-- **📝 更新日志**: [查看更新](https://github.com/Not-have/micro-tools/releases) - 查看最新版本更新内容
-- **📦 NPM 包**: [访问 NPM](https://www.npmjs.com/~not-have-warehouse) - 在 NPM 上查看和安装包
+1. Fork 本仓库并创建分支，例如 `git switch -c feat/new-feature`。
+2. 完成修改后，运行与改动相关的构建和检查命令。
+3. 如果改动影响了公开包，请补充对应包的 README 和 Changeset。
+4. 提交 Pull Request，并说明改动内容和验证方式。
 
-## 贡献方式
-
-1. 创建新分支：`git checkout -b feat/new-feature`
-2. 遵循现有代码规范
-3. 更新对应包的 CHANGELOG.md
-4. 提交 Pull Request 并关联 issue
+问题和建议请提交到 [GitHub Issues](https://github.com/micro-scaff/micro-tools/issues)。
 
 ## 许可证
 
-[MIT License](./LICENSE)
-
-## TODO
-
-[Turborepo](https://turbo.net.cn/)
+[MIT](./LICENSE)
