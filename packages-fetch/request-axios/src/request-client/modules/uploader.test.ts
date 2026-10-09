@@ -67,6 +67,34 @@ describe("fileUploader", () => {
     );
   });
 
+  it("PUT 上传不会默认公开文件", async () => {
+    const file = new File([
+      "file content"
+    ], "test.txt", {
+      type: "text/plain"
+    });
+
+    mockAxiosInstance.put = vi.fn().mockResolvedValueOnce({
+      success: true
+    });
+
+    await fileUploader.upload("https://example.com/upload", {
+      file
+    }, {
+      method: "put"
+    });
+
+    expect(mockAxiosInstance.put).toHaveBeenCalledWith(
+        "https://example.com/upload",
+        file,
+        {
+          headers: {
+            "Content-Type": "text/plain"
+          }
+        }
+    );
+  });
+
   it("合并自定义配置", async () => {
     const url = "https://example.com/upload";
 
@@ -90,7 +118,7 @@ describe("fileUploader", () => {
       mockAxiosInstance.post as unknown as ReturnType<typeof vi.fn>
     ).mockResolvedValueOnce(mockResponse);
 
-    const customConfig: AxiosRequestConfig = {
+    const customConfig: Omit<AxiosRequestConfig, "method"> = {
       headers: {
         "Custom-Header": "value"
       }

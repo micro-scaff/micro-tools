@@ -58,7 +58,7 @@ const authenticateResponseInterceptor = ({
 
 }): ResponseInterceptorConfig => {
   return {
-    rejected: async (error): Promise<void> => {
+    rejected: async (error): Promise<unknown> => {
       const {
         config,
         data: responseData
@@ -71,8 +71,12 @@ const authenticateResponseInterceptor = ({
 
       const status = responseData ? responseData?.[codeField] : error?.status;
 
+      const isUnauthorized = typeof code === "function"
+        ? code(status)
+        : status === code;
+
       // 如果不是 401 错误，直接抛出异常
-      if (status !== code) {
+      if (!isUnauthorized) {
         throw error;
       }
 
@@ -85,53 +89,46 @@ const authenticateResponseInterceptor = ({
         throw error;
       }
 
-      // 如果正在刷新 token，则将请求加入队列，等待刷新完成
-      if (client.isRefreshing) {
-        return new Promise(resolve => {
-          client.refreshTokenQueue.push((newToken: string) => {
-            config.headers.Authorization = formatToken ? formatToken(newToken) : newToken;
-            resolve(client.request(config.url, {
-              ...config
-            }));
-          });
+      /**
+       * 只创建一次刷新 Promise，后续 401 直接等待同一个结果。
+       * 刷新状态在 token 请求结束时立即复位，不再覆盖各个业务请求的重试生命周期。
+       */
+      if (!client.refreshTokenPromise) {
+        client.isRefreshing = true;
+
+        // 通过微任务调用可同时捕获“返回 rejected Promise”和“同步 throw”两类刷新失败。
+        // eslint-disable-next-line unicorn/prefer-promise-try -- Promise.try 尚未获得目标浏览器的稳定支持
+        client.refreshTokenPromise = Promise.resolve().then(() => {
+          return doRefreshToken();
+        }).then(newToken => {
+          if (!newToken) {
+            throw new Error("刷新 Token 返回了空值");
+          }
+
+          return newToken;
+        }).catch(async refreshError => {
+          console.error("Refresh token failed, please login again.");
+          await doReAuthenticate?.();
+
+          throw refreshError;
+        }).finally(() => {
+          client.isRefreshing = false;
+          client.refreshTokenPromise = null;
+
+          // 保留旧公开字段的兼容性，同时确保历史队列引用不会继续累积。
+          client.refreshTokenQueue = [];
         });
       }
 
-      // 标记开始刷新 token
-      client.isRefreshing = true;
+      const newToken = await client.refreshTokenPromise;
 
-      // 标记当前请求为重试请求，避免无限循环
+      // 每一个等待刷新结果的请求都必须标记为重试，防止新 Token 无效时再次进入刷新流程。
       config.__isRetryRequest = true;
+      config.headers.Authorization = formatToken ? formatToken(newToken) : newToken;
 
-      try {
-        const newToken = await doRefreshToken();
-
-        // 处理队列中的请求
-        for (const callback of client.refreshTokenQueue) {
-          callback(newToken);
-        }
-
-        // 清空队列
-        client.refreshTokenQueue = [];
-
-        return client.request(error.config.url, {
-          ...error.config
-        });
-      } catch (refreshError) {
-
-        // 如果刷新 token 失败，处理错误（如强制登出或跳转登录页面）
-        for (const callback of client.refreshTokenQueue) {
-          callback("");
-        }
-
-        client.refreshTokenQueue = [];
-        console.error("Refresh token failed, please login again.");
-        await doReAuthenticate?.();
-
-        throw refreshError;
-      } finally {
-        client.isRefreshing = false;
-      }
+      return client.request(config.url, {
+        ...config
+      });
     }
   };
 };

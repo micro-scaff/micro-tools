@@ -10,8 +10,12 @@ import qs from "qs";
 
 import {
   RequestClientConfig,
-  RequestClientOptions
+  RequestClientOptions,
+  RequestResponse
 } from "../types";
+import {
+  transformResponse
+} from "../preset-interceptors/default-response-interceptor";
 import {
   bindMethods
 } from "../utils";
@@ -72,6 +76,19 @@ function getParamsSerializer(paramsSerializer: RequestClientOptions["paramsSeria
   return paramsSerializer;
 }
 
+/**
+ * 响应拦截器可能已经把 AxiosResponse 转换为业务数据，因此这里只处理仍保持
+ * AxiosResponse 结构的结果。headers 是 AxiosResponse 的稳定字段，可降低普通业务对象误判概率。
+ */
+const isRequestResponse = (response: unknown): response is RequestResponse => {
+  return Boolean(response &&
+    typeof response === "object" &&
+    "config" in response &&
+    "data" in response &&
+    "headers" in response &&
+    "status" in response);
+};
+
 class RequestClient {
   private readonly instance: AxiosInstance;
 
@@ -86,6 +103,12 @@ class RequestClient {
 
   // 刷新token队列
   public refreshTokenQueue: ((token: string) => void)[] = [];
+
+  /**
+   * 同一刷新周期共享的 Promise。
+   * 所有 401 请求等待同一次刷新结果，避免队列在重试期间遗漏新请求。
+   */
+  public refreshTokenPromise: Promise<string> | null = null;
 
   public errorQueue: (() => void)[] = [];
 
@@ -200,19 +223,21 @@ class RequestClient {
       url: string,
       config: RequestClientConfig
   ): Promise<T> {
-    try {
-      const response: AxiosResponse<T> = await this.instance({
-        url,
-        ...config,
-        ...(config.paramsSerializer && {
-          paramsSerializer: getParamsSerializer(config.paramsSerializer)
-        })
-      });
+    const response: AxiosResponse<T> | T = await this.instance({
+      url,
+      ...config,
+      ...(config.paramsSerializer && {
+        paramsSerializer: getParamsSerializer(config.paramsSerializer)
+      })
+    });
 
-      return response as T;
-    } catch (error: any) {
-      throw error.response ? error.response.data : error;
-    }
+    /**
+     * 显式注册的响应拦截器已经返回业务数据时直接透传；否则执行默认转换。
+     * 不再捕获并只抛 response.data，HTTP 错误会保留完整 AxiosError 供调用方诊断。
+     */
+    return isRequestResponse(response)
+      ? transformResponse(response) as T
+      : response as T;
   }
 }
 

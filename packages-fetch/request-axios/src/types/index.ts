@@ -62,10 +62,10 @@ interface IRequestInterceptorConfig {
   rejected?: (error: any) => any;
 }
 
-interface IResponseInterceptorConfig<T = any> {
+interface IResponseInterceptorConfig<T = any, R = any> {
   fulfilled?: (
     response: TRequestResponse<T>,
-  ) => Promise<TRequestResponse> | TRequestResponse;
+  ) => Promise<R> | R;
   rejected?: (error: any) => any;
 }
 

@@ -31,7 +31,7 @@
   "scripts": {
     "boot": "pnpm run clear && pnpm install && pnpm run clear:lock && pnpm run build",
     "clear": "pnpm --filter \"./packages-**\" clear && pnpm --filter \"./packages-**/**\" clear && rm -fr node_modules && pnpm run clear:store && pnpm run clear:lock",
-    "clear:lock": "rm -fr pnpm-lock.yaml && rm -fr package-lock.json && rm -fr lerna-debug.log",
+    "clear:lock": "rm -fr package-lock.json && rm -fr lerna-debug.log",
     "clear:store": "rm -fr .pnpm-store",
     "build": "pnpm --filter \"./packages-**\" build && pnpm --filter \"./packages-**/**\" build && pnpm --filter \"./envs\" build",
     "build:check": "pnpm --filter \"./packages-**\" --workspace-concurrency=1 build && pnpm --filter \"./packages-**/**\" --workspace-concurrency=1 build && pnpm --filter \"./envs\" --workspace-concurrency=1 build",
@@ -44,7 +44,6 @@
     "lint:eslint:fix": "pnpm run lint:eslint --fix",
     "lint:prettier": "prettier \"./packages-**/**/*.json5\" --write || true",
     "preinstall": "npx only-allow pnpm",
-    "postinstall": "pnpm run clear:lock",
     "prepare": "husky",
     "commit": "cz",
     "publish:ci": "npx changeset publish && git add . && git commit -m 'chore: publish packages version' && git push",
