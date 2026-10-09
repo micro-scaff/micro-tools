@@ -58,7 +58,7 @@ echo '{"extends": "@mt-kit/ts-config/base.json"}' > tsconfig.json
 ### 基础配置 (base.json)
 
 | 属性名 | 值 | 说明 |
-|--------|-----|------|
+| -------- | ----- | ------ |
 | `target` | `"ES2022"` | 编译目标 ECMAScript 版本 |
 | `module` | `"ESNext"` | 编译模块系统 |
 | `moduleResolution` | `"bundler"` | 模块解析策略 |
@@ -101,7 +101,7 @@ echo '{"extends": "@mt-kit/ts-config/base.json"}' > tsconfig.json
 ### Vue 配置 (vue.json)
 
 | 属性名 | 值 | 说明 |
-|--------|-----|------|
+| -------- | ----- | ------ |
 | `jsx` | `"preserve"` | JSX 代码生成方式 |
 | `jsxImportSource` | `"vue"` | JSX 导入源 |
 | `experimentalDecorators` | `true` | 启用实验性装饰器支持 |
@@ -109,7 +109,7 @@ echo '{"extends": "@mt-kit/ts-config/base.json"}' > tsconfig.json
 ### React 配置 (react.json)
 
 | 属性名 | 值 | 说明 |
-|--------|-----|------|
+| -------- | ----- | ------ |
 | `noEmit` | `true` | 禁止生成输出文件 |
 | `incremental` | `true` | 启用增量编译 |
 | `plugins` | `[{"name": "@vitejs/plugin-react"}]` | 使用 TypeScript 插件 |
@@ -117,14 +117,14 @@ echo '{"extends": "@mt-kit/ts-config/base.json"}' > tsconfig.json
 ### Node 配置 (node.json)
 
 | 属性名 | 值 | 说明 |
-|--------|-----|------|
+| -------- | ----- | ------ |
 | `lib` | `["ES2022"]` | 仅包含 ESNext 库 |
 | `noEmit` | `true` | 禁止生成输出文件 |
 
 ## 📋 可用配置
 
 | 配置名称 | 文件路径 | 适用场景 |
-|---------|----------|----------|
+| --------- | ---------- | ---------- |
 | `base` | `@mt-kit/ts-config/base.json` | 基础 TypeScript 项目 |
 | `app` | `@mt-kit/ts-config/app.json` | HTML 应用项目 |
 | `node` | `@mt-kit/ts-config/node.json` | Node.js 项目 |
@@ -354,6 +354,6 @@ npx tsc --build --clean
 
 ## 📋 版本要求
 
-- **TypeScript**: >= 5.0.0
+- **TypeScript**: >= 5.0.0 && < 6.0.0
 - **Node.js**: >= 16.0.0
 - **@types/node**: >= 18.0.0
