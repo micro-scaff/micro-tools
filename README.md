@@ -85,8 +85,6 @@ pnpm add @mt-kit/request-axios
 | 包 | 用途 |
 | --- | --- |
 | [`@mt-kit/cli-run`](./packages-cli/cli-run/README.md) | 在 monorepo 中交互式选择并运行脚本 |
-| [`@mt-kit/cli-storybook-vue`](./packages-cli/cli-storybook-vue/README.md) | Vue Storybook 配置 |
-| [`@mt-kit/cli-storybook-react`](./packages-cli/cli-storybook-react/README.md) | React Storybook 配置 |
 | [`@mt-kit/eslint-config`](./packages-dev/eslint-config/README.md) | ESLint 共享配置 |
 | [`@mt-kit/prettier-config`](./packages-dev/prettier-config/README.md) | Prettier 共享配置 |
 | [`@mt-kit/stylelint-config`](./packages-dev/stylelint-config/README.md) | Stylelint 共享配置 |
