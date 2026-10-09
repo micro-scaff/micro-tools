@@ -1,0 +1,48 @@
+name: 触发文档部署
+
+# micro-tools 的 main 分支更新后，通知文档仓库重新拉取源码、构建并部署站点。
+# 目标工作流必须声明 workflow_dispatch；当前目标为：
+# micro-scaff/micro-scaff.github.io/.github/workflows/docs.yml
+on:
+  push:
+    branches:
+      - main
+
+# 当前工作流只读取事件上下文，不需要修改 micro-tools 仓库。
+# 跨仓库触发使用下方 DOCS_WORKFLOW_TOKEN，不使用当前仓库的 GITHUB_TOKEN。
+permissions:
+  contents: read
+
+jobs:
+  trigger-docs:
+    # GitHub Actions 页面中显示的 Job 名称。
+    name: 触发文档工作流
+    # GitHub 托管的 Ubuntu Runner 已预装 GitHub CLI（gh）。
+    runs-on: ubuntu-latest
+    # 网络或 GitHub API 异常时及时终止，避免任务长时间占用队列。
+    timeout-minutes: 5
+
+    steps:
+      # DOCS_WORKFLOW_TOKEN 必须配置在 micro-tools 的 Actions Repository secrets 中。
+      # 推荐使用 Fine-grained PAT，并且只授权目标仓库 micro-scaff.github.io：
+      # - Actions: Read and write
+      # - Metadata: Read
+      # 当前仓库自动生成的 GITHUB_TOKEN 不能用于操作另一个仓库。
+      - name: 验证文档工作流令牌
+        env:
+          GH_TOKEN: ${{ secrets.DOCS_WORKFLOW_TOKEN }}
+        run: |
+          if [ -z "${GH_TOKEN}" ]; then
+            echo "::error title=Missing secret::DOCS_WORKFLOW_TOKEN is not configured"
+            exit 1
+          fi
+
+      # docs.yml 已声明 workflow_dispatch，因此可以通过 gh workflow run 远程触发。
+      # --ref main 表示使用目标仓库 main 分支中的 docs.yml 定义运行任务。
+      - name: 触发 docs.yml
+        env:
+          GH_TOKEN: ${{ secrets.DOCS_WORKFLOW_TOKEN }}
+        run: >
+          gh workflow run docs.yml
+          --repo micro-scaff/micro-scaff.github.io
+          --ref main
