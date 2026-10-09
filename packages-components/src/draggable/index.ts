@@ -41,10 +41,12 @@ export default function draggable(el: Element, overflow?: boolean, options?: IOp
   const htmlElement = el as HTMLElement;
 
   // 记录元素的移动
-  let transform: ITransform = {
+  const transform: ITransform = {
     offsetX: 0,
     offsetY: 0
   };
+
+  let intersectionObserver: IntersectionObserver | null = null;
 
   const onMousedown = (e: MouseEvent): void => {
     htmlElement.style.position = "relative";
@@ -101,10 +103,9 @@ export default function draggable(el: Element, overflow?: boolean, options?: IOp
         moveY = Math.min(Math.max(moveY, minTop), maxTop);
       }
 
-      transform = {
-        offsetX: moveX,
-        offsetY: moveY
-      };
+      // 保持同一个对象引用，调用方读取到的始终是最新位置而不是初始快照。
+      transform.offsetX = moveX;
+      transform.offsetY = moveY;
 
       htmlElement.style.transform = `translate(${transform.offsetX || 0}px, ${transform.offsetY || 0}px)`;
     };
@@ -128,28 +129,43 @@ export default function draggable(el: Element, overflow?: boolean, options?: IOp
   /**
      * 移除元素内按下鼠标的触发
      */
-  const offDraggable = (): void => {
+  const offDraggable = (disconnectObserver = true): void => {
     htmlElement.removeEventListener("mousedown", onMousedown);
     htmlElement.style.position = "static";
+
+    if (disconnectObserver) {
+      intersectionObserver?.disconnect();
+      intersectionObserver = null;
+    }
+  };
+
+  const draggableResult: IDraggable = {
+    offDraggable,
+
+    // 使用 getter 保持返回对象引用稳定，同时让外部每次读取到 transform 的最新值。
+    get offsetX() {
+      return transform.offsetX;
+    },
+    get offsetY() {
+      return transform.offsetY;
+    }
   };
 
   if (options?.observer) {
     onDraggable();
 
-    return {
-      offDraggable,
-      ...transform
-    };
+    return draggableResult;
   }
 
   // 判断元素是否隐藏
-  const intersectionObserver = new IntersectionObserver(entries => {
+  intersectionObserver = new IntersectionObserver(entries => {
 
     // 如果 intersectionRatio 为 0，则目标在视野外，
     // 我们不需要做任何事情。
     if (entries[0].intersectionRatio <= 0) {
 
-      offDraggable();
+      // 暂停拖拽但保留观察器，元素重新进入视口后仍能恢复。
+      offDraggable(false);
 
       return;
     }
@@ -160,5 +176,7 @@ export default function draggable(el: Element, overflow?: boolean, options?: IOp
   // 开始监听
   intersectionObserver.observe(htmlElement);
 
-  return transform;
+  // 无论是否启用可见性观察，调用方都能通过 offDraggable 释放监听器和观察器。
+
+  return draggableResult;
 }

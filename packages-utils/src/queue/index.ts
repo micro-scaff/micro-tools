@@ -208,11 +208,9 @@ const processQueue = async (key: string): Promise<void> => {
     } catch (error) {
 
       // 检查是否被取消 (出错后)
-      if (!isCancelled(key, item.id)) {
-        item.reject(error);
-      }
-
-      // 如果被取消，静默忽略错误
+      // 原实现会在已取消时静默忽略错误，这会让外部 Promise 永久 pending。
+      // 任务取消后自身抛错时也必须 reject，避免调用方永久等待。
+      item.reject(isCancelled(key, item.id) ? new Error("任务已取消") : error);
     }
   }
 
@@ -248,9 +246,11 @@ const executeTask = async <T>(
       item.resolve(result);
     }
   } catch (error) {
-    if (!isCancelled(key, item.id)) {
-      item.reject(error);
-    }
+
+    // 检查是否被取消 (出错后)
+    // 原实现会在已取消时静默忽略错误，这会让外部 Promise 永久 pending。
+    // 防抖任务取消后自身抛错时也必须 reject，避免调用方永久等待。
+    item.reject(isCancelled(key, item.id) ? new Error("任务已取消") : error);
   } finally {
     runningTaskIds.delete(key);
 

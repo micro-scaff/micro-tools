@@ -9,6 +9,9 @@ const MAX_CACHE_WINDOW = 60_000; // 最大时间窗口（60秒）
  */
 interface ICacheState<R> {
 
+  // 当前请求使用的参数；逐项比较后才能确认两个调用属于同一请求
+  args: unknown[];
+
   // 上次请求的结果
   lastResult?: R;
 
@@ -26,7 +29,20 @@ interface ICacheState<R> {
  *
  * 使用 Map 而不是 WeakMap，以便在请求完成后可以手动清除缓存
  */
-const cacheMap = new Map<(...args: unknown[]) => Promise<unknown>, ICacheState<unknown>>();
+const cacheMap: Map<
+  (...args: unknown[]) => Promise<unknown>,
+  ICacheState<unknown>[]
+> = new Map();
+
+/**
+ * 使用 Object.is 逐项比较参数。
+ * 原始值按值去重，对象、函数和 Symbol 按引用去重；既支持循环对象，也不会长期保存额外身份表。
+ */
+const isSameArguments = (previous: unknown[], current: unknown[]): boolean => {
+  return previous.length === current.length && previous.every((value, index) => {
+    return Object.is(value, current[index]);
+  });
+};
 
 /**
  * 验证并规范化时间窗口参数
@@ -60,9 +76,27 @@ function normalizeCacheWindow(cacheWindow: number): number {
 /**
  * 安全地清理缓存状态
  */
-function safeCleanupCache(fn: (...args: unknown[]) => Promise<unknown>): void {
+function safeCleanupCache(
+    fn: (...args: unknown[]) => Promise<unknown>,
+    cacheState: ICacheState<unknown>
+): void {
   try {
-    cacheMap.delete(fn);
+    const functionCache = cacheMap.get(fn);
+
+    if (!functionCache) {
+      return;
+    }
+
+    // 按状态对象身份删除，只会清理当前请求，不会误删同参数下后来创建的新请求。
+    const cacheIndex = functionCache.indexOf(cacheState);
+
+    if (cacheIndex !== -1) {
+      functionCache.splice(cacheIndex, 1);
+    }
+
+    if (functionCache.length === 0) {
+      cacheMap.delete(fn);
+    }
   } catch (error) {
     console.error("[createDedupedRequest] 清理缓存时发生错误:", error);
   }
@@ -97,31 +131,41 @@ export default function createDedupedRequest<T extends unknown[], R>(
   // 规范化时间窗口
   const normalizedCacheWindow = normalizeCacheWindow(cacheWindow);
 
-  // 获取或创建该函数的缓存状态
-  let cacheState = cacheMap.get(fn as (...args: unknown[]) => Promise<unknown>) as ICacheState<R> | undefined;
-
-  if (!cacheState) {
-    cacheState = {
-      lastResult: undefined,
-      lastRequestTime: 0,
-      pendingPromise: null
-    };
-    cacheMap.set(fn as (...args: unknown[]) => Promise<unknown>, cacheState as ICacheState<unknown>);
-  }
+  const requestFunction = fn as (...args: unknown[]) => Promise<unknown>;
 
   return (...args: T): Promise<R> => {
+
+    // 每次调用重新读取函数级缓存，确保多个包装器也能共享同一个参数缓存。
+    let functionCache = cacheMap.get(requestFunction);
+
+    if (!functionCache) {
+      functionCache = [];
+      cacheMap.set(requestFunction, functionCache);
+    }
+
     const now = Date.now();
 
+    const cacheState = functionCache.find(state => {
+      return isSameArguments(state.args, args) &&
+        now - state.lastRequestTime <= normalizedCacheWindow;
+    }) as ICacheState<R> | undefined;
+
     // 仍在时间窗口内，并且已有进行中的请求，直接复用该 Promise
-    if (cacheState.pendingPromise && now - cacheState.lastRequestTime <= normalizedCacheWindow) {
+    if (cacheState?.pendingPromise) {
       return cacheState.pendingPromise;
     }
 
-    // 发起新请求
-    cacheState.lastRequestTime = now;
+    // 先创建状态对象，再创建 Promise；finally 因此始终能引用本次请求的准确状态。
+    const nextCacheState: ICacheState<R> = {
+      args,
+      lastResult: undefined,
+      lastRequestTime: now,
+      pendingPromise: null
+    };
 
     // 创建请求 Promise，并处理成功和失败情况
-    cacheState.pendingPromise = Promise.try(() => {
+    // eslint-disable-next-line unicorn/prefer-promise-try -- Promise.try 不属于 ES2019 目标
+    const pendingPromise = Promise.resolve().then(() => {
       return fn(...args);
     }).then(
         res => {
@@ -134,10 +178,13 @@ export default function createDedupedRequest<T extends unknown[], R>(
         }
     ).finally(() => {
 
-      // 无论成功还是失败，都要清理缓存
-      safeCleanupCache(fn as (...args: unknown[]) => Promise<unknown>);
+      // 无论成功还是失败，都只清理当前“函数 + 参数”对应的缓存。
+      safeCleanupCache(requestFunction, nextCacheState);
     });
 
-    return cacheState.pendingPromise;
+    nextCacheState.pendingPromise = pendingPromise;
+    functionCache.push(nextCacheState as ICacheState<unknown>);
+
+    return pendingPromise;
   };
 }

@@ -28,6 +28,30 @@ export default function debounce<T extends(...args: unknown[]) => unknown>(func:
      */
   let isInvoke: boolean = false;
 
+  /**
+   * 保存等待防抖定时器执行的 Promise。
+   * 每次调用仍返回独立 Promise，但同一防抖窗口内的调用最终共享最后一次执行结果，
+   * 从而既保持“只执行最后一次”的语义，也保证早先调用不会永久 pending。
+   */
+  const pendingPromises: Array<{
+    resolve: (value: ReturnType<T>) => void;
+    reject: (reason?: unknown) => void;
+  }> = [];
+
+  /**
+   * 原子地取出当前批次并清空队列。
+   * 先复制再清空，可避免结算 Promise 的微任务触发新调用时污染当前批次。
+   */
+  const takePendingPromises = (): typeof pendingPromises => {
+    const result = [
+      ...pendingPromises
+    ];
+
+    pendingPromises.length = 0;
+
+    return result;
+  };
+
   const _debounce = function(...args: Parameters<T>): Promise<ReturnType<T>> {
 
     /**
@@ -44,21 +68,52 @@ export default function debounce<T extends(...args: unknown[]) => unknown>(func:
           const result = func.apply(this, args);
 
           isInvoke = true;
+
+          /**
+           * immediate 模式首次执行后也必须启动冷却定时器。
+           * 如果没有后续调用，这个定时器负责恢复 isInvoke，使下一轮仍可立即执行；
+           * 如果有后续调用，函数开头会清除此定时器并改为真正的尾部执行定时器。
+           */
+          timer = setTimeout(() => {
+            timer = null;
+            isInvoke = false;
+          }, wait);
+
           resolve(result);
 
           return;
         }
 
+        // 当前调用不会立即执行，先保存其结算函数，等待最终定时器统一处理。
+        pendingPromises.push({
+          resolve,
+          reject
+        });
+
         timer = setTimeout((): void => {
+          try {
 
-          /**
-                     * 确保 this 指向的正确
-                     */
-          // eslint-disable-next-line unicorn/no-this-outside-of-class
-          const result = func.apply(this, args);
+            /**
+                       * 确保 this 指向的正确
+                       */
+            // eslint-disable-next-line unicorn/no-this-outside-of-class
+            const result = func.apply(this, args) as ReturnType<T>;
 
-          isInvoke = false;
-          resolve(result);
+            timer = null;
+            isInvoke = false;
+
+            // resolve 会自动吸收 Promise 返回值，因此同步和异步 func 都保持一致语义。
+            for (const pending of takePendingPromises()) {
+              pending.resolve(result);
+            }
+          } catch (error) {
+            timer = null;
+            isInvoke = false;
+
+            for (const pending of takePendingPromises()) {
+              pending.reject(error);
+            }
+          }
         }, wait);
       } catch (error) {
         reject(error);
@@ -71,13 +126,19 @@ export default function debounce<T extends(...args: unknown[]) => unknown>(func:
      * 取消之后，重置所有变量
      */
   _debounce.cancel = function(): void {
-    if (!timer) {
-      return;
+    if (timer) {
+      clearTimeout(timer);
+      timer = null;
     }
 
-    clearTimeout(timer);
-    timer = null;
     isInvoke = false;
+
+    // cancel 无法撤销已经执行的函数，只负责结束仍在定时器中等待的调用。
+    const error = new DOMException("防抖调用已取消", "AbortError");
+
+    for (const pending of takePendingPromises()) {
+      pending.reject(error);
+    }
   };
 
   return _debounce;

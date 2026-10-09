@@ -253,31 +253,50 @@ export default async function getImageColor(image: string): Promise<IImageColor>
   img.crossOrigin = "anonymous";
   img.referrerPolicy = "no-referrer";
 
-  img.src = image;
+  // 等待图片真正完成加载后再读取像素，错误也通过当前 Promise 返回给调用方。
+  return new Promise((resolve, reject) => {
 
-  let color = {
-    hex: "",
-    rgb: {
-      r: 0,
-      g: 0,
-      b: 0
-    },
-    hsb: {
-      h: 0,
-      s: 0,
-      b: 0
+    // complete 检查和 load/error 事件可能紧邻触发，settled 保证 Promise 只结算一次。
+    let settled = false;
+
+    const handleLoad = (): void => {
+      if (settled) {
+        return;
+      }
+
+      try {
+
+        // 像素读取必须在 load 后同步完成；Canvas 跨域或空像素错误会由当前 Promise reject。
+        settled = true;
+        resolve(updateThemeColor(img));
+      } catch (error) {
+        reject(error);
+      }
+    };
+
+    const handleError = (): void => {
+      if (settled) {
+        return;
+      }
+
+      settled = true;
+      reject(new Error("图片加载失败"));
+    };
+
+    // 先注册事件再设置 src，避免缓存图片在监听器绑定前已经完成加载。
+    img.addEventListener("load", handleLoad, {
+      once: true
+    });
+
+    img.addEventListener("error", handleError, {
+      once: true
+    });
+
+    img.src = image;
+
+    // complete 兼容已经进入缓存且不会再次触发 load 的图片。
+    if (img.complete) {
+      img.naturalWidth ? handleLoad() : handleError();
     }
-  };
-
-  color = img.complete && img.naturalWidth ? await updateThemeColor(img) : color;
-
-  img.addEventListener("load", async () => {
-    color = await updateThemeColor(img);
   });
-
-  img.addEventListener("error", () => {
-    throw new Error("图片加载失败");
-  });
-
-  return color;
 }

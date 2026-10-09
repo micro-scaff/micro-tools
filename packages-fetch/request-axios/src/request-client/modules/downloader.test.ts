@@ -21,7 +21,7 @@ describe("fileDownloader", () => {
   let fileDownloader: FileDownloader;
 
   const mockAxiosInstance = {
-    get: vi.fn()
+    request: vi.fn()
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } as any;
 
@@ -44,15 +44,43 @@ describe("fileDownloader", () => {
 
     const mockResponse: Blob = mockBlob;
 
-    mockAxiosInstance.get.mockResolvedValueOnce(mockResponse);
+    mockAxiosInstance.request.mockResolvedValueOnce(mockResponse);
 
     const result = await fileDownloader.download(url);
 
     expect(result).toBeInstanceOf(Blob);
     expect(result).toEqual(mockBlob);
-    expect(mockAxiosInstance.get).toHaveBeenCalledWith(url, {
+    expect(mockAxiosInstance.request).toHaveBeenCalledWith(url, {
+      method: "get",
       responseType: "blob",
       responseReturn: "body"
+    });
+  });
+
+  it("raw 模式保留完整响应", async () => {
+    const url = "https://example.com/file";
+
+    const mockResponse = {
+      config: {},
+      data: new Blob([
+        "file content"
+      ]),
+      headers: {},
+      status: 200,
+      statusText: "OK"
+    };
+
+    mockAxiosInstance.request.mockResolvedValueOnce(mockResponse);
+
+    const result = await fileDownloader.download(url, {
+      responseReturn: "raw"
+    });
+
+    expect(result).toBe(mockResponse);
+    expect(mockAxiosInstance.request).toHaveBeenCalledWith(url, {
+      method: "get",
+      responseType: "blob",
+      responseReturn: "raw"
     });
   });
 
@@ -67,7 +95,7 @@ describe("fileDownloader", () => {
 
     const mockResponse: Blob = mockBlob;
 
-    mockAxiosInstance.get.mockResolvedValueOnce(mockResponse);
+    mockAxiosInstance.request.mockResolvedValueOnce(mockResponse);
 
     const customConfig: AxiosRequestConfig = {
       headers: {
@@ -80,8 +108,9 @@ describe("fileDownloader", () => {
 
     expect(result).toBeInstanceOf(Blob);
     expect(result).toEqual(mockBlob);
-    expect(mockAxiosInstance.get).toHaveBeenCalledWith(url, {
+    expect(mockAxiosInstance.request).toHaveBeenCalledWith(url, {
       ...customConfig,
+      method: "get",
       responseType: "blob",
       responseReturn: "body"
     });
@@ -90,14 +119,14 @@ describe("fileDownloader", () => {
   it("处理网络错误", async () => {
     const url = "https://example.com/file";
 
-    mockAxiosInstance.get.mockRejectedValueOnce(new Error("网络错误"));
+    mockAxiosInstance.request.mockRejectedValueOnce(new Error("网络错误"));
     await expect(fileDownloader.download(url)).rejects.toThrow("网络错误");
   });
 
   it("处理空 URL", async () => {
     const url = "";
 
-    mockAxiosInstance.get.mockRejectedValueOnce(new Error("请求失败，状态码 404"));
+    mockAxiosInstance.request.mockRejectedValueOnce(new Error("请求失败，状态码 404"));
 
     await expect(fileDownloader.download(url)).rejects.toThrow("请求失败，状态码 404");
   });
@@ -105,7 +134,7 @@ describe("fileDownloader", () => {
   it("处理 null URL", async () => {
     const url = null as unknown as string;
 
-    mockAxiosInstance.get.mockRejectedValueOnce(new Error("请求失败，状态码 404"));
+    mockAxiosInstance.request.mockRejectedValueOnce(new Error("请求失败，状态码 404"));
 
     await expect(fileDownloader.download(url)).rejects.toThrow("请求失败，状态码 404");
   });

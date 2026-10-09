@@ -255,12 +255,15 @@ export default function useWatermark(
       sourceMap.get(domSymbol)?.obInstance?.disconnect();
     sourceMap.delete(domSymbol);
 
+    // 添加监听时使用的是 documentElement，移除时必须传入同一个元素。
+    // 即使宿主 ref 已经被置空，也要先释放全局 ResizeObserver。
+    domRemoveResizeListener(document.documentElement, func);
+
     if (!el) {
       return;
     }
 
     domId && domId.remove();
-    domRemoveResizeListener(el, func);
   };
 
   const createWatermark = (str: string): void => {

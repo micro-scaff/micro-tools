@@ -22,13 +22,30 @@ export default function imageUrlToBase64(
         return reject(new Error("Canvas or context is not available"));
       }
 
-      canvas.height = img.height;
-      canvas.width = img.width;
-      ctx.drawImage(img, 0, 0);
-      const dataUrl = canvas.toDataURL(mineType || "image/png");
+      try {
 
+        // drawImage/toDataURL 可能因跨域污染画布而抛错，必须转为 Promise rejection。
+        canvas.height = img.height;
+        canvas.width = img.width;
+        ctx.drawImage(img, 0, 0);
+        const dataUrl = canvas.toDataURL(mineType || "image/png");
+
+        canvas = null;
+        resolve(dataUrl);
+      } catch (error) {
+        canvas = null;
+        reject(error);
+      }
+    }, {
+      once: true
+    });
+
+    // 加载失败时必须 reject，否则调用方会永久等待。
+    img.addEventListener("error", (): void => {
       canvas = null;
-      resolve(dataUrl);
+      reject(new Error(`图片加载失败: ${url}`));
+    }, {
+      once: true
     });
 
     img.src = url;
