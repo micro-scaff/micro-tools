@@ -37,4 +37,3 @@ MD051: false
 files:
   - "**/*.md"               # 检查所有 Markdown 文件
   - "!LICENSE"              # 忽略 LICENSE 文件
-  - ".changeset/*.md"
