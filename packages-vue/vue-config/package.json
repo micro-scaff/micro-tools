@@ -6,6 +6,7 @@
     "vue-config",
     "config"
   ],
+  "homepage": "https://micro-scaff.github.io/",
   "bugs": {
     "url": "https://github.com/micro-scaff/micro-tools/issues"
   },
@@ -24,6 +25,10 @@
     "dev": "vite build --watch",
     "prepublishOnly": "pnpm build"
   },
+  "files": [
+    "README.md",
+    "dist"
+  ],
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
@@ -37,6 +42,9 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
+  },
+  "peerDependencies": {
+    "vue": ">=3.5.0"
   },
   "dependencies": {
     "@mt-kit/components": "workspace:^"

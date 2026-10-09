@@ -15,6 +15,11 @@ export default defineConfig({
     vueJsx(),
     dts({
       tsconfigPath: "./tsconfig.json",
+
+      // 仅为正式源码生成声明，避免将 Storybook 示例扫描并输出到 dist 目录之外。
+      include: [
+        "src"
+      ],
       rollupTypes: false,
       strictOutput: true,
       outDir: "dist",
@@ -24,7 +29,12 @@ export default defineConfig({
       name: "microVueComponents",
       external: [
         "vue"
-      ]
+      ],
+
+      // UMD 通过页面中的 Vue 全局变量复用宿主项目的 Vue 运行时。
+      globals: {
+        vue: "Vue"
+      }
     })
   ]
 });

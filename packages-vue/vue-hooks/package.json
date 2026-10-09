@@ -6,6 +6,7 @@
     "vue-hooks",
     "hooks"
   ],
+  "homepage": "https://micro-scaff.github.io/",
   "bugs": {
     "url": "https://github.com/micro-scaff/micro-tools/issues"
   },
@@ -24,6 +25,10 @@
     "dev": "vite build --watch",
     "prepublishOnly": "pnpm build"
   },
+  "files": [
+    "README.md",
+    "dist"
+  ],
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
@@ -38,14 +43,18 @@
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
+  "peerDependencies": {
+    "vue": ">=3.5.0",
+    "vue-router": ">=4.6.0"
+  },
   "dependencies": {
-    "@mt-kit/utils": "workspace:^",
     "lodash-es": "catalog:",
     "resize-observer-polyfill": "catalog:"
   },
   "devDependencies": {
     "@mt-kit/ts-config": "workspace:^",
     "@mt-kit/types": "workspace:^",
+    "@mt-kit/utils": "workspace:^",
     "@mt-kit/vite-plugins": "workspace:^",
     "@storybook/addon-essentials": "catalog:",
     "@storybook/addon-interactions": "catalog:",

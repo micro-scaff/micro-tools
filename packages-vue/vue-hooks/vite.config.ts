@@ -15,6 +15,11 @@ export default defineConfig({
     vueJsx(),
     dts({
       tsconfigPath: "./tsconfig.json",
+
+      // 仅为正式源码生成声明，避免将 Storybook 示例扫描并输出到 dist 目录之外。
+      include: [
+        "src"
+      ],
       rollupTypes: false,
       strictOutput: true,
       outDir: "dist",
@@ -27,10 +32,18 @@ export default defineConfig({
       external: [
         "vue",
         "vue-router",
-        "@mt-kit/utils",
         "lodash-es",
         "resize-observer-polyfill"
-      ]
+      ],
+
+      // @mt-kit/utils 保留在产物内，避免 UMD 使用方额外提供一个不存在的浏览器全局包。
+      // 其余依赖由宿主项目共享，并在 UMD 场景映射到常见的浏览器全局变量。
+      globals: {
+        vue: "Vue",
+        "vue-router": "VueRouter",
+        "lodash-es": "_",
+        "resize-observer-polyfill": "ResizeObserver"
+      }
     })
   ]
 });

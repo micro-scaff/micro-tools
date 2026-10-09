@@ -6,6 +6,7 @@
     "vue-components",
     "components"
   ],
+  "homepage": "https://micro-scaff.github.io/",
   "bugs": {
     "url": "https://github.com/micro-scaff/micro-tools/issues"
   },
@@ -15,10 +16,6 @@
   },
   "license": "ISC",
   "author": "LiYong",
-  "files": [
-    "dist",
-    "README.md"
-  ],
   "scripts": {
     "storybook": "storybook dev",
     "build-storybook": "storybook build",
@@ -28,6 +25,10 @@
     "dev": "vite build --watch",
     "prepublishOnly": "pnpm build"
   },
+  "files": [
+    "README.md",
+    "dist"
+  ],
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
@@ -43,6 +44,9 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
+  },
+  "peerDependencies": {
+    "vue": ">=3.5.0"
   },
   "devDependencies": {
     "@mt-kit/ts-config": "workspace:^",

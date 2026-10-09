@@ -15,6 +15,11 @@ export default defineConfig({
     vueJsx(),
     dts({
       tsconfigPath: "./tsconfig.json",
+
+      // 仅为正式源码生成声明，避免将 Storybook 示例扫描并输出到 dist 目录之外。
+      include: [
+        "src"
+      ],
       rollupTypes: false,
       strictOutput: true,
       outDir: "dist",

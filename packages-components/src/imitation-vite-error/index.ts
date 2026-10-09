@@ -4,8 +4,7 @@ import {
 
 import "./rc";
 
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-const ErrorOverlay = customElements.get("imitation-vue-error")!;
+const overlayId = "imitation-vue-error";
 
 /**
  * 模仿 Vite 中的错误控件
@@ -28,5 +27,14 @@ const ErrorOverlay = customElements.get("imitation-vue-error")!;
  *
  */
 export default function imitationViteError(err: IErrorPayload["err"], dialog?: boolean): HTMLElement {
+
+  // 延迟到实际调用时再读取 Custom Elements 注册表，使模块能够在 SSR/Node 环境安全导入。
+  const ErrorOverlay = globalThis.customElements?.get(overlayId);
+
+  // 控件依赖浏览器 DOM；在不支持的环境中调用时，返回比 ReferenceError 更明确的信息。
+  if (!ErrorOverlay) {
+    throw new Error(`${overlayId} is only available in a browser environment.`);
+  }
+
   return new ErrorOverlay(err, dialog);
 }
