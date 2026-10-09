@@ -17,10 +17,12 @@ name: 自动发布
 #
 # npm 连接方式：GitHub Actions Repository Secret。
 # Token 只保存在 GitHub 中，不能把真实值写入此 YAML 或提交到仓库。
-# 首次启用前，需要完成两项仓库外配置：
+# 首次启用前，需要完成四项仓库外配置：
 # 1. GitHub 仓库允许 GitHub Actions 创建 Pull Request。
-# 2. 进入 GitHub 仓库的 Settings -> Secrets and variables -> Actions，
-#    创建名为 NPM_TOKEN 的 Repository secret，值为新生成的 npm Token。
+# 2. GitHub 仓库启用 Pull Requests -> Allow auto-merge。
+# 3. 在 Actions Repository secrets 中创建 CHANGESETS_TOKEN；该 Fine-grained PAT
+#    仅授权本仓库的 Contents 和 Pull requests 读写权限。
+# 4. 在 Actions Repository secrets 中创建 NPM_TOKEN，值为 npm 发布 Token。
 #
 # 发布时的认证链路：
 # GitHub 读取 secrets.NPM_TOKEN -> 注入 Changesets Action 步骤的 NODE_AUTH_TOKEN
@@ -69,6 +71,9 @@ jobs:
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
+          # Changesets v1 默认通过 Git CLI 推送版本分支；checkout 也必须使用同一个 PAT，
+          # 避免其默认持久化的 GITHUB_TOKEN 抢占认证并触发工作流人工批准。
+          token: ${{ secrets.CHANGESETS_TOKEN }}
 
       # 安装 pnpm，版本与根目录 package.json 中的 packageManager 保持一致。
       # run_install: false 表示这一步只安装 pnpm，依赖由后面的独立步骤安装。
@@ -102,7 +107,9 @@ jobs:
         if: steps.release-check.outputs.should_run == 'true'
         run: pnpm install --frozen-lockfile
 
-      # Changesets Action 自动使用 GitHub 提供的 GITHUB_TOKEN，不需要在 env 中再声明。
+      # Changesets Action 使用 CHANGESETS_TOKEN 创建或更新版本 PR。
+      # 使用独立 Token 可以让版本 PR 自动触发检查，避免 GITHUB_TOKEN 创建的 PR
+      # 进入等待人工批准工作流的状态。
       # 当 .changeset/ 中存在待处理文件时：
       # - 执行 version:packages。
       # - 更新包版本、CHANGELOG、内部依赖和 pnpm-lock.yaml。
@@ -115,9 +122,11 @@ jobs:
       #
       # 仓库使用 @changesets/cli 2.x，因此这里使用兼容的 changesets/action@v1。
       - name: 创建版本 PR 或发布 npm 包
+        id: changesets
         if: steps.release-check.outputs.should_run == 'true'
         uses: changesets/action@v1
         with:
+          github-token: ${{ secrets.CHANGESETS_TOKEN }}
           version: pnpm run version:packages
           publish: pnpm run publish:ci
           commit: "chore: release packages"
@@ -126,3 +135,16 @@ jobs:
         env:
           # 这里只引用 Secret 名称，GitHub 运行时才会注入真实 Token。
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      # 仅在本次运行创建或更新了版本 PR 时启用自动合并。
+      # PR 会在仓库规则要求的检查全部通过后以 squash 方式合并；发布分支没有 PR 编号，因此跳过。
+      - name: 自动合并版本 PR
+        if: steps.changesets.outputs.pullRequestNumber != ''
+        env:
+          GH_TOKEN: ${{ secrets.CHANGESETS_TOKEN }}
+        run: >
+          gh pr merge
+          "${{ steps.changesets.outputs.pullRequestNumber }}"
+          --repo "${{ github.repository }}"
+          --squash
+          --auto
