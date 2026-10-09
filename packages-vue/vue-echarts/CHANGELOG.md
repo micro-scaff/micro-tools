@@ -1,15 +1,10 @@
-# @mt-kit/components
+# @mt-kit/vue-echarts
 
-## 1.0.4
+## 1.0.1
 
 ### Patch Changes
 
 - docs 文档布丁
 - Updated dependencies
   + @mt-kit/utils@1.8.1
-
-## 1.0.2
-
-### Major Changes
-
-- 添加 @types/node
+  + @mt-kit/vue-hooks@1.1.1

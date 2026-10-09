@@ -1,6 +1,6 @@
 {
   "name": "@mt-kit/stylelint-config",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Shareable stylelint configuration.",
   "keywords": [
     "stylelint",

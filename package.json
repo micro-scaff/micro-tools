@@ -80,7 +80,7 @@
   },
   "packageManager": "pnpm@10.10.0",
   "lint-staged": {
-    "package.json": "npmPkgJsonLint ./ --ignore-path .npmpackagejsonlintrc-ignore",
+    "package.json": "npmPkgJsonLint --ignore-path .npmpackagejsonlintrc-ignore",
     "*.md": "markdownlint-cli2",
     "*.{js,ts,vue,tsx,jsx}": [
       "eslint --fix"

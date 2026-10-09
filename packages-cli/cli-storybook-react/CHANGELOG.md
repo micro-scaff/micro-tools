@@ -1,5 +1,11 @@
 # @mt-kit/cli-storybook-react
 
+## 1.8.3
+
+### Patch Changes
+
+- docs 文档布丁
+
 ## 1.8.2
 
 ### Patch Changes

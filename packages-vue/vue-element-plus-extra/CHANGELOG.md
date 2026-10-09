@@ -1,5 +1,13 @@
 # @mt-kit/vue-element-plus-extra
 
+## 1.3.2
+
+### Patch Changes
+
+- docs 文档布丁
+- Updated dependencies
+  + @mt-kit/utils@1.8.1
+
 ## 1.3.1
 
 ### Patch Changes

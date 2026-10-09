@@ -1,6 +1,6 @@
 {
   "name": "@mt-kit/request-axios",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "description": "基于 axios 封装的一款数据请求。",
   "keywords": [
     "axios",

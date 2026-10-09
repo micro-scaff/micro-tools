@@ -1,6 +1,6 @@
 {
   "name": "@mt-kit/cli-run",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "一个用于在 monorepo 中智能运行脚本的 CLI 工具",
   "keywords": [
     "run",

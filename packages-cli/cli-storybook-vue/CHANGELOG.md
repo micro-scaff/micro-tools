@@ -1,5 +1,11 @@
 # @mt-kit/cli-storybook-vue
 
+## 1.4.3
+
+### Patch Changes
+
+- docs 文档布丁
+
 ## 1.4.2
 
 ### Patch Changes

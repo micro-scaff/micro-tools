@@ -1,5 +1,11 @@
 # @mt-kit/eslint-config
 
+## 3.1.1
+
+### Patch Changes
+
+- docs 文档布丁
+
 ## 3.1.0
 
 ### Minor Changes

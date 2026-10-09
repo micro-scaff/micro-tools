@@ -1,6 +1,6 @@
 {
   "name": "@mt-kit/ts-config",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "MT Kit 的 TypeScript 配置集合，包含基础、React、Vue、Node 等环境的配置",
   "keywords": [
     "tsconfig",

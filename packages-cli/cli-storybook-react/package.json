@@ -1,6 +1,6 @@
 {
   "name": "@mt-kit/cli-storybook-react",
-  "version": "1.8.2",
+  "version": "1.8.3",
   "description": "一个用于创建 React Storybook 项目的脚手架",
   "deprecated": "此包已废弃，待优化后重新发布，期待未来 2.0 版本",
   "keywords": [

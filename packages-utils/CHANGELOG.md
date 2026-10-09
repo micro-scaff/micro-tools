@@ -1,5 +1,11 @@
 # @mt-kit/utils
 
+## 1.8.1
+
+### Patch Changes
+
+- docs 文档布丁
+
 ## 1.8.0
 
 ### Minor Changes

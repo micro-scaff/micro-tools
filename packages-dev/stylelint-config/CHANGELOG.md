@@ -1,5 +1,11 @@
 # @mt-kit/stylelint-config
 
+## 2.1.2
+
+### Patch Changes
+
+- docs 文档布丁
+
 ## 2.1.1
 
 ### Patch Changes
