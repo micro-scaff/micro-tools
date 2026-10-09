@@ -3,10 +3,10 @@
 > 基于 ESLint 10 的现代化代码规范配置，支持 TypeScript、Vue、React 等多种技术栈
 
 [![npm version](https://img.shields.io/npm/v/@mt-kit/eslint-config.svg?style=for-the-badge&labelColor=2c3e50&color=3498db&logo=npm&logoColor=white)](https://www.npmjs.com/package/@mt-kit/eslint-config)
-[![GitHub stars](https://img.shields.io/github/stars/Not-have/micro-tools?style=for-the-badge&labelColor=2c3e50&color=e74c3c&logo=github&logoColor=white)](https://github.com/Not-have/micro-tools/tree/main/packages-dev/eslint-config)
-[![GitHub issues](https://img.shields.io/github/issues/Not-have/micro-tools?style=for-the-badge&labelColor=2c3e50&color=27ae60&logo=github&logoColor=white)](https://github.com/Not-have/micro-tools/issues)
-[![License](https://img.shields.io/github/license/Not-have/micro-tools?style=for-the-badge&labelColor=2c3e50&color=9b59b6&logo=opensourceinitiative&logoColor=white)](https://github.com/Not-have/micro-tools/blob/main/LICENSE)
-[![Documentation](https://img.shields.io/badge/docs-online-blue?style=for-the-badge&labelColor=2c3e50&color=3498db&logoColor=white)](https://not-have.github.io/micro-tools/)
+[![GitHub stars](https://img.shields.io/github/stars/micro-scaff/micro-tools?style=for-the-badge&labelColor=2c3e50&color=e74c3c&logo=github&logoColor=white)](https://github.com/micro-scaff/micro-tools/tree/main/packages-dev/eslint-config)
+[![GitHub issues](https://img.shields.io/github/issues/micro-scaff/micro-tools?style=for-the-badge&labelColor=2c3e50&color=27ae60&logo=github&logoColor=white)](https://github.com/micro-scaff/micro-tools/issues)
+[![License](https://img.shields.io/github/license/micro-scaff/micro-tools?style=for-the-badge&labelColor=2c3e50&color=9b59b6&logo=opensourceinitiative&logoColor=white)](https://github.com/micro-scaff/micro-tools/blob/main/LICENSE)
+[![Documentation](https://img.shields.io/badge/docs-online-blue?style=for-the-badge&labelColor=2c3e50&color=3498db&logoColor=white)](https://micro-scaff.github.io/)
 
 ## 📚 相关文档
 
@@ -490,9 +490,9 @@ npx eslint --cache-location .eslintcache --cache src/
 
 ## 📞 支持
 
-- **问题反馈**: [GitHub Issues](https://github.com/Not-have/micro-tools/issues)
-- **文档更新**: [GitHub Pull Requests](https://github.com/Not-have/micro-tools/pulls)
+- **问题反馈**: [GitHub Issues](https://github.com/micro-scaff/micro-tools/issues)
+- **文档更新**: [GitHub Pull Requests](https://github.com/micro-scaff/micro-tools/pulls)
 
 ## 📄 许可证
 
-[MIT License](https://github.com/Not-have/micro-tools/blob/main/LICENSE)
+[MIT License](https://github.com/micro-scaff/micro-tools/blob/main/LICENSE)

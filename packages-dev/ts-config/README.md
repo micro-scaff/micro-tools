@@ -3,9 +3,9 @@
 > 基于 TypeScript 5.x 的现代化 TypeScript 配置，支持多种框架和运行环境
 
 [![npm version](https://img.shields.io/npm/v/@mt-kit/ts-config.svg?style=for-the-badge&labelColor=2c3e50&color=3498db&logo=npm&logoColor=white)](https://www.npmjs.com/package/@mt-kit/ts-config)
-[![GitHub stars](https://img.shields.io/github/stars/Not-have/micro-tools?style=for-the-badge&labelColor=2c3e50&color=e74c3c&logo=github&logoColor=white)](https://github.com/Not-have/micro-tools/tree/main/packages-dev/ts-config)
-[![GitHub issues](https://img.shields.io/github/issues/Not-have/micro-tools?style=for-the-badge&labelColor=2c3e50&color=27ae60&logo=github&logoColor=white)](https://github.com/Not-have/micro-tools/issues)
-[![License](https://img.shields.io/github/license/Not-have/micro-tools?style=for-the-badge&labelColor=2c3e50&color=9b59b6&logo=opensourceinitiative&logoColor=white)](https://github.com/Not-have/micro-tools/blob/main/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/micro-scaff/micro-tools?style=for-the-badge&labelColor=2c3e50&color=e74c3c&logo=github&logoColor=white)](https://github.com/micro-scaff/micro-tools/tree/main/packages-dev/ts-config)
+[![GitHub issues](https://img.shields.io/github/issues/micro-scaff/micro-tools?style=for-the-badge&labelColor=2c3e50&color=27ae60&logo=github&logoColor=white)](https://github.com/micro-scaff/micro-tools/issues)
+[![License](https://img.shields.io/github/license/micro-scaff/micro-tools?style=for-the-badge&labelColor=2c3e50&color=9b59b6&logo=opensourceinitiative&logoColor=white)](https://github.com/micro-scaff/micro-tools/blob/main/LICENSE)
 
 ## 📚 相关文档
 
@@ -346,11 +346,11 @@ npx tsc --build --clean
 
 ## 📞 支持
 
-- **问题反馈**: [GitHub Issues](https://github.com/Not-have/micro-tools/issues)
+- **问题反馈**: [GitHub Issues](https://github.com/micro-scaff/micro-tools/issues)
 
 ## 📄 许可证
 
-[MIT License](https://github.com/Not-have/micro-tools/blob/main/LICENSE)
+[MIT License](https://github.com/micro-scaff/micro-tools/blob/main/LICENSE)
 
 ## 📋 版本要求
 

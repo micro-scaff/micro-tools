@@ -54,11 +54,11 @@ pnpm add @mt-kit/request-axios
 | [`@mt-kit/style`](./packages-style/README.md) | 通用样式和样式工具 |
 | [`@mt-kit/request-axios`](./packages-fetch/request-axios/README.md) | 基于 Axios 的请求封装 |
 | [`@mt-kit/conf`](./packages-conf/README.md) | 配置文件处理 |
-| `@mt-kit/env` | 环境变量处理 |
+| [`@mt-kit/env`](./packages-envs/README.md) | Storybook 通用配置 |
 | [`@mt-kit/enum`](./packages-enum/README.md) | 通用枚举 |
 | [`@mt-kit/types`](./packages-types/README.md) | 通用 TypeScript 类型 |
 | [`@mt-kit/vite-plugins`](./packages-vite-plugins/README.md) | Vite 插件集合 |
-| `@mt-kit/lit` | Lit 组件 |
+| [`@mt-kit/lit`](./packages-lit/README.md) | Lit 组件 |
 | [`@mt-kit/global-style`](./packages-theme/global-style/README.md) | 全局主题样式 |
 
 ### Vue
@@ -78,7 +78,7 @@ pnpm add @mt-kit/request-axios
 | --- | --- |
 | [`@mt-kit/react-hooks`](./packages-react/react-hooks/README.md) | React Hooks |
 | [`@mt-kit/react-ant-design-extra`](./packages-react/react-ant-design-extra/README.md) | Ant Design 扩展组件 |
-| `@mt-kit/react-rc` | React 基础组件 |
+| [`@mt-kit/react-rc`](./packages-react/react-rc/README.md) | React 基础组件 |
 
 ### 工程工具
 
@@ -167,7 +167,7 @@ packages-conf/          配置文件处理
 packages-demo/          示例项目
 packages-dev/           ESLint、Prettier、Stylelint、TypeScript 配置
 packages-enum/          通用枚举
-packages-envs/          环境变量处理
+packages-envs/          Storybook 通用配置
 packages-fetch/         网络请求和 Mock 服务
 packages-lit/           Lit 组件
 packages-react/         React Hooks 与组件
